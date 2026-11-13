@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Detached Hash Signer — Blind (Detached) Signing Demo</title>
+<style>
+  :root { color-scheme: dark; --bg:#0e1116; --card:#161b22; --line:#2a3038; --txt:#e6edf3; --mut:#8b949e; --ok:#3fb950; --bad:#f85149; --acc:#58a6ff; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:14px/1.5 system-ui,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--txt); padding:24px; }
+  h1 { font-size:18px; margin:0 0 4px; } h2 { font-size:14px; margin:18px 0 8px; color:var(--acc); }
+  .mut { color:var(--mut); font-size:12px; } pre { background:#0a0d12; border:1px solid var(--line); border-radius:8px; padding:10px; overflow:auto; max-height:160px; font-size:12px; }
+  textarea, input { width:100%; background:#0a0d12; color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:8px; font-family:ui-monospace,Menlo,monospace; }
+  button { background:var(--acc); color:#04101f; border:0; border-radius:8px; padding:8px 12px; font-weight:600; cursor:pointer; margin:4px 4px 0 0; }
+  button.sec { background:#21262d; color:var(--txt); }
+  .row { display:flex; gap:16px; flex-wrap:wrap; }
+  .col { flex:1 1 280px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px; margin-top:8px; }
+  .sig { font-family:ui-monospace,Menlo,monospace; font-size:11px; word-break:break-all; color:var(--mut); }
+  .tag { display:inline-block; padding:1px 8px; border-radius:999px; font-size:11px; }
+  .tag.ok { background:rgba(63,185,80,.15); color:var(--ok); }
+  .tag.bad { background:rgba(248,81,73,.15); color:var(--bad); }
+</style>
+</head>
+<body>
+<h1>Detached Hash Signing · Blind (Detached) Signature Demo</h1>
+<p class="mut">A signer never sees the original document — they sign only a 64-character SHA-256 hash. The document bytes never leave the browser and never enter the signature bundle.</p>
+
+<div class="card">
+  <h2>① Confidential document</h2>
+  <textarea id="doc" aria-label="Document text to hash and sign" rows="3">TOP SECRET: Unicorn Project FY2026 financial model (executives only)</textarea>
+  <button id="hashBtn">Compute document hash</button>
+  <pre id="hashOut" class="sig">(click above → you get a hash only; the original never leaves)</pre>
+</div>
+
+<div class="row">
+  <div class="col">
+    <h2>② Three executives each sign the hash (blind)</h2>
+    <div id="execs"></div>
+    <button id="assembleBtn">Assemble detached signature bundle</button>
+  </div>
+  <div class="col">
+    <h2>③ Detached signature bundle</h2>
+    <pre id="bundleOut" class="sig">(not generated yet)</pre>
+    <div id="verifyOut"></div>
+    <p class="mut" id="blindNote"></p>
+  </div>
+</div>
+
+<script type="module">
+import * as D from './src/detached-hash-signer.js';
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+const execs = ['A (CEO)', 'B (CFO)', 'C (Legal)'];
+const state = { hash: null, signers: [] };
+
+$('hashBtn').onclick = async () => {
+  const bytes = new TextEncoder().encode($('doc').value);
+  state.hash = await D.sha256Hex(bytes);
+  state.signers = [];
+  $('hashOut').textContent = state.hash;
+  $('bundleOut').textContent = '(not generated yet)';
+  $('verifyOut').textContent = '';
+  $('blindNote').textContent = '';
+  renderExecs();
+};
+
+function renderExecs() {
+  $('execs').innerHTML = '';
+  for (const name of execs) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `<strong>${name}</strong><div class="sig" id="s_${name}">(unsigned)</div>`;
+    const btn = document.createElement('button');
+    btn.textContent = 'Generate key & sign hash';
+    btn.className = 'sec';
+    btn.onclick = async () => {
+      const kp = await D.generateKeyPair();
+      const pub = await D.exportPublicKey(kp.publicKey);
+      const sig = await D.signHash(kp.privateKey, state.hash);
+      state.signers.push({ id: name, pub, sig });
+      $(`s_${name}`).textContent = `pub: ${pub.slice(0, 24)}…\nsig: ${sig.slice(0, 24)}…`;
+    };
+    card.appendChild(btn);
+    $('execs').appendChild(card);
+  }
+}
+
+$('assembleBtn').onclick = async () => {
+  if (!state.hash) return alert('Compute the document hash first');
+  if (state.signers.length < 1) return alert('At least one executive must sign');
+  const bundle = D.makeBundle({ docName: 'unicorn-2026.pdf', docHash: state.hash, signers: state.signers });
+  $('bundleOut').textContent = bundle;
+  const res = await D.verifyBundle(bundle);
+  const ok = res.ok;
+  $('verifyOut').innerHTML = `<span class="tag ${ok ? 'ok' : 'bad'}">${ok ? '✓ all signatures valid' : '✗ ' + esc(res.reason)}</span>` +
+    res.signers.map((s) => ` ${esc(s.id)}:<span class="tag ${s.ok ? 'ok' : 'bad'}">${s.ok ? 'ok' : 'fail'}</span>`).join('');
+  const detached = D.isDetached(bundle);
+  $('blindNote').textContent = detached
+    ? '✓ Proven: the bundle contains no document bytes (only hash + signatures) — blind/detached signing.'
+    : '⚠ Detached check failed.';
+};
+</script>
+</body>
+</html>
