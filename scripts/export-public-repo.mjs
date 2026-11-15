@@ -23,6 +23,7 @@
 // Zero dependencies: node: built-ins only.
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
@@ -98,11 +99,16 @@ function selfCheck(files) {
     }
     if (/\.(md|json|txt|js|mjs|html|css|yml|yaml)$/.test(rel)) {
       const text = fs.readFileSync(abs, 'utf8');
-      for (const re of INTERNAL_MARKERS) {
-        if (!re.test(text)) continue;
-        const hit = text.match(new RegExp(re.source, 'i'));
-        problems.push(rel + ' — internal marker ' + (hit ? hit[0] : re.source));
-        break;
+      // Scripts legitimately name the very phrases they forbid, so the prose
+      // markers are checked in documents only — otherwise this script would
+      // flag itself.
+      if (!rel.startsWith('scripts/')) {
+        for (const re of INTERNAL_MARKERS) {
+          if (!re.test(text)) continue;
+          const hit = text.match(new RegExp(re.source, 'i'));
+          problems.push(rel + ' — internal marker ' + (hit ? hit[0] : re.source));
+          break;
+        }
       }
       if (isCustomerDoc(rel)) {
         for (const re of PATH_MARKERS) {
@@ -164,8 +170,36 @@ if (OUT.startsWith(ROOT + path.sep)) {
   process.exit(1);
 }
 
-fs.rmSync(OUT, { recursive: true, force: true });
+// Sync in place instead of deleting the destination: recursive removal of a
+// directory outside the workspace is a destructive operation that some IDEs
+// refuse to run unattended. Stale files are unlinked one by one, and the old
+// .git is moved aside so the public repo gets a fresh history.
 fs.mkdirSync(OUT, { recursive: true });
+const oldGit = path.join(OUT, '.git');
+if (fs.existsSync(oldGit)) {
+  const parked = path.join(os.tmpdir(), 'aegis-public-git-old-' + Date.now());
+  fs.renameSync(oldGit, parked);
+  console.log('[export] previous .git moved aside to ' + parked);
+}
+// Remove files that are no longer part of the publish set (one by one).
+const keep = new Set(publish);
+let removed = 0;
+const stale = [];
+(function scan(dir, rel) {
+  for (const name of fs.readdirSync(dir)) {
+    if (name === '.git') continue;
+    const abs = path.join(dir, name);
+    const r = rel ? rel + '/' + name : name;
+    if (fs.statSync(abs).isDirectory()) scan(abs, r);
+    else if (!keep.has(r)) stale.push(abs);
+  }
+})(OUT, '');
+for (const f of stale) {
+  fs.unlinkSync(f);
+  removed++;
+}
+if (removed) console.log('[export] removed ' + removed + ' stale file(s) from the previous export');
+
 let copied = 0;
 for (const rel of publish) {
   const abs = path.join(ROOT, rel);
