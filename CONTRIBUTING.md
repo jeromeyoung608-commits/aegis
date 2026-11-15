@@ -11,7 +11,7 @@ same license.
   the security boundary (server.js, auth, compliance gates, crypto) open an issue
   first.
 - **Localization** — translation catalogs live in `aegis-shell/src/i18n.js`
-  (en/de/fr/es). Add a key to all four catalogs and to the reference set used by
+  (en/de). Add a key to both catalogs and to the reference set used by
   `aegis-shell/src/i18n-keys.test.js`.
 
 ## Developer setup

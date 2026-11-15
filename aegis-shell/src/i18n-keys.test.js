@@ -1,7 +1,7 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
 // SPDX-License-Identifier: Apache-2.0
 // Cross-check: every i18n key referenced from HTML/JS must exist in all four
-// catalogues (en/de/fr/es).
+// catalogues (en/de).
 // The previous check only compared the catalogues against each other and missed
 // keys that were referenced from HTML but missing from every catalogue
 // (this actually happened on 2026-11-15: compliance.ropa was displayed as a raw key

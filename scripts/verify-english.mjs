@@ -5,7 +5,7 @@
 //
 // WHY: the product ships an English-only codebase (comments, strings, module
 // interfaces) and the English documents are the authoritative text. German,
-// French and Spanish exist only as `*.de.md` / `*.fr.md` / `*.es.md` files and
+// German exists only as `*.de.md` files and
 // in the console's i18n catalogue. A stray Chinese character in a comment or an
 // English document is invisible to every other gate and slowly turns the
 // codebase into a mixed-language tree.

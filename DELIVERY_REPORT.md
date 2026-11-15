@@ -550,10 +550,10 @@ Dockerfile was checked for real buildability:
 
 | # | Fix | Files |
 |---|---|---|
-| 1 (required) | `compliance.ropa` was referenced by `console.html:187` (`<h3 data-i18n="compliance.ropa">`) but missing from all four i18n catalogs → the panel heading rendered the **raw key**. Added `'compliance.ropa'` to `en/de/fr/es`. Verified: static `console.html` contains the attribute exactly once and no `>compliance.ropa<` visible text. | `aegis-shell/src/i18n.js` |
+| 1 (required) | `compliance.ropa` was referenced by `console.html:187` (`<h3 data-i18n="compliance.ropa">`) but missing from the i18n catalogs → the panel heading rendered the **raw key**. Added `'compliance.ropa'` to both catalogs (`en`, `de`). Verified: static `console.html` contains the attribute exactly once and no `>compliance.ropa<` visible text. | `aegis-shell/src/i18n.js` |
 | 2 (required) | `README.md` delivery-packer row hardcoded a stale `331 files / 16.1 MiB`. Replaced with the real `verify:delivery` tail line (then 382; now 383 after the new test file joined the package — kept in sync rather than re-hardcoded). | `README.md` |
 | 3 (recommended) | Brand focus ring (`#C8A44D`) only existed in `console.html` via `design-system.css`; the other 12 pages used browser-default or border-only focus. Appended the ring rule to 6 module/console CSS files and injected a `<style>` into the 6 module pages that have **no** external stylesheet, so every page shows a 2px gold ring on keyboard focus. | 6× `.css` + 6× `index.html` |
-| 4 (required, recurrence prevention) | Added `aegis-shell/src/i18n-keys.test.js`: a **reference→catalog cross-check** (every `data-i18n`/`t(...)` key in `console.html`/`index.html`/`console.js` must exist in all four catalogs) plus the catalog-parity check. This catches the exact failure mode that slipped past the old "four catalogs equal 74=74" self-check. | `aegis-shell/src/i18n-keys.test.js` |
+| 4 (required, recurrence prevention) | Added `aegis-shell/src/i18n-keys.test.js`: a **reference→catalog cross-check** (every `data-i18n`/`t(...)` key in `console.html`/`index.html`/`console.js` must exist in every catalog) plus the catalog-parity check. This catches the exact failure mode that slipped past the old key-count self-check. | `aegis-shell/src/i18n-keys.test.js` |
 
 Test suite **176/176** (174 + 2 new i18n-keys tests); `verify:claims` 257 files;
 delivery rebuilt → **383 files, 16.2 MiB**, `verify:delivery` PASS; `doctor` 9/0;
