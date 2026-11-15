@@ -1,39 +1,40 @@
 <!-- Copyright (c) 2026 Jerome Young (Yang Jie) — SPDX-License-Identifier: Apache-2.0 -->
-> English original: TRADEMARK.md
-> Translation for convenience only. The binding text is the English version
-> (see COMMERCIAL-LICENSE §8).
-> Verbindlich ist ausschließlich die englische Fassung (siehe COMMERCIAL-LICENSE §8).
+> English original: `TRADEMARK.md`
+> Übersetzung zur besseren Lesbarkeit. Bei Abweichungen gilt der englische Text.
 
-# Marke Hinweis
+# Markenhinweis
 
-"AEGIS" und "Engine Durch Jerome Young" sind trademarks claimed durch Jerome Young
-(Yang Jie) in Verbindung mit dies Produkt.
+„AEGIS" und „ENGINE BY JEROME YOUNG" sind Marken, die Jerome Young (Yang Jie)
+für dieses Produkt beansprucht.
 
-Aegis ist lizenziert unter Apache-2.0, welche macht **nicht** Gewährung Rechte zu der
-**trademarks**. Sie darf nicht verwenden der
-Aegis Name, logo, oder der "Engine Durch Jerome Young" mark zu identify ein geändert oder
-competing Produkt, oder in irgendein way das suggests endorsement durch der author,
-ohne prior geschrieben permission.
+Aegis ist unter Apache-2.0 lizenziert; die Lizenz gewährt **keine** Rechte an den
+**Marken**. Ohne vorherige schriftliche Zustimmung dürfen der Name Aegis, das
+Logo oder die Kennzeichnung „ENGINE BY JEROME YOUNG" nicht verwendet werden, um
+ein verändertes oder konkurrierendes Produkt zu bezeichnen oder um eine
+Befürwortung durch den Autor nahezulegen.
 
-## Practical guidance
+## Praktische Hinweise
 
-- Sie Darf Zustand factually Ihr Bereitstellung ist "based auf Aegis" oder "powered
-  durch Aegis", bereitgestellt Zuordnung watermarks (`ENGINE BY JEROME YOUNG`,
-  source Copyright Kopfzeilen, und der `producer` / `provenance` Felder) sind
-  beibehalten as erforderlich durch Lizenz.
-- Sie Darf Nicht re-badge Aegis unter Ihr eigen Name und entfernen der author's Kennzeichen
-  zu bestanden es aus as Ihr eigen Produkt; Apache-2.0 grants kein Marke Rechte.
-- "AEGIS" ist ein common Begriff; registration Status varies durch jurisdiction. Dies
-  Hinweis Datensätze der author's Behauptung von der mark in Verbindung mit dies Produkt.
-  Es ist nicht ein guarantee von registriert Status anywhere.
+- Sie **dürfen** sachlich zutreffend angeben, dass Ihre Installation „auf Aegis
+  basiert" oder „mit Aegis betrieben wird", sofern die Kennzeichnungen
+  (`ENGINE BY JEROME YOUNG`, Urheberrechtshinweise in den Quelldateien sowie die
+  Felder `producer` / `provenance`) wie von der Lizenz gefordert erhalten bleiben.
+- Sie **dürfen nicht** Aegis unter Ihrem eigenen Namen neu etikettieren und die
+  Kennzeichnungen des Autors entfernen, um es als Ihr eigenes Produkt
+  auszugeben; Apache-2.0 gewährt keine Markenrechte.
+- „AEGIS" ist ein gebräuchlicher Begriff; der Registrierungsstatus ist je nach
+  Rechtsordnung unterschiedlich. Dieser Hinweis dokumentiert die Beanspruchung
+  der Marke für dieses Produkt durch den Autor. Er ist keine Zusicherung eines
+  Registrierungsstatus in irgendeiner Rechtsordnung.
 
-## Forks und redistribution
+## Forks und Weitergabe
 
-Apache-2.0 lets Sie Fork und redistribute Code. Wenn Sie distribute ein
-geändert Build, rename es und entfernen Aegis Name und der
-"Engine Durch Jerome Young" mark von user-visible surfaces, sofern Sie haben
-geschrieben permission. Factual statements solche as "based auf Aegis" sind permitted
-und muss nicht imply endorsement.
+Apache-2.0 erlaubt es, den Code zu forken und weiterzugeben. Wenn Sie einen
+veränderten Build weitergeben, benennen Sie ihn um und entfernen Sie den Namen
+Aegis sowie die Kennzeichnung „ENGINE BY JEROME YOUNG" aus den sichtbaren
+Oberflächen, sofern Sie keine schriftliche Erlaubnis haben. Sachliche Aussagen
+wie „basiert auf Aegis" sind zulässig und dürfen keine Befürwortung nahelegen.
 
-Der mark ist verwendet as ™ nur. Kein registriert Marke symbol ist verwendet, weil kein
-registration hat gewesen obtained in irgendein jurisdiction.
+Die Marke wird ausschließlich als ™ verwendet. Ein eingetragenes Markenzeichen
+wird nicht verwendet, da in keiner Rechtsordnung eine Registrierung erlangt
+wurde.

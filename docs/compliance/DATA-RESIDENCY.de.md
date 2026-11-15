@@ -1,56 +1,57 @@
 <!-- Copyright (c) 2026 Jerome Young (Yang Jie) — SPDX-License-Identifier: Apache-2.0 -->
-> English original: docs/compliance/DATA-RESIDENCY.md
-> Translation for convenience only. The English text prevails.
-> Übersetzung zur Erleichterung — bei Abweichungen ist der englische Text maßgeblich.
+> English original: `docs/compliance/DATA-RESIDENCY.md`
+> Übersetzung zur besseren Lesbarkeit. Bei Abweichungen gilt der englische Text.
 
-# Daten Residency & Übertragung Position — Aegis
+# Datenresidenz und Übermittlung — Aegis
 
-**Status:** Ausgestellt · **Version:** 1.0 · **Letzte aktualisiert:** 2026-11-14
-**Produkt:** Aegis — Privacy-first Lokal Daten Bereinigung Engine
+**Status:** erlassen · **Version:** 1.0 · **Zuletzt aktualisiert:** 2026-11-14
+**Produkt:** Aegis — datenschutzorientierte lokale Bereinigungs-Engine
 
 ---
 
-## 1. Principle: Daten bleibt wo Sie ausführen es
+## 1. Grundsatz: Daten bleiben, wo Sie sie betreiben
 
-Aegis ist **local-first**. Durch Standard **alle** persönlich Daten — Dokumente, abgeleitet
-hasht, manifests, Bediener Konten und Audit Ereignisse — ist speichert auf der
-Kunde's eigen Laufzeit Lautstärke (`data/aegis.db`, der encrypted-archive Tresor, und
-`~/.aegis/tls`). Der vendor niemals receives es.
+Aegis arbeitet **lokal zuerst**. Standardmäßig werden **alle** personenbezogenen
+Daten — Dokumente, abgeleitete Hashes, Manifeste, Betreiberkonten und
+Audit-Ereignisse — auf dem eigenen Laufzeit-Volume des Kunden gespeichert
+(`data/aegis.db`, der verschlüsselte Archiv-Tresor und `~/.aegis/tls`). Der
+Anbieter erhält sie nie.
 
-## 2. Standard Netzwerk posture — null Ausgang
+## 2. Netzwerkverhalten im Standard — kein ausgehender Verkehr
 
-Der shipping Build macht **kein outbound Netzwerk Aufrufe** sofern ein optional
-Integration ist ausdrücklich aktiviert. Dies ist geprüft durch der project's
-null Abhängigkeiten Gate, welche schlägt fehl Build wenn irgendein Modul führt durch outbound I/O.
-Kein telemetry, kein analytics, kein SaaS callbacks.
+Der ausgelieferte Build unternimmt **keine ausgehenden Netzwerkaufrufe**, solange
+keine optionale Integration ausdrücklich aktiviert ist. Das wird durch das
+Zero-Dependency-Gate geprüft, das den Build abbricht, wenn ein Modul ausgehende
+E/A betreibt. Keine Telemetrie, keine Analyse, keine SaaS-Rückrufe.
 
-## 3. Optional Integrationen (Kunde-controlled, aus durch Standard)
+## 3. Optionale Integrationen (kundengesteuert, standardmäßig aus)
 
-| Integration | Wenn aktiv | Daten gesendet | Cross-border consideration |
+| Integration | Aktiv, wenn | Übertragene Daten | Grenzüberschreitung |
 |-------------|-----------|----------|---------------------------|
-| RFC3161 Zeitstempel Authority | nur wenn `gateway.externalTsa.enabled=true` | ein **Hash nur** (niemals Dokument Bytes) | Kunde's chosen TSA Endpunkt; Kunde besitzt Übertragung Mechanismus (e.g. SCCs) |
+| RFC-3161-Zeitstempeldienst | nur bei `gateway.externalTsa.enabled=true` | **nur ein Hash** (nie Dokumentbytes) | Endpunkt vom Kunden gewählt; der Kunde verantwortet den Übermittlungsmechanismus (z. B. SCC) |
 
-Dort ist **kein andere** extern Ausgang. SCIM/OIDC (wenn aktiviert) talks nur zu der
-Kunde's eigen Identität Anbieter.
+Es gibt **keine weitere** ausgehende Verbindung. SCIM/OIDC (falls aktiviert)
+spricht ausschließlich mit dem Identitätsanbieter des Kunden.
 
-## 4. International Übertragungen (GDPR Chapter V)
+## 4. Internationale Übermittlungen (DSGVO Kapitel V)
 
-- **Standard:** keiner. Verarbeitung ist lokal zu der jurisdiction wo Instanz
-  läuft.
-- **Optional TSA:** nur ein Hash lässt Instanz. Weil ein kryptografisch Hash
-  von ein Dokument ist generally nicht persönlich Daten in klar, und Endpunkt ist
-  Kunde-selected, Übertragung Mechanismus (SCCs / adequacy) ist Kunde's
-  Verantwortung. Dokument TSA Endpunkt und seiner Ort in der ROPA.
-- **Vendor Support channels:** irgendein Support interaction ist governed durch Support
-  Vereinbarung; kein Produkt Daten ist transmitted zu der vendor sofern Kunde
-  chooses zu teilen es.
+- **Standard:** keine. Die Verarbeitung erfolgt in der Rechtsordnung, in der die
+  Instanz läuft.
+- **Optionaler TSA:** nur ein Hash verlässt die Instanz. Da ein kryptografischer
+  Hash eines Dokuments in der Regel keine personenbezogenen Daten in Klartext
+  darstellt und der Endpunkt vom Kunden gewählt wird, liegt der
+  Übermittlungsmechanismus (SCC / Angemessenheitsbeschluss) in der
+  Verantwortung des Kunden. TSA-Endpunkt und Standort im ROPA dokumentieren.
+- **Support-Kanäle des Anbieters:** jede Support-Interaktion unterliegt der
+  Support-Vereinbarung; Produktdaten werden nur übertragen, wenn der Kunde sie
+  bewusst weitergibt.
 
-## 5. Residency Attestierung für Kunden
+## 5. Residenz-Bescheinigung für Kunden
 
-Kunden subject zu Daten-residency requirements kann attestieren, mit dies Dokument
-und der `verify:zero-deps` Beweis, das kein persönlich Daten lässt ihrer perimeter
-in Standard Konfiguration. Enable nur Integrationen whose Übertragung Basis
-Sie haben authorised.
+Kunden mit Anforderungen an die Datenresidenz können anhand dieses Dokuments und
+des Nachweises aus `verify:zero-deps` belegen, dass in der Standardkonfiguration
+keine personenbezogenen Daten ihren Perimeter verlassen. Aktivieren Sie nur
+Integrationen, deren Übermittlungsgrundlage Sie genehmigt haben.
 
-Bereitstellung region und irgendein mandated local-Auftragsverarbeiter clauses sind specified in der
-Bestellformular für jeder Mandat.
+Bereitstellungsregion und gegebenenfalls geforderte Klauseln zu lokalen
+Verarbeitern werden je Beauftragung im Bestellformular festgelegt.

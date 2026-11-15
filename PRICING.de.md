@@ -1,70 +1,80 @@
 <!-- Copyright (c) 2026 Jerome Young (Yang Jie) — SPDX-License-Identifier: Apache-2.0 -->
-> English original: PRICING.md
-> Translation for convenience only. The binding text is the English version
-> (see COMMERCIAL-LICENSE §8).
-> Verbindlich ist ausschließlich die englische Fassung (siehe COMMERCIAL-LICENSE §8).
+> English original: `PRICING.md`
+> Übersetzung zur besseren Lesbarkeit. Bei Abweichungen gilt der englische Text
+> und das unterzeichnete Bestellformular.
 
-# Aegis — Support & Services Pricing
+# Aegis — Preise für Support und Dienstleistungen
 
-Der Software ist kostenlos unter Apache-2.0. Diese Preise sind für Support und Services nur.
+Die Software ist unter Apache-2.0 kostenlos. Diese Preise betreffen ausschließlich
+Support und Dienstleistungen.
 
-Liste pricing für **Aegis Support plans** (optional bezahlt Support und Services).
-Binding Bedingungen sind in COMMERCIAL-Lizenz.md und der signiert Bestellformular; dies Seite ist informational.
-Alle Preise net, exclusive von VAT. Custom engagements und public-sector Bedingungen auf
-Anfrage. Für enquiries Kontakt **Jerome Young (Yang Jie)** bei **jeromeyoung608@gmail.com**.
+Listenpreise für **Aegis-Support-Tarife** (optionaler bezahlter Support und
+Dienstleistungen). Verbindlich sind `COMMERCIAL-LICENSE.md` und das unterzeichnete
+Bestellformular; diese Seite dient nur der Information.
+Alle Preise netto, zuzüglich Umsatzsteuer. Individuelle Beauftragungen und
+Konditionen für den öffentlichen Sektor auf Anfrage. Anfragen an
+**Jerome Young (Yang Jie)**, **jeromeyoung608@gmail.com**.
 
-> Indicative structure — bestätigen mit Rechtsberatung und Ihr eigen finance vor selling.
+> Unverbindliche Struktur — vor dem Verkauf mit Rechtsberatung und Ihrer
+> Buchhaltung abstimmen.
 
-| Plan | Abdeckung | Jährlich Liste | Antwort Zeit | What's eingeschlossen |
+| Tarif | Umfang | Jahreslistenpreis | Reaktionszeit | Enthalten |
 |------|----------|-------------|---------------|-----------------|
-| **Starter** | 1 Team / 1 Bereitstellung | €4,900 | best-effort / community | E-Mail Support, minor aktualisiert, 1 Härtung Prüfung / Jahr |
-| **Geschäft** | up zu 5 deployments | €24,000 | 2 Geschäft Tage | Alles in Starter + priority Support, Sicherheit advisories, jährlich Audit Prüfung, 1 Compliance Paket / Jahr, SIEM Integration |
-| **Unternehmen** | unlimited | €75,000+ | 4h Sev-1 / 1d Sev-2 | Alles in Geschäft + dedicated Support, SLA credits, on-prem/air-gapped guidance, custom modules, 2 Compliance Pakete / Jahr |
+| **Starter** | 1 Team / 1 Installation | 4.900 € | nach Verfügbarkeit / Community | Support per E-Mail, kleinere Updates, 1 Härtungsprüfung pro Jahr |
+| **Business** | bis zu 5 Installationen | 24.000 € | 2 Werktage | Alles aus Starter + priorisierter Support, Sicherheitshinweise, jährliches Audit-Review, 1 Compliance-Paket pro Jahr, SIEM-Integration |
+| **Enterprise** | unbegrenzt | 75.000 €+ | 4 h Sev-1 / 1 Tag Sev-2 | Alles aus Business + dedizierter Support, SLA-Gutschriften, Beratung für On-Premises und air-gapped Umgebungen, individuelle Module, 2 Compliance-Pakete pro Jahr |
 
-Abdeckung beschreibt wie viele deployments und welche Services sind eingeschlossen — es
-ist **nicht** ein Arbeitsplatz Anzahl oder ein Lizenz zu verwenden Software. Ein Support Vertrag ist
-niemals erforderlich zu ausführen Aegis.
+Der Umfang beschreibt, wie viele Installationen abgedeckt sind und welche
+Leistungen enthalten sind — er ist **keine** Anzahl von Arbeitsplätzen und keine
+Nutzungslizenz. Für den Betrieb von Aegis ist nie ein Supportvertrag erforderlich.
 
-## Was Sie sind buying
+## Was Sie kaufen
 
-- Ein Support und Services Mandat: response-time commitments, Härtung
-  reviews, Compliance Pakete und SIEM Integration as listed oben.
-- Aktualisiert und Sicherheit-fix guidance während der subscription Begriff.
-- Der Software selbst ist kostenlos unter Apache-2.0; dies plan macht nicht Gewährung oder
-  restrict irgendein Recht zu verwenden, modify oder redistribute es (siehe `LICENSE`).
+- Eine Support- und Dienstleistungsbeziehung: Reaktionszeiten, Härtungsprüfungen,
+  Compliance-Pakete und SIEM-Integration wie oben aufgeführt.
+- Aktualisierungen und Hinweise zu Sicherheitskorrekturen während der Laufzeit.
+- Die Software selbst ist unter Apache-2.0 kostenlos; dieser Tarif begründet
+  keine Rechte an der Software und schränkt sie nicht ein (siehe `LICENSE`).
 
-## Was ist Nicht eingeschlossen
+## Was nicht enthalten ist
 
-- Drittanbieter vendiert Komponenten (pdf.JS, pdf-lib, tesseract.JS, tessdata) bleiben
-  unter ihrer eigen Upstream licenses (Apache-2.0 / MIT) — siehe `docs/DEPENDENCY_AUDIT.md`.
-- Ein Drittanbieter Penetration Test oder ACR Attestierung — diese sind engagement-specific
-  und quoted separately.
-- German-language rechtlich Text localization von Compliance Vorlagen über hinaus was liefert aus
-  in Produkt — available as ein bezahlt Service.
+- Mitgelieferte Fremdkomponenten (pdf.js, pdf-lib, tesseract.js, tessdata)
+  unterliegen weiterhin ihren eigenen Upstream-Lizenzen (Apache-2.0 / MIT) —
+  siehe `docs/DEPENDENCY_AUDIT.md`.
+- Ein Penetrationstest durch Dritte oder eine ACR-Bescheinigung — beides wird
+  je nach Beauftragung separat angeboten.
+- Deutsche Übersetzungen von Compliance-Vorlagen über den mitgelieferten Stand
+  hinaus — als kostenpflichtige Leistung verfügbar.
 
-## Launch pricing (introductory bietet)
+## Einführungspreise
 
-Liste Preise oben sind der offentlich anchor. Für der **erste drei Kunden nur**, ein
-introductory Preis von **€1,900–2,900/year** ist offered in exchange für ein citable
-Fall study und ein geschrieben testimonial/reference. Von der fourth Kunde onward
-der published Liste Preis gilt. Liste Preise soll sein published auf der website —
-ein sichtbar anchor ist was macht der introductory discount credible.
+Die Listenpreise oben sind der öffentliche Anker. Für die **ersten drei Kunden**
+gilt ein Einführungspreis von **1.900–2.900 € pro Jahr** im Austausch gegen eine
+zitierbare Fallstudie und eine schriftliche Referenz. Ab dem vierten Kunden gilt
+der veröffentlichte Listenpreis. Die Listenpreise sollten auf der Website
+veröffentlicht werden — ein sichtbarer Anker ist der Grund, warum ein
+Einführungsrabatt glaubwürdig ist.
 
-## Payment und Verlängerung
+## Zahlung und Verlängerung
 
-- Invoiced annually in advance. Late payment über hinaus 30 Tage, nach geschrieben Hinweis,
-  suspends Support pro `COMMERCIAL-LICENSE.md`.
-- **Verlängerung (§307 BGB — attorney Prüfung erforderlich):** Begriff macht nicht renew
-  stillschweigend. Der Anbieter gives geschrieben Hinweis von der upcoming Verlängerung **60 Tage**
-  vor Begriff Ende; Kunde darf terminate mit effect bei Begriff Ende auf **30 days'
-  Hinweis**. Preis enthält für der committed Begriff. Irgendein Preis Änderung bei Verlängerung ist
-  begrenzt zu Änderung in Deutsch CPI (Verbraucherpreisindex) über der prior
-  12 months, angewendet durch ein angegeben formula, und Kunde darf terminate stattdessen
-  von accepting es. Avoid "wir darf Änderung Preise bei irgendein Zeit" Formulierung — solche ein clause
-  ist generally invalid as ein unreasonable standard-term disadvantage unter §307 BGB.
+- Jährliche Rechnung im Voraus. Zahlungsverzug über 30 Tage hinaus führt nach
+  schriftlicher Ankündigung zur Aussetzung des Supports gemäß
+  `COMMERCIAL-LICENSE.md`.
+- **Verlängerung (§ 307 BGB — rechtliche Prüfung erforderlich):** Die Laufzeit
+  verlängert sich nicht stillschweigend. Der Anbieter kündigt die anstehende
+  Verlängerung **60 Tage** vor Laufzeitende schriftlich an; der Kunde kann mit
+  Wirkung zum Laufzeitende unter Einhaltung einer **30-tägigen** Frist kündigen.
+  Der Preis bleibt für die vereinbarte Laufzeit stabil. Eine Preisanpassung zur
+  Verlängerung ist auf die Veränderung des Verbraucherpreisindex gegenüber den
+  vorangegangenen 12 Monaten begrenzt, nach einer angegebenen Formel berechnet;
+  der Kunde kann stattdessen kündigen.
+- Formulierungen wie „wir können die Preise jederzeit ändern" sind zu vermeiden —
+  eine solche Klausel ist als unangemessene Benachteiligung nach § 307 BGB
+  regelmäßig unwirksam.
 
-## Trial
+## Testphase
 
-Kein trial Vereinbarung ist benötigt für Software selbst — es ist kostenlos unter Apache-2.0.
-Der Software kann sein evaluated freely und verwendet in Produktion unter Apache-2.0 mit
-kein bezahlt plan. Der plans oben sind für optional Support und Services nur.
+Für die Software selbst ist keine Testvereinbarung nötig — sie ist unter
+Apache-2.0 kostenlos. Die Software kann frei evaluiert und ohne bezahlten Tarif
+produktiv genutzt werden. Die Tarife oben betreffen ausschließlich optionalen
+Support und Dienstleistungen.

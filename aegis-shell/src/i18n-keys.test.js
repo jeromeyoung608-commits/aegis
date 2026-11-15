@@ -36,9 +36,9 @@ test('every referenced i18n key exists in the catalog', () => {
   assert.deepEqual(missing, [], 'missing i18n keys: ' + missing.join(', '));
 });
 
-test('all four catalogs expose exactly the same key set', () => {
+test('both catalogs expose exactly the same key set', () => {
   const perLang = {};
-  for (const lang of ['en', 'de', 'fr', 'es']) {
+  for (const lang of ['en', 'de']) {
     const start = i18nSrc.indexOf('\n  ' + lang + ': {');
     assert.ok(start > -1, 'catalog block missing for ' + lang);
     const body = i18nSrc.slice(start);
@@ -46,7 +46,7 @@ test('all four catalogs expose exactly the same key set', () => {
     perLang[lang] = [...body.slice(0, end + 1).matchAll(/'([a-zA-Z0-9_.]+)':\s/g)].map((m) => m[1]);
   }
   const en = perLang.en;
-  for (const lang of ['de', 'fr', 'es']) {
+  for (const lang of ['de']) {
     assert.deepEqual(
       en.filter((k) => !perLang[lang].includes(k)),
       [],

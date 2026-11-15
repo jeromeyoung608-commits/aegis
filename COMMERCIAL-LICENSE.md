@@ -79,8 +79,8 @@ consumer or data-protection law provides otherwise.
 
 ## 8. Language and precedence
 
-These Terms are concluded in English. German, French and Spanish versions are
-translations provided for convenience only; in case of conflict the English
+These Terms are concluded in English. The German version (`COMMERCIAL-LICENSE.de.md`)
+is a translation provided for convenience only; in case of conflict the English
 text prevails.
 
 This document and the Order Form are individually negotiated. The Order Form

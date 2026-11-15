@@ -1,44 +1,48 @@
 <!-- Copyright (c) 2026 Jerome Young (Yang Jie) — SPDX-License-Identifier: Apache-2.0 -->
-> English original: CODE_OF_CONDUCT.md
-> Translation for convenience only. The English text prevails.
-> Übersetzung zur Erleichterung — bei Abweichungen ist der englische Text maßgeblich.
+> English original: `CODE_OF_CONDUCT.md`
+> Übersetzung zur besseren Lesbarkeit. Bei Abweichungen gilt der englische Text.
 
-# Contributor Code von Conduct
+# Verhaltenskodex für Mitwirkende
 
-## Unser pledge
+## Unser Bekenntnis
 
-Wir pledge zu machen participation in Aegis community ein harassment-free experience
-für everyone, regardless von age, Rumpf Größe, sichtbar oder invisible disability,
-ethnicity, sex characteristics, gender Identität und expression, Ebene von experience,
-education, socio-economic Status, nationality, persönlich appearance, race, religion,
-oder sexual Identität und orientation.
+Wir verpflichten uns, die Teilnahme an der Aegis-Community für alle zu einer
+belästigungsfreien Erfahrung zu machen — unabhängig von Alter, Körpergröße,
+sichtbarer oder unsichtbarer Behinderung, ethnischer Herkunft, Geschlechtsmerkmalen,
+Geschlechtsidentität und -ausdruck, Erfahrungsstand, Bildung, sozioökonomischem
+Status, Nationalität, persönlichem Erscheinungsbild, Hautfarbe, Religion oder
+sexueller Identität und Orientierung.
 
-## Unser standards
+## Unsere Standards
 
-Beispiele von behavior das contributes zu ein positiv Umgebung:
+Beispiele für Verhalten, das eine positive Umgebung fördert:
 
-- Demonstrating empathy und kindness toward andere people.
-- Werdend respectful von differing opinions, viewpoints, und experiences.
-- Giving und gracefully accepting constructive feedback.
-- Accepting Verantwortung und apologizing zu jene affected durch unser mistakes.
+- Empathie und Freundlichkeit gegenüber anderen.
+- Respekt für unterschiedliche Meinungen, Standpunkte und Erfahrungen.
+- Konstruktives Feedback geben und es auch annehmen.
+- Verantwortung übernehmen und sich bei den Betroffenen für eigene Fehler
+  entschuldigen.
 
-Beispiele von unacceptable behavior:
+Beispiele für unannehmbares Verhalten:
 
-- Der verwenden von sexualized language oder imagery, und sexual attention oder advances.
-- Trolling, insulting oder derogatory comments, und persönlich oder political attacks.
-- Offentlich oder privat harassment.
-- Publishing others' privat Information ohne explizit permission.
-- Andere conduct welche könnte reasonably sein considered inappropriate in ein professional
-  setting.
+- Sexualisierte Sprache oder Bildsprache sowie sexuelle Aufmerksamkeit oder
+  Annäherungen.
+- Trolling, beleidigende oder herabwürdigende Kommentare sowie persönliche oder
+  politische Angriffe.
+- Öffentliche oder private Belästigung.
+- Veröffentlichung privater Informationen anderer ohne ausdrückliche Erlaubnis.
+- Sonstiges Verhalten, das in einem beruflichen Umfeld vernünftigerweise als
+  unangemessen gilt.
 
-## Enforcement
+## Durchsetzung
 
-Projekt maintainers sind verantwortlich für clarifying und enforcing diese standards und
-wird take appropriate und fair corrective action in Antwort zu irgendein behavior sie
-deem inappropriate, threatening, offensive, oder harmful.
+Die Maintainer des Projekts sind dafür verantwortlich, diese Standards zu
+erläutern und durchzusetzen, und ergreifen angemessene und faire Maßnahmen bei
+Verhalten, das sie als unangemessen, bedrohlich, beleidigend oder schädlich
+bewerten.
 
-Berichte darf sein gesendet zu Maintainer bei **jeromeyoung608@gmail.com**. Alle
-complaints wird sein reviewed und investigated promptly und fairly.
+Meldungen können an den Maintainer unter **jeromeyoung608@gmail.com** gesendet
+werden. Alle Beschwerden werden zeitnah und fair geprüft und untersucht.
 
-Dies Code von Conduct ist adapted von der [Contributor Covenant](https://www.contributor-covenant.org),
-Version 2.1.
+Dieser Verhaltenskodex ist eine Adaption des
+[Contributor Covenant](https://www.contributor-covenant.org), Version 2.1.

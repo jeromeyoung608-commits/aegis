@@ -1,59 +1,64 @@
 <!-- Copyright (c) 2026 Jerome Young (Yang Jie) — SPDX-License-Identifier: Apache-2.0 -->
-> English original: docs/LICENSING.md
-> Translation for convenience only. The English text prevails.
-> Übersetzung zur Erleichterung — bei Abweichungen ist der englische Text maßgeblich.
+> English original: `docs/LICENSING.md`
+> Übersetzung zur besseren Lesbarkeit. Bei Abweichungen gilt der englische Text.
 
-# Aegis Licensing Modell
+# Aegis-Lizenzmodell
 
-## 1. Offen source, Apache-2.0
+## 1. Open Source, Apache-2.0
 
-Aegis ist **offen source**, lizenziert unter der **Apache Lizenz 2.0** — siehe
-[`LICENSE`](../LICENSE). Jeder Erstpartei Datei in dies Repository ist
-Apache-2.0. Sie darf verwenden, modify, redistribute und sell Software, einschließlich
-commercially, ohne paying anything und ohne asking permission.
+Aegis ist **Open Source** unter der **Apache License 2.0** — siehe
+[`LICENSE`](../LICENSE). Jede Erstdartei in diesem Repository steht unter
+Apache-2.0. Sie dürfen die Software nutzen, ändern, weitergeben und verkaufen,
+auch kommerziell, ohne etwas zu bezahlen und ohne um Erlaubnis zu bitten.
 
-Der nur Pflichten sind jene Apache-2.0 selbst imposes:
+Es gelten ausschließlich die Pflichten, die Apache-2.0 selbst auferlegt:
 
-- retain Lizenz und Zuordnung notices (Copyright Kopfzeilen, `Engine Durch
-  Jerome Young` footers, and the `Hinweis` Datei);
-- Zustand significant Änderungen Sie machen;
-- behalten Apache-2.0's patent Gewährung und Hinweis Bedingungen unversehrt wenn redistributing.
+- Lizenz- und Urheberhinweise beibehalten (Copyright-Kopfzeilen, Fußzeilen
+  „ENGINE BY JEROME YOUNG" und die Datei `NOTICE`);
+- wesentliche Änderungen kenntlich machen;
+- die Patentgewährung und die NOTICE-Bedingungen von Apache-2.0 bei der
+  Weitergabe unverändert lassen.
 
-Der Software ist kostenlos in jeder sense — kein bezahlt tier, kein Arbeitsplatz Grenze, kein revenue
-threshold, und kein "Kontakt sales" Gate. Bezahlt Support und Services sind optional
-(siehe Abschnitt 3).
+Die Software ist in jedem Sinne kostenlos — keine Tarifstufe, keine
+Sitzungsbegrenzung, keine Umsatzschwelle, keine Schranke „Sales kontaktieren".
+Bezahlter Support und Dienstleistungen sind optional (Abschnitt 3).
 
 ## 2. Warum Apache-2.0 und nicht MIT
 
-Apache-2.0 trägt ein **express patent Gewährung (§3)**: jeder contributor grants ein
-royalty-free, irrevocable patent Lizenz für Behauptungen ihrer contributions cover.
-Für ein Produkt das macht Sicherheit und forensic-integrity promises, das patent
-protection matters more zu adopters als MIT's shorter Text. Ein Kunde kann nicht
-sein sued über ein patent das ein Aegis contributor könnte haben asserted.
+Apache-2.0 enthält eine **ausdrückliche Patentgewährung (§ 3)**: jeder
+Beitragende gewährt eine kostenlose, unwiderrufliche Patentlizenz für
+Ansprüche, die seine Beiträge abdecken. Für ein Produkt, das
+Sicherheits- und Integritätszusagen macht, ist dieser Patentschutz für
+Anwender wichtiger als der kürzere Text von MIT. Ein Kunde kann nicht wegen
+eines Patents verklagt werden, das ein Aegis-Beitragender hätte geltend machen
+können.
 
-Apache-2.0 ist auch **compatible mit GPLv3** (seiner Bedingungen sind GPLv3-compatible),
-so Aegis kann sein combined in GPLv3 projects — eine weitere reason es fits ein
-open-source Sicherheit tool better als ein custom oder use-restricted Lizenz.
+Apache-2.0 ist zudem **mit GPLv3 kompatibel**, sodass Aegis in GPLv3-Projekte
+eingebunden werden kann — ein weiterer Grund, warum sie besser zu einem
+Open-Source-Sicherheitswerkzeug passt als eine eigene oder nutzungsbeschränkte
+Lizenz.
 
-## 3. Wo der money comes von
+## 3. Woher das Geld kommt
 
-Der Software ist kostenlos. Wir charge für unser **Zeit**, as optional Services:
+Die Software ist kostenlos. Bezahlt wird **Zeit**, als optionale
+Dienstleistungen:
 
-| Service | Indicative Preis |
+| Leistung | Richtpreis |
 |---------|------------------|
-| Bereitstellung / Integration | EUR 1,500–4,000 |
-| Compliance Bereitschaft Paket (SBOM / CRA Beweis) | EUR 2,000–6,000 |
-| SIEM Integration | EUR 1,500–3,500 |
-| Jährlich Support | quoted pro Mandat |
+| Bereitstellung / Integration | 1.500–4.000 € |
+| Compliance-Readiness-Paket (SBOM / CRA-Nachweise) | 2.000–6.000 € |
+| SIEM-Integration | 1.500–3.500 € |
+| Jährlicher Support | nach Beauftragung kalkuliert |
 
-Ein Support Vertrag ist **niemals** ein precondition für mit Software. Nichts
-in dies Repository restricts verwenden über hinaus Apache-2.0 selbst.
+Ein Supportvertrag ist **niemals** Voraussetzung für die Nutzung der Software.
+Nichts in diesem Repository schränkt die Nutzung über Apache-2.0 hinaus ein.
 
-## 4. Was wir do nicht do
+## 4. Was wir nicht tun
 
-- Wir do nicht host Kunde Daten. Aegis läuft in Kunde's eigen Umgebung;
-  vertraulich Bytes stay in Browser und Transport ist direct P2P.
-- Wir do nicht operate ein SaaS offering.
-- Wir do nicht promise Compliance certification. Unter der CRA, der manufacturer /
-  integrator placing Produkt auf der market trägt der conformity
-  Pflichten; unser Compliance Pakete sind Beweis Material, nicht ein certification.
+- Wir hosten keine Kundendaten. Aegis läuft in der Umgebung des Kunden; sensible
+  Bytes bleiben im Browser, der Transport erfolgt direkt Peer-to-Peer.
+- Wir betreiben kein SaaS-Angebot.
+- Wir versprechen keine Compliance-Zertifizierung. Nach dem CRA trägt der
+  Hersteller bzw. Integrator, der das Produkt in Verkehr bringt, die
+  Konformitätspflichten; unsere Compliance-Pakete sind Nachweisunterlagen,
+  keine Zertifizierung.

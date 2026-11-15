@@ -1,108 +1,119 @@
 <!-- Copyright (c) 2026 Jerome Young (Yang Jie) — SPDX-License-Identifier: Apache-2.0 -->
-> English original: COMMERCIAL-LICENSE.md
-> Translation for convenience only. The binding text is the English version
-> (see COMMERCIAL-LICENSE §8).
-> Verbindlich ist ausschließlich die englische Fassung (siehe COMMERCIAL-LICENSE §8).
+> English original: `COMMERCIAL-LICENSE.md`
+> Übersetzung zur besseren Lesbarkeit. Verbindlich ist ausschließlich die
+> englische Fassung (siehe § 8).
 
-# Aegis Bezahlt Support & Services Bedingungen
+# Aegis — Bedingungen für bezahlten Support und Dienstleistungen
 
-> Der Aegis Software selbst ist lizenziert unter Apache-2.0 (siehe `LICENSE`). Dies Dokument deckt ab bezahlt Support und Services nur.
+> Die Aegis-Software selbst steht unter der Apache-Lizenz 2.0 (siehe `LICENSE`).
+> Dieses Dokument betrifft ausschließlich bezahlten Support und Dienstleistungen.
 
-**Copyright (c) 2026 Jerome Young (Yang Jie). Alle Rechte reserved.**
+**Copyright (c) 2026 Jerome Young (Yang Jie). Alle Rechte vorbehalten.**
 
-Dies Services Vereinbarung governs **bezahlt Support und Services** für Aegis. Der
-Software ist offen source unter Apache-2.0 und kann sein verwendet, geändert und
-redistributed freely ohne dies Vereinbarung; diese Bedingungen nur describe der
-optional Services Copyright holder bietet und Bedingungen auf welche sie sind
-bereitgestellt.
+Diese Dienstleistungsvereinbarung regelt **bezahlten Support und Dienstleistungen**
+für Aegis. Die Software ist unter Apache-2.0 quelloffen und darf ohne diese
+Vereinbarung frei genutzt, geändert und weitergegeben werden. Die Bedingungen
+beschreiben ausschließlich die optionalen Leistungen des Rechteinhabers und die
+Bedingungen, unter denen sie erbracht werden.
 
-> Dies ist ein commercial-structure Vorlage, nicht rechtlich advice. Haben ein qualifiziert
-> German/EU attorney Prüfung es — especially Haftung Einschränkungen — vor
-> Sie sell oder deploy Aegis commercially.
+> Dies ist eine Vorlage für eine kommerzielle Struktur, keine Rechtsberatung.
+> Lassen Sie sie — insbesondere die Haftungsbeschränkungen — vor dem kommerziellen
+> Verkauf oder Einsatz von Aegis von einer im deutschen bzw. EU-Recht qualifizierten
+> Rechtsanwältin oder einem Rechtsanwalt prüfen.
 
-## 1. Umfang von Services
+## 1. Leistungsumfang
 
-Der Anbieter bietet der following Services, as selected in ein Bestellformular:
+Der Anbieter erbringt die im Bestellformular ausgewählten Leistungen:
 
-- **Bereitstellung und Integration** von Aegis in Kunde's Umgebung.
-- **Härtung Prüfung** von Bereitstellung und Konfiguration.
-- **Compliance Bereitschaft Paket** (SBOM, CRA Beweis Material).
-- **SIEM Integration** und log-forwarding setup.
-- **Jährlich Support** und maintenance as described in Abschnitt 2.
+- **Bereitstellung und Integration** von Aegis in die Umgebung des Kunden.
+- **Härtungsprüfung** (Hardening Review) der Bereitstellung und Konfiguration.
+- **Compliance-Readiness-Paket** (SBOM, Nachweisunterlagen für den CRA).
+- **SIEM-Integration** und Einrichtung der Protokollweiterleitung.
+- **Jährlicher Support und Wartung** gemäß Abschnitt 2.
 
-Services sind bereitgestellt auf ein time-and-materials oder fixed-fee Basis as angegeben in
-Bestellformular. Nichts hier grants oder withholds irgendein Recht zu verwenden Software.
+Die Leistungen werden nach Aufwand (Time and Materials) oder zu einem Festpreis
+erbracht, wie im Bestellformular angegeben. Dieses Dokument begründet kein Recht
+zur Nutzung der Software und schließt auch keines aus.
 
 ## 2. Support und SLA
 
-- Support Antwort Ziele follow der purchased plan in `PRICING.md`.
-- Support ist bereitgestellt nur unter ein bezahlt Services Vereinbarung mit ein aktiv
-  Bestellformular; Software selbst trägt kein Support Pflicht.
+- Die Zielreaktionszeiten richten sich nach dem gebuchten Tarif in `PRICING.md`.
+- Support wird ausschließlich auf Grundlage einer bezahlten Dienstleistungs-
+  vereinbarung mit gültigem Bestellformular erbracht. Für die Software selbst
+  besteht keine Supportpflicht.
 
-## 3. Confidentiality
+## 3. Vertraulichkeit
 
-Jeder Partei wird behalten confidential der andere party's non-public Information
-erhalten unter dies Services Vereinbarung und verwenden es nur zu perform oder erhalten
-Services, für Begriff von Mandat und drei years thereafter.
-Kunde Daten verarbeitet während ein Bereitstellung bleibt Kunde's Daten; der
-Anbieter macht nicht host es.
+Jede Partei behandelt die nicht öffentlichen Informationen der anderen Partei,
+die sie im Rahmen dieser Vereinbarung erhält, vertraulich und verwendet sie
+ausschließlich zur Erbringung bzw. Inanspruchnahme der Leistungen — für die
+Laufzeit der Beauftragung und für drei Jahre darüber hinaus. Daten, die im
+Rahmen einer Bereitstellung verarbeitet werden, bleiben Daten des Kunden; der
+Anbieter hostet sie nicht.
 
-## 4. Fees
+## 4. Vergütung
 
-Fees für Services sind jene angegeben in Bestellformular / `PRICING.md`. Abdeckung
-ist described durch plan (Antwort Zeit, Zahl von Härtung reviews, Compliance
-Pakete, SIEM Integrationen und jährlich Audit reviews) — nicht durch Arbeitsplatz Anzahl. Alle
-Preise sind net, exclusive von VAT, sofern Bestellformular states anderenfalls.
+Die Vergütung ergibt sich aus dem Bestellformular bzw. aus `PRICING.md`. Der
+Umfang ist nach Tarif beschrieben (Reaktionszeit, Anzahl der Härtungsprüfungen,
+Compliance-Pakete, SIEM-Integrationen, jährliche Audit-Reviews) — **nicht** nach
+Anzahl der Arbeitsplätze oder Nutzer. Alle Preise verstehen sich netto, zuzüglich
+Umsatzsteuer, sofern das Bestellformular nichts anderes bestimmt.
 
-## 5. Kein Gewährleistung; limitation von Haftung
+## 5. Gewährleistungsausschluss; Haftungsbeschränkung
 
-Aegis und Services sind bereitgestellt "AS Ist", ohne Gewährleistung von irgendein Art. Zu
-der maximum Umfang permitted durch Gesetz, Copyright holder ist **nicht liable** für
-irgendein indirect, incidental, special, oder consequential damages.
+Aegis und die Leistungen werden „wie besehen" (AS IS) und ohne Gewährleistung
+jeglicher Art erbracht. Soweit gesetzlich zulässig, haftet der Rechteinhaber
+nicht für mittelbare Schäden, Nebenschäden, Sonderschäden, entgangenen Gewinn
+oder Folgeschäden.
 
-Der Anbieter's aggregate Haftung unter dies Services Vereinbarung ist begrenzt zu
-der cap angegeben in Bestellformular / ausgeführt Zeitplan für der applicable
-Mandat.
+Die Gesamthaftung des Anbieters aus dieser Vereinbarung ist auf die Obergrenze
+begrenzt, die im Bestellformular bzw. in der ausgeführten Anlage für die jeweilige
+Beauftragung genannt ist.
 
-Nichts in dies clause Grenzen Haftung das kann nicht sein excluded durch applicable
-Gesetz (intent, gross negligence, death/personal injury caused durch negligence,
-Produkt Haftung unter ProdHaftG, fraud, oder der simple-negligence Verstoß von ein
-cardinal Pflicht — der latter begrenzt zu typical foreseeable Verlust).
+Diese Klausel beschränkt keine Haftung, die nach geltendem Recht nicht
+ausgeschlossen werden kann: Vorsatz, grobe Fahrlässigkeit, schuldhaft
+verursachte Todesfälle oder Körperverletzungen, Produkthaftung nach dem
+ProdHaftG, Arglist sowie die leicht fahrlässige Verletzung einer
+Kardinalpflicht — letztere begrenzt auf den typischerweise vorhersehbaren
+Schaden.
 
-## 6. Begriff und Beendigung
+## 6. Laufzeit und Kündigung
 
-Dies Services Vereinbarung terminates auf completion von Services oder as Set außer
-in Bestellformular. Either Partei darf terminate für Material Verstoß mit ein
-14-Tag cure Zeitraum. Beendigung macht nicht affect Kunde's Recht zu verwenden
-Aegis unter Apache-2.0.
+Diese Vereinbarung endet mit Abschluss der Leistungen oder gemäß den Regelungen
+im Bestellformular. Bei einer wesentlichen Vertragsverletzung kann jede Partei
+nach fruchtlosem Ablauf einer 14-tägigen Nachfrist kündigen. Die Kündigung
+berührt das Recht des Kunden, Aegis unter Apache-2.0 zu nutzen, nicht.
 
-## 7. Bestimmend Gesetz
+## 7. Anwendbares Recht
 
-Dies Services Vereinbarung ist governed durch der laws von Federal Republic von
-Germany, excluding seiner conflict-of-laws Regeln. Der courts von Copyright
-holder's registriert Arbeitsplatz haben exclusive jurisdiction, sofern verpflichtend lokal
-consumer oder Daten-protection Gesetz bietet anderenfalls.
+Diese Vereinbarung unterliegt dem Recht der Bundesrepublik Deutschland unter
+Ausschluss der Kollisionsnormen. Ausschließlicher Gerichtsstand ist der Sitz
+des Rechteinhabers, soweit zwingendes Verbraucher- oder Datenschutzrecht nichts
+anderes vorsieht.
 
-## 8. Language und precedence
+## 8. Sprache und Rangfolge
 
-Diese Bedingungen sind concluded in Englisch. Deutsch, French und Spanish versions sind
-translations bereitgestellt für convenience nur; in Fall von conflict Englisch
-Text prevails.
+Diese Bedingungen werden in englischer Sprache geschlossen. Die deutschsprachige
+Fassung (`COMMERCIAL-LICENSE.de.md`) ist eine Übersetzung zur besseren Lesbarkeit;
+im Konfliktfall ist sie nicht maßgeblich, maßgeblich ist der englische Text.
 
-Dies Dokument und Bestellformular sind individually negotiated. Der Bestellformular
-prevails über diese Bedingungen; diese Bedingungen prevail über `PRICING.md`, welche ist
-informational und non-binding. Der Apache Lizenz 2.0 (`LICENSE`) governs verwenden
-von Software und ist nicht geändert durch dies Dokument.
+Dieses Dokument und das Bestellformular sind individuell ausgehandelt. Das
+Bestellformular geht diesen Bedingungen vor; diese Bedingungen gehen `PRICING.md`
+vor, die lediglich informativen Charakter hat und nicht bindend ist. Die
+Apache-Lizenz 2.0 (`LICENSE`) regelt die Nutzung der Software und wird durch
+dieses Dokument nicht geändert.
 
-## 9. Payment und late payment
+## 9. Zahlung und Zahlungsverzug
 
-Sofern Bestellformular states anderenfalls, fees sind invoiced annually in advance,
-net von VAT, payable innerhalb 30 Tage. Overdue amounts bear interest bei 9
-percentage Punkte oben Basis Rate (§ 247 BGB). Der Anbieter darf suspend
-Services nach geschrieben Hinweis wenn ein invoice bleibt unpaid für 30 Tage.
+Sofern das Bestellformular nichts anderes bestimmt, wird die Vergütung jährlich
+im Voraus, netto zuzüglich Umsatzsteuer, innerhalb von 30 Tagen nach
+Rechnungsstellung fällig. Verzugszinsen betragen 9 Prozentpunkte über dem
+Basiszinssatz (§ 247 BGB). Der Anbieter kann die Leistungen nach schriftlicher
+Ankündigung ruhen lassen, wenn eine Rechnung 30 Tage nach Fälligkeit unbeglichen
+bleibt.
 
-## 10. Publicity
+## 10. Referenznennung
 
-Der Anbieter darf Liste Kunde's Name und logo as ein Kunde nur mit der
-Kunde's prior geschrieben consent. Nichts in dies clause grants Marke
-Rechte.
+Der Anbieter darf den Namen und das Logo des Kunden nur mit dessen vorheriger
+schriftlicher Zustimmung als Referenz nennen. Diese Klausel begründet keine
+Markenrechte.

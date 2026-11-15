@@ -1,54 +1,67 @@
 <!-- Copyright (c) 2026 Jerome Young (Yang Jie) — SPDX-License-Identifier: Apache-2.0 -->
-> English original: docs/compliance/CRA-NIS2.md
-> Translation for convenience only. The English text prevails.
-> Übersetzung zur Erleichterung — bei Abweichungen ist der englische Text maßgeblich.
+> English original: `docs/compliance/CRA-NIS2.md`
+> Übersetzung zur besseren Lesbarkeit. Bei Abweichungen gilt der englische Text.
 
-# Aegis — CRA / NIS2 Bereitschaft
+# Aegis — Bereitschaft für CRA und NIS2
 
-Mapping von EU **Cyber Resilience Act (CRA)** und **NIS2 Directive** expectations
-zu concrete Aegis Kontrollen. ✅ = implementiert, 🟡 = partial / design-ready,
-⏳ = planned.
+Zuordnung der Anforderungen des EU **Cyber Resilience Act (CRA)** und der
+**NIS2-Richtlinie** zu konkreten Aegis-Kontrollen. ✅ = umgesetzt,
+🟡 = teilweise / konstruktiv vorbereitet, ⏳ = geplant.
 
-## Secure-by-design & Standard (CRA Anhang I.1)
-- ✅ **Null npm Laufzeit Abhängigkeiten.** Der Kern Kernel ist Erstpartei + `node:*` nur.
-  Browser modules vendor Drittanbieter libraries (PDF.JS, pdf-lib, Tesseract.JS) unter
-  `vendor/` directories, und Test harnesses verwenden `playwright` — alle listed **honestly**
-  in CycloneDX SBOM (`scripts/gen-sbom.mjs`). Kein unsupported/abandoned Komponenten.
-- ✅ **Local-first, offline** — kein verpflichtend cloud; Daten verarbeitet in-Browser.
-- ✅ **Serverblind Übertragung** — Relay niemals sieht Datei Bytes oder Schlüssel.
+## Sicher durch Konstruktion und Voreinstellung (CRA Anhang I.1)
 
-## Vulnerability handling (CRA Anhang I.2 / NIS2 Vorfall)
-- ✅ **Audit-Trail** durable in SQLite; Bediener-facing und nur-appendierbar (P1).
-- 🟡 **Widerruf** — lokal CRL-style deny-list bei Sitzung Zulassung (P5); ein
-  coordinated disclosure Prozess / PSIRT ist **nicht noch published** (planned).
-- ⏳ **Unabhängig Penetration Test** — erforderlich vor Produktion Behauptung.
+- ✅ **Keine npm-Laufzeitabhängigkeiten.** Der Kern besteht ausschließlich aus
+  Erstdarteien und `node:*`. Die Browser-Module führen Fremdbibliotheken
+  (PDF.js, pdf-lib, Tesseract.js) in `vendor/`-Verzeichnissen mit, die
+  Testumgebung nutzt `playwright` — alle **vollständig** in der CycloneDX-SBOM
+  gelistet (`scripts/gen-sbom.mjs`). Keine nicht unterstützten oder
+  aufgegebenen Komponenten.
+- ✅ **Lokal zuerst, offline** — keine zwingende Cloud; Daten werden im Browser
+  verarbeitet.
+- ✅ **Server-blind:** das Relay sieht weder Dateibytes noch Schlüssel.
 
-## Dokumentation & transparency (CRA Anhang I.3)
-- ✅ **SBOM** erzeugt über `npm run` / `scripts/gen-sbom.mjs`.
-- ✅ **Bedrohung Modell** (`docs/compliance/THREAT-MODEL.md`).
-- 🟡 **Sicherheit Richtlinie** (`SECURITY.md`); **nicht noch** ein extern bug-bounty.
+## Umgang mit Schwachstellen (CRA Anhang I.2 / NIS2-Vorfall)
 
-## NIS2 governance / supply chain
-- 🟡 Single-maintainer offen source (Apache-2.0); supply chain ist nur Node.js (LTS recommended).
-- ⏳ Formal **conformance / EN 301 549 (accessibility)** testing — P7 (WCAG 2.1 AA
-  foundations started über Entwurf System + i18n).
+- ✅ **Audit-Trail** dauerhaft in SQLite, betreiberseitig und fortlaufend (P1).
+- 🟡 **Widerruf** — lokale Sperrliste bei der Sitzungszulassung (P5); ein
+  koordiniertes Offenlegungsverfahren bzw. ein PSIRT ist **noch nicht
+  veröffentlicht** (geplant).
+- ⏳ **Unabhängiger Penetrationstest** — erforderlich vor jeder
+  Produktivzusicherung.
 
-## Ehrlich Lücken (do nicht over-claim)
-1. Kein Drittanbieter pen-test noch.
-2. Kein published PSIRT / SLA für Schwachstellenmeldung.
-3. Accessibility conformance ist *foundational*, nicht *certified*.
-4. Der Audit Protokoll beweist Server *saw* ein Ereignis; es macht nicht durch selbst beweisen
-   client-side correctness — pair mit der in-Browser Hash-Kette.
+## Dokumentation und Transparenz (CRA Anhang I.3)
 
-## Language von Benutzer Information
+- ✅ **SBOM** über `npm run` / `scripts/gen-sbom.mjs` erzeugt.
+- ✅ **Threat Model** (`docs/compliance/THREAT-MODEL.md`).
+- 🟡 **Sicherheitsrichtlinie** (`SECURITY.md`); **noch kein** externes
+  Bug-Bounty-Programm.
 
-Sicherheit-relevant Benutzer Information ist bereitgestellt durch Produkt UI in
-Englisch, Deutsch, French und Spanish. Formal notices zu Kunden sind ausgestellt in
-Englisch und Deutsch.
+## NIS2-Governance / Lieferkette
+
+- 🟡 Open Source mit einem Maintainer (Apache-2.0); die Lieferkette besteht nur
+  aus Node.js (LTS empfohlen).
+- ⏳ Formale Prüfung auf **Konformität / EN 301 549 (Barrierefreiheit)** — P7
+  (Grundlagen zu WCAG 2.1 AA wurden über Designsystem und i18n begonnen).
+
+## Offene Punkte (keine Überzeichnung)
+
+1. Noch kein Penetrationstest durch Dritte.
+2. Kein veröffentlichtes PSIRT / keine SLA für Schwachstellenmeldung.
+3. Die Barrierefreiheit ist *grundlegend*, nicht *zertifiziert*.
+4. Das Audit-Protokoll belegt, dass der Server ein Ereignis *gesehen* hat; es
+   belegt nicht die clientseitige Korrektheit — dafür steht die Hash-Kette
+   im Browser.
+
+## Sprache der Nutzerinformationen
+
+Sicherheitsrelevante Nutzerinformationen werden über die Produktoberfläche auf
+Englisch und Deutsch bereitgestellt. Formelle Mitteilungen an Kunden ergehen
+auf Englisch und Deutsch.
 
 ## Rolle
 
-Aegis ist published as open-source Software unter Apache-2.0; Maintainer
-bietet bezahlt Support Services. Whether ein given distribution macht der
-Maintainer ein "manufacturer" unter der CRA hängt ab auf der commercial activity
-concerned und ist assessed pro Mandat, nicht asserted hier.
+Aegis wird als Open-Source-Software unter Apache-2.0 veröffentlicht; der
+Maintainer erbringt bezahlte Support-Leistungen. Ob eine bestimmte
+Distribution den Maintainer zum „Hersteller" im Sinne des CRA macht, hängt
+von der jeweiligen Geschäftstätigkeit ab und wird pro Beauftragung bewertet,
+nicht hier behauptet.

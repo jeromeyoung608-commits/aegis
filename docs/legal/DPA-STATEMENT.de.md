@@ -1,34 +1,42 @@
 <!-- Copyright (c) 2026 Jerome Young (Yang Jie) — SPDX-License-Identifier: Apache-2.0 -->
-> English original: docs/legal/DPA-STATEMENT.md
-> Translation for convenience only. The binding text is the English version
-> (see COMMERCIAL-LICENSE §8).
-> Verbindlich ist ausschließlich die englische Fassung (siehe COMMERCIAL-LICENSE §8).
+> English original: `docs/legal/DPA-STATEMENT.md`
+> Übersetzung zur besseren Lesbarkeit. Verbindlich ist ausschließlich die
+> englische Fassung (siehe `COMMERCIAL-LICENSE.md` § 8).
 
-# Daten Verarbeitung — statement und short DPA
+# Datenverarbeitung — Erklärung und kurze ADV
 
-## 1. Standard position
+## 1. Standardfall
 
-Aegis ist selbst gehostet Software. Der Anbieter macht nicht host, operate oder Zugriff
-Kunde systems durch Standard und daher macht nicht Prozess persönlich Daten auf
-Kunde's behalf in der ordinary course. In Fall kein Daten Verarbeitung
-Vereinbarung ist erforderlich.
+Aegis ist selbst gehostete Software. Der Anbieter hostet, betreibt oder öffnet
+standardmäßig keine Kundensysteme und verarbeitet somit im Regelfall keine
+personenbezogenen Daten im Auftrag des Kunden. In diesem Fall ist keine
+Auftragsverarbeitungsvereinbarung erforderlich.
 
-## 2. Wenn Support Zugriff ist granted
+## 2. Wenn Support-Zugriff gewährt wird
 
-Wenn Kunde grants Anbieter entfernt oder on-site Zugriff für Support, der
-Anbieter acts as ein Auftragsverarbeiter unter Art. 28 GDPR. Der following gilt:
+Gewährt der Kunde dem Anbieter für den Support Fern- oder Vor-Ort-Zugriff,
+handelt der Anbieter als Auftragsverarbeiter nach Art. 28 DSGVO. Dann gilt:
 
-- **Subject matter und duration**: troubleshooting und Support für der duration von Zugriff granted.
-- **Nature und Zweck**: diagnosis, Konfiguration, Wiederherstellung; kein andere Zweck.
-- **Kategorien von Daten**: as determined durch Kunde; Anbieter macht nicht Anfrage persönlich Daten und works mit synthetic oder redacted Daten wo possible.
-- **Sub-processors**: keiner ohne prior geschrieben authorisation.
-- **Sicherheit misst**: Zugriff durch Kunde's tooling, Sitzung logging, mindestens privilege, deletion von lokal copies nach Mandat.
-- **Assistance**: Anbieter assists mit Daten-subject Anfragen und Verstoß notifications insofar as es ist able.
-- **Deletion**: lokal copies deleted innerhalb 10 Geschäft Tage nach Mandat ends.
-- **Audits**: eine Audit pro Jahr auf 30 days' Hinweis; reasonable Sicherheit questionnaires answered.
+- **Gegenstand und Dauer**: Fehleranalyse und Support für die Dauer des
+  gewährten Zugriffs.
+- **Art und Zweck**: Diagnose, Konfiguration, Wiederherstellung; kein anderer
+  Zweck.
+- **Datenkategorien**: wie vom Kunden bestimmt; der Anbieter fordert keine
+  personenbezogenen Daten an und arbeitet nach Möglichkeit mit synthetischen
+  oder geschwärzten Daten.
+- **Unterauftragsverarbeiter**: keine ohne vorherige schriftliche Genehmigung.
+- **Sicherheitsmaßnahmen**: Zugriff über die Werkzeuge des Kunden,
+  Sitzungsprotokollierung, geringstmögliche Rechte, Löschung lokaler Kopien nach
+  dem Einsatz.
+- **Unterstützung**: der Anbieter unterstützt den Kunden bei Betroffenenanträgen
+  und Meldungen von Datenschutzverletzungen, soweit ihm dies möglich ist.
+- **Löschung**: lokale Kopien werden innerhalb von 10 Werktagen nach Ende des
+  Einsatzes gelöscht.
+- **Prüfungen**: eine Prüfung pro Jahr mit 30 Tagen Vorlauf; angemessene
+  Sicherheitsfragebögen werden beantwortet.
 
-## 3. Übertragungen
+## 3. Übermittlungen
 
-Wo Zugriff von outside EU ist erforderlich, Parteien verwenden EU Standard
-Contractual Clauses (2021/914) und vollständig ein Übertragung impact assessment vor
-Zugriff begins.
+Ist ein Zugriff von außerhalb der EU erforderlich, verwenden die Parteien die
+EU-Standardvertragsklauseln (2021/914) und führen vor Beginn des Zugriffs eine
+Transfer-Folgenabschätzung durch.

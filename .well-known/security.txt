@@ -2,4 +2,4 @@
 # Maintained by Jerome Young (Yang Jie)
 Contact: mailto:jeromeyoung608@gmail.com
 Expires: 2027-11-15T00:00:00.000Z
-Preferred-Languages: en, de, fr, es
+Preferred-Languages: en, de

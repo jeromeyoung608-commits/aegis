@@ -1,6 +1,6 @@
 # AEGIS - Secure Edge Collaboration Workbench
 
-**English** · [Deutsch](README.de.md) · [Français](README.fr.md) · [Español](README.es.md)
+**English** · [Deutsch](README.de.md)
 
 > **Closed-loop, zero-trust, local-first collaboration for classified industrial
 > documents** — every computation stays on the operator's machine, the app never
@@ -940,7 +940,7 @@ npm start         # node server.js
 | **P6** | Production-leaning UI foundation: unified **design system** + **Operator Console** (`/aegis-shell/console.html`) that makes P1–P5 server features usable (login, audit, revocation, escrow, TSA verify). Module product UIs are functional but not redesigned in this pass. | ✅ done (foundation) |
 | **P7** | Compliance shell: **i18n** (en/de/fr/es) + **PWA** (manifest + offline service worker) + **SBOM** generation (CycloneDX) + **threat model** + **CRA/NIS2** + **SECURITY.md** self-assessment. Independent third-party penetration test remains required (cannot be performed by this project — explicitly out of scope). | ✅ done (pen-test external) |
 
-The operations console is available in English, German, French and Spanish. Module interfaces are in English. Support and correspondence are provided in English and German.
+The operations console is available in English and German. Module interfaces are in English. Support and correspondence are provided in English and German.
 
 ### 14.3 Honest scope note
 

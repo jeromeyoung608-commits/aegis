@@ -1,85 +1,109 @@
 <!-- Copyright (c) 2026 Jerome Young (Yang Jie) — SPDX-License-Identifier: Apache-2.0 -->
-> English original: SECURITY.md
-> Translation for convenience only. The English text prevails.
-> Übersetzung zur Erleichterung — bei Abweichungen ist der englische Text maßgeblich.
+> English original: `SECURITY.md`
+> Übersetzung zur besseren Lesbarkeit. Bei Abweichungen gilt der englische Text.
 
-# Sicherheit Richtlinie
+# Sicherheitsrichtlinie
 
-## Sicherheit Support Zeitraum (CRA Art. 13)
-Aegis v1.0.0 hat ein declared Sicherheit Support Zeitraum von **5 years von erste
-publication: 2026-11-15 → 2031-11-15**. Während dies Zeitraum der manufacturer
-bietet Sicherheit aktualisiert und vulnerability remediation. Der Ende Datum ist
-disclosed zu Kunden bei Zeit von purchase (CRA Art. 13(19)); der rationale
-für Zeitraum ist aufgezeichnet in der technical Dokumentation (Art. 13(8)).
+## Sicherheits-Supportzeitraum (CRA Art. 13)
 
-| Version | Supported | Sicherheit Support bis |
+Aegis v1.0.0 hat einen erklärten Sicherheits-Supportzeitraum von **5 Jahren ab
+Erstveröffentlichung: 2026-11-15 → 2031-11-15**. In diesem Zeitraum stellt der
+Hersteller Sicherheitsupdates und Fehlerbehebungen bereit. Das Enddatum wird
+Kunden beim Kauf mitgeteilt (CRA Art. 13(19)); die Begründung des Zeitraums ist
+in der technischen Dokumentation festgehalten (Art. 13(8)).
+
+| Version | Unterstützt | Sicherheits-Support bis |
 |---------|-----------|------------------------|
-| 1.0.x | ✅ | 2031-11-15 |
+| 1.0.x   | ✅ | 2031-11-15 |
 
-## Reporting ein vulnerability (coordinated disclosure / CVD)
-Aegis ist ein Privacy-first, local-processing tool. Wenn Sie find ein vulnerability,
-**do nicht offen ein offentlich Problem** mit exploit details. Stattdessen, Bericht privately zu
-Maintainer bei **jeromeyoung608@gmail.com** (auch published in
-`.well-known/security.txt`) und include:
-- ein description und impact,
-- Schritte zu reproduce,
-- affected Version (`Aegis` Version von `package.json`).
+## Schwachstellen melden (koordinierte Offenlegung / CVD)
 
-Wir aim zu acknowledge innerhalb **5 Geschäft Tage** und zu provide ein remediation
-Zeitleiste innerhalb **30 Tage** für bestätigt Probleme.
+Aegis ist ein datenschutzorientiertes Werkzeug, das lokal verarbeitet. Wenn Sie
+eine Schwachstelle finden, eröffnen Sie **kein öffentliches Issue** mit
+Ausnutzungsdetails. Melden Sie sie stattdessen vertraulich an den Maintainer unter
+**jeromeyoung608@gmail.com** (ebenfalls in `.well-known/security.txt`
+veröffentlicht) und geben Sie an:
 
-## Umfang
-In Umfang: Aegis Server (`server.js`, `server/store.js`), TSA Adapter
-(`adapters/tsa-rfc3161`), und Bediener Konsole (`aegis-shell/console.html`).
-Außer von Umfang: der underlying Browser, Node.js Laufzeit, und irgendein Drittanbieter TSA Sie
-configure.
+- Beschreibung und Auswirkung,
+- Schritte zur Reproduktion,
+- betroffene Version (Aegis-Version aus `package.json`).
 
-## Sicherheit posture (summary)
-- Null **npm** Laufzeit Abhängigkeiten. Browser modules vendor Drittanbieter libraries (PDF.JS, pdf-lib, Tesseract.JS) committed unter jeder Modul's `vendor/` Verzeichnis; der SBOM (`scripts/gen-sbom.mjs`) lists alle von sie — und der dev/test `playwright` tooling — honestly. Der "null Abhängigkeiten" Behauptung gilt zu der **Kern Kernel** (`crypto / hash-chain / audit / signaling / redaction render`); es ist nicht ein Behauptung das der entire Produkt enthält kein Drittanbieter Code.
-- Serverblind Übertragung: Relay speichert nur opak Chiffretext.
-- Token-gated Signalisierung + pro IP Rate limiting.
-- Bediener-only Audit / Widerruf / Hinterlegung APIs.
-- Lokal CRL-style Widerruf checked bei Sitzung Zulassung.
-- GDPR Art. 17 Löschung mit beibehalten Compliance markers.
+Wir bestätigen den Eingang innerhalb von **5 Werktagen** und nennen für bestätigte
+Probleme innerhalb von **30 Tagen** einen Zeitplan zur Behebung.
 
-## Netzwerk exposure & Bereitstellung Härtung
+## Geltungsbereich
 
-**Durch Standard Server bindet zu alle Netzwerk interfaces** (`server.listen(PORT)` mit kein
-host argument → `0.0.0.0` / `::`). Der statisch Konsole UI, Token-gated Signalisierung
-Relay, und Metriken Endpunkt sind daher reachable von **irgendein host das kann route
-zu der port** (Standard `8099`, oder `PORT`). Dies ist intentional für ein single-Bediener
-lokal Workbench, aber es ist **nicht** sicher zu expose roh auf ein geteilt / untrusted Netzwerk.
+Innerhalb des Geltungsbereichs: der Aegis-Server (`server.js`, `server/store.js`),
+der TSA-Adapter (`adapters/tsa-rfc3161`) und die Betreiberkonsole
+(`aegis-shell/console.html`). Außerhalb: der verwendete Browser, die
+Node.js-Laufzeit und jeder TSA-Dienst, den Sie selbst konfigurieren.
 
-Bereitstellung Regeln:
-- **Put Aegis hinter ein umkehren Proxy** (nginx, Caddy, Traefik, oder Ihr LoadBalancer) das
-  terminates TLS, enforces authenticated Zugriff, und restricts source IPs / CIDR ranges.
-  Do nicht publish der roh Node port zu der internet oder ein geteilt LAN segment.
-- Der umkehren Proxy ist auch wo Sie soll expose `/metrics` **nur wenn** Sie haben Set
-  `AEGIS_METRICS_TOKEN` (es ist Fail-Closed anderenfalls — siehe
-  `docs/compliance/CONFIGURE-BEFORE-DEPLOY.md`). Behalten Metriken hinter der proxy's ACL.
-- **Niemals** Set `AEGIS_TRUSTED_LAN=1` auf ein geteilt oder Produktion Netzwerk — es relaxes der
-  `/session` Zulassung control für lab verwenden nur und ist ausdrücklich unsafe über hinaus localhost.
-- Der Bediener Konsole und Signalisierung Relay beide require ein Bediener Sitzung / Aussteller
-  Geheimnis; der statisch UI ist unauthenticated durch Entwurf (es ist ein Anmeldung screen), so der
-  Proxy muss enforce wer darf reach es.
+## Sicherheitslage (Zusammenfassung)
 
-Siehe `docs/compliance/THREAT-MODEL.md` und `docs/compliance/CRA-NIS2.md` für der
-vollständig analysis. **Ein unabhängig Drittanbieter Penetration Test ist noch erforderlich
-vor irgendein Produktion Bereitstellung Behauptung.**
+- Keine **npm**-Laufzeitabhängigkeiten. Die Browser-Module führen Fremdbibliotheken
+  (PDF.js, pdf-lib, Tesseract.js) in ihrem jeweiligen `vendor/`-Verzeichnis mit;
+  die SBOM (`scripts/gen-sbom.mjs`) listet sie vollständig auf — einschließlich
+  der `playwright`-Werkzeuge für Entwicklung und Tests. Die Aussage
+  „null Abhängigkeiten" bezieht sich auf den **Kern** (crypto / Hash-Chain /
+  Audit / Signalisierung / Redaction-Rendering) und nicht darauf, dass das gesamte
+  Produkt keinen Fremdcode enthielte.
+- Server-blind: die Relay-Komponente speichert ausschließlich undurchsichtigen
+  Geheimtext.
+- Token-geschützte Signalisierung und Ratenbegrenzung je IP-Adresse.
+- Audit-, Widerrufs- und Escrow-Schnittstellen nur für Betreiber.
+- Lokale Sperrliste (CRL) wird bei der Sitzungszulassung geprüft.
+- Löschung nach GDPR Art. 17 mit erhaltenen Compliance-Markern.
 
-## CRA Vorfall reporting commitment
-Für vulnerabilities das qualify as ein **severe Vorfall** unter EU Cyber
-Resilience Act (Regulation (EU) 2024/2847, Art. 14/71), der manufacturer commits
-zu der following reporting Zeitleiste zu der competent authority (BSI in Germany):
+## Netzwerkexposition und Härtung der Bereitstellung
 
-- **Innerhalb 24 hours** von becoming aware: ein early warning (Art. 14(2));
-- **Innerhalb 72 hours**: ein vulnerability Benachrichtigung / Vorfall Bericht mit der
-  available details (Art. 14(3));
-- **Innerhalb 14 Tage**: ein endgültig Bericht mit Wurzel verursachen und remediation (Art. 14(4)),
-  oder ein reasoned delay wo Fakten sind noch unter investigation.
+**Standardmäßig bindet sich der Server an alle Netzwerkschnittstellen**
+(`server.listen(PORT)` ohne Host-Angabe → `0.0.0.0` / `::`). Damit ist die
+statische Konsole, das token-geschützte Signalisierungs-Relay und der
+Metrik-Endpunkt von **jedem Host aus erreichbar, der die Portnummer erreicht**
+(Standard `8099`, oder `PORT`). Das ist für eine lokale Arbeitsstation mit einem
+Betreiber beabsichtigt, aber **nicht** sicher, wenn der Port offen in einem
+gemeinsam genutzten oder nicht vertrauenswürdigen Netz liegt.
 
-Hinweis: der CRA reporting Pflichten haben angewendet since **2026-09-11**. Wo Aegis
-ist bereits supplied in EU, diese sind aktuell Pflichten, nicht future plans.
-⚠️ Dies commitment ist ein commercial/process statement, nicht rechtlich advice; der genau
-Auslöser, authority und irgendein micro/small-enterprise exemptions muss sein bestätigt durch
-qualifiziert Rechtsberatung.
+Regeln für die Bereitstellung:
+
+- **Betreiben Sie Aegis hinter einem Reverse-Proxy** (nginx, Caddy, Traefik oder
+  Ihr Load-Balancer), der TLS terminiert, den Zugriff authentisiert und
+  Quell-IP-Adressen bzw. CIDR-Bereiche einschränkt. Veröffentlichen Sie den
+  Node-Port nicht direkt ins Internet oder in ein gemeinsam genutztes LAN-Segment.
+- Der Reverse-Proxy ist auch der Ort, an dem `/metrics` **nur dann** exponiert
+  werden sollte, wenn `AEGIS_METRICS_TOKEN` gesetzt ist (andernfalls fail-closed —
+  siehe `docs/compliance/CONFIGURE-BEFORE-DEPLOY.md`). Halten Sie die Metriken
+  hinter der ACL des Proxys.
+- Setzen Sie **niemals** `AEGIS_TRUSTED_LAN=1` in einem gemeinsam genutzten oder
+  produktiven Netz — die Variable lockert die Zulassungskontrolle von `/session`
+  und ist ausschließlich für Laborumgebungen gedacht.
+- Betreiberkonsole und Signalisierungs-Relay verlangen eine Betreiber-Sitzung
+  bzw. ein Issuer-Secret; die statische Oberfläche ist bewusst unauthentifiziert
+  (sie ist ein Anmeldebildschirm), weshalb der Proxy regeln muss, wer sie erreicht.
+
+Vollständige Analyse in `docs/compliance/THREAT-MODEL.md` und
+`docs/compliance/CRA-NIS2.md`. **Ein unabhängiger Penetrationstest durch Dritte
+ist weiterhin erforderlich, bevor ein Produktiveinsatz zugesichert werden kann.**
+
+## Meldepflichten bei Sicherheitsvorfällen nach CRA
+
+Für Schwachstellen, die als **schwerwiegender Sicherheitsvorfall** im Sinne der
+EU-Verordnung über Cybersicherheit (Cyber Resilience Act, Verordnung (EU)
+2024/2847, Art. 14/71) gelten, verpflichtet sich der Hersteller zu folgendem
+Meldeablauf gegenüber der zuständigen Behörde (in Deutschland: BSI):
+
+- **innerhalb von 24 Stunden** nach Kenntnisnahme: eine Vorabwarnung (Art. 14(2));
+- **innerhalb von 72 Stunden**: eine Schwachstellenmeldung bzw. ein
+  Vorfallbericht mit den verfügbaren Angaben (Art. 14(3));
+- **innerhalb von 14 Tagen**: ein Abschlussbericht mit Ursache und Behebung
+  (Art. 14(4)) oder eine begründete Verzögerung, solange die Fakten noch geprüft
+  werden.
+
+Hinweis: Die Meldepflichten des CRA gelten seit **2026-09-11**. Soweit Aegis
+bereits in der EU bereitgestellt wird, handelt es sich um aktuelle Pflichten und
+nicht um künftige Pläne.
+
+⚠️ Diese Verpflichtung ist eine geschäftliche bzw. prozessuale Erklärung, keine
+Rechtsberatung. Der genaue Auslöser, die zuständige Behörde und mögliche
+Ausnahmen für kleine und Kleinstunternehmen sind durch qualifizierte
+Rechtsberatung zu bestätigen.
