@@ -10,6 +10,8 @@
 | `TRADEMARK.md` | Name and mark usage rules | Yes, as a statement of rights |
 | `SECURITY.md` | Vulnerability disclosure policy | Policy, not a contract |
 | `docs/legal/DPA-STATEMENT.md` | Data processing position and short DPA | Yes, when support access is granted |
+| `docs/SERVICES-AGREEMENT.md` | Full services agreement behind the Order Form | Yes, once signed |
+| `docs/DEPLOYMENT-DELIVERY-CHECKLIST.md` | Scope of a deployment, with sign-off | Yes, per deployment |
 
 **Order of precedence**: Order Form → `COMMERCIAL-LICENSE.md` → `PRICING.md` → other documents. The Apache-2.0 licence is never modified by any document in this list.
 

@@ -4,20 +4,22 @@
 > (see COMMERCIAL-LICENSE §8).
 > Seul le texte anglais fait foi (voir COMMERCIAL-LICENSE §8).
 
-# Juridique documents — index et order de precedence
+# Documents juridiques — index et ordre de préséance
 
-| document | But | Binding? |
+| Document | Objet | Contraintif ? |
 |---|---|---|
-| `LICENSE` (Apache-2.0) | Licence pour le logiciel | Oui, pour logiciel utiliser |
-| `NOTICE` | Tiers composants et leur licences | Oui, obligatoire attribution |
-| `docs/legal/ORDER-FORM-TEMPLATE.md` | Commercial conditions de un engagement | Oui, une fois signé |
-| `COMMERCIAL-LICENSE.md` | support et services conditions | Oui, une fois referenced par un Bon de commande |
-| `PRICING.md` | Liste prix et plan descriptions | Aucun (informational) |
-| `TRADEMARK.md` | Nom et mark usage règles | Oui, as un statement de droits |
-| `SECURITY.md` | divulgation de vulnérabilités politique | Politique, ne pas un contrat |
-| `docs/legal/DPA-STATEMENT.md` | données traitement position et short DPA | Oui, quand support accès est granted |
+| `LICENSE` (Apache-2.0) | Licence du logiciel | Oui, pour l'utilisation du logiciel |
+| `NOTICE` | Composants tiers et leurs licences | Oui, attribution obligatoire |
+| `docs/legal/ORDER-FORM-TEMPLATE.md` | Conditions commerciales d'une mission | Oui, une fois signé |
+| `COMMERCIAL-LICENSE.md` | Conditions de support et de services | Oui, dès qu'un bon de commande y renvoie |
+| `PRICING.md` | Prix publics et description des offres | Non (informatif) |
+| `TRADEMARK.md` | Règles d'usage du nom et des marques | Oui, en tant qu'énoncé de droits |
+| `SECURITY.md` | Politique de divulgation des vulnérabilités | Politique, pas un contrat |
+| `docs/legal/DPA-STATEMENT.md` | Position sur la protection des données et accord court | Oui, lorsqu'un accès de support est accordé |
+| `docs/SERVICES-AGREEMENT.md` | Accord de services complet derrière le bon de commande | Oui, une fois signé |
+| `docs/DEPLOYMENT-DELIVERY-CHECKLIST.md` | Périmètre d'un déploiement, avec réception | Oui, par déploiement |
 
-**Order de precedence**: Bon de commande → `COMMERCIAL-LICENSE.md` → `PRICING.md` → autres documents. Le Apache-2.0 licence est jamais modifié par aucun document dans ce liste.
+**Ordre de préséance** : bon de commande → `COMMERCIAL-LICENSE.md` → `PRICING.md` → autres documents. La licence Apache-2.0 n'est jamais modifiée par un document de cette liste.
 
-**Language**: chaque juridique document est concluded dans Anglais. Allemand, French et
-Spanish versions exist pour readability et sont non-binding translations.
+**Langue** : chaque document juridique est conclu en anglais. Les versions allemande,
+française et espagnole existent pour la lisibilité et sont des traductions non contraignantes.

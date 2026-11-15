@@ -4,20 +4,22 @@
 > (see COMMERCIAL-LICENSE §8).
 > Verbindlich ist ausschließlich die englische Fassung (siehe COMMERCIAL-LICENSE §8).
 
-# Rechtlich Dokumente — Index und order von precedence
+# Rechtsdokumente — Index und Rangfolge
 
-| Dokument | Zweck | Binding? |
+| Dokument | Zweck | Bindend? |
 |---|---|---|
-| `LICENSE` (Apache-2.0) | Lizenz für Software | Ja, für Software verwenden |
-| `NOTICE` | Drittanbieter Komponenten und ihrer licences | Ja, verpflichtend Zuordnung |
-| `docs/legal/ORDER-FORM-TEMPLATE.md` | Commercial Bedingungen von eine Mandat | Ja, einmal signiert |
-| `COMMERCIAL-LICENSE.md` | Support und Services Bedingungen | Ja, einmal referenced durch ein Bestellformular |
-| `PRICING.md` | Liste Preise und plan descriptions | Kein (informational) |
-| `TRADEMARK.md` | Name und mark usage Regeln | Ja, as ein statement von Rechte |
-| `SECURITY.md` | Schwachstellenmeldung Richtlinie | Richtlinie, nicht ein Vertrag |
-| `docs/legal/DPA-STATEMENT.md` | Daten Verarbeitung position und short DPA | Ja, wenn Support Zugriff ist granted |
+| `LICENSE` (Apache-2.0) | Lizenz für die Software | Ja, für die Softwarenutzung |
+| `NOTICE` | Drittanbieter-Komponenten und ihre Lizenzen | Ja, Pflichtangabe |
+| `docs/legal/ORDER-FORM-TEMPLATE.md` | Kaufmännische Bedingungen eines Mandats | Ja, nach Unterzeichnung |
+| `COMMERCIAL-LICENSE.md` | Support- und Dienstleistungsbedingungen | Ja, sobald ein Bestellformular darauf verweist |
+| `PRICING.md` | Listenpreise und Planbeschreibungen | Nein (informativ) |
+| `TRADEMARK.md` | Regeln für Namen und Marken | Ja, als Rechtebestätigung |
+| `SECURITY.md` | Richtlinie zur Schwachstellenmeldung | Richtlinie, kein Vertrag |
+| `docs/legal/DPA-STATEMENT.md` | Position zum Datenverarbeitungsrecht und Kurz-AVV | Ja, wenn Support-Zugriff gewährt wird |
+| `docs/SERVICES-AGREEMENT.md` | Vollständige Dienstleistungsvereinbarung hinter dem Bestellformular | Ja, nach Unterzeichnung |
+| `docs/DEPLOYMENT-DELIVERY-CHECKLIST.md` | Umfang einer Bereitstellung, mit Abnahme | Ja, je Bereitstellung |
 
-**Order von precedence**: Bestellformular → `COMMERCIAL-LICENSE.md` → `PRICING.md` → andere Dokumente. Der Apache-2.0 Lizenz ist niemals geändert durch irgendein Dokument in dies Liste.
+**Rangfolge**: Bestellformular → `COMMERCIAL-LICENSE.md` → `PRICING.md` → weitere Dokumente. Die Apache-2.0-Lizenz wird durch keines der Dokumente in dieser Liste verändert.
 
-**Language**: jeder rechtlich Dokument ist concluded in Englisch. Deutsch, French und
-Spanish versions exist für readability und sind non-binding translations.
+**Sprache**: Jedes Rechtsdokument wird in Englisch abgeschlossen. Deutsche, französische und
+spanische Fassungen dienen der Lesbarkeit und sind nicht bindende Übersetzungen.

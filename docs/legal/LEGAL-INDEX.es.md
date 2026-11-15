@@ -4,20 +4,22 @@
 > (see COMMERCIAL-LICENSE §8).
 > Solo el texto en inglés tiene carácter vinculante (véase COMMERCIAL-LICENSE §8).
 
-# Legal documentos — índice y order de precedence
+# Documentos legales — índice y orden de prelación
 
-| documento | Finalidad | Binding? |
+| Documento | Finalidad | ¿Vinculante? |
 |---|---|---|
-| `LICENSE` (Apache-2.0) | Licencia para el software | Sí, para software usar |
-| `NOTICE` | Tercero componentes y su licences | Sí, obligatorio atribución |
-| `docs/legal/ORDER-FORM-TEMPLATE.md` | Commercial términos de uno encargo | Sí, una vez firmado |
-| `COMMERCIAL-LICENSE.md` | soporte y servicios términos | Sí, una vez referenced por un Formulario de pedido |
-| `PRICING.md` | Lista precios y plan descriptions | Ningún (informational) |
-| `TRADEMARK.md` | Nombre y mark usage reglas | Sí, as un statement de derechos |
-| `SECURITY.md` | divulgación de vulnerabilidades política | Política, no un contrato |
-| `docs/legal/DPA-STATEMENT.md` | datos procesamiento position y short DPA | Sí, cuando soporte acceso es granted |
+| `LICENSE` (Apache-2.0) | Licencia del software | Sí, para el uso del software |
+| `NOTICE` | Componentes de terceros y sus licencias | Sí, atribución obligatoria |
+| `docs/legal/ORDER-FORM-TEMPLATE.md` | Condiciones comerciales de un encargo | Sí, una vez firmado |
+| `COMMERCIAL-LICENSE.md` | Condiciones de soporte y servicios | Sí, cuando un formulario de pedido lo referencia |
+| `PRICING.md` | Precios de lista y descripción de planes | No (informativo) |
+| `TRADEMARK.md` | Reglas de uso del nombre y las marcas | Sí, como declaración de derechos |
+| `SECURITY.md` | Política de divulgación de vulnerabilidades | Política, no un contrato |
+| `docs/legal/DPA-STATEMENT.md` | Posición sobre protección de datos y acuerdo breve | Sí, cuando se concede acceso de soporte |
+| `docs/SERVICES-AGREEMENT.md` | Acuerdo de servicios completo tras el formulario de pedido | Sí, una vez firmado |
+| `docs/DEPLOYMENT-DELIVERY-CHECKLIST.md` | Alcance de un despliegue, con recepción | Sí, por despliegue |
 
-**Order de precedence**: Formulario de pedido → `COMMERCIAL-LICENSE.md` → `PRICING.md` → otros documentos. El Apache-2.0 licencia es nunca modificado por cualquiera documento en este lista.
+**Orden de prelación**: formulario de pedido → `COMMERCIAL-LICENSE.md` → `PRICING.md` → demás documentos. La licencia Apache-2.0 nunca se modifica por ninguno de los documentos de esta lista.
 
-**Language**: cada legal documento es concluded en Inglés. Alemán, French y
-Spanish versions exist para readability y son non-binding translations.
+**Idioma**: cada documento legal se concierta en inglés. Las versiones alemana, francesa
+y española existen para facilitar la lectura y son traducciones no vinculantes.
