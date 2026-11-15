@@ -11,6 +11,9 @@ modules/aegis/*
 dist/
 *.tgz
 
-# Phase 0: embedded store + locally-generated config (contains a secret)
-data/
+# Phase 0: embedded store + locally-generated config (contains a secret).
+# Anchored to the repository root on purpose: an unanchored `data/` rule also
+# swallowed modules/webgpu-topology/src/data/, which is legitimate runtime code
+# and is needed by the module's test — a clean clone could not run npm test.
+/data/
 config/local.json
