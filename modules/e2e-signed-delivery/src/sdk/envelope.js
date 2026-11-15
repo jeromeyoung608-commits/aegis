@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // src/sdk/envelope.js — multi-recipient public-key envelope for GROUP delivery.
 //
 // The document is encrypted ONCE with a random data-encryption key (DEK, AES-GCM).

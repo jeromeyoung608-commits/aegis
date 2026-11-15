@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // src/sdk/crypto.js — digital signature primitives for the E2E signed-delivery module.
 //
 // Built on the browser-native Web Crypto API (also available in Node 20+ for tests).

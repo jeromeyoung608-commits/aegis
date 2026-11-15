@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis/aegis-shell/tests/server-integration.test.mjs
 // Integration tests that spawn the real server.js and exercise the operator
 // compliance API (A2) and the B-01~B-04 static-exposure gate (A3). These run in

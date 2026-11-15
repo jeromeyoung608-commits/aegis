@@ -2,7 +2,7 @@
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
   "metadata": {
-    "timestamp": "2026-11-15T12:18:48.412Z",
+    "timestamp": "2026-11-15T12:41:46.859Z",
     "component": {
       "type": "application",
       "name": "aegis",
@@ -11,7 +11,7 @@
       "licenses": [
         {
           "license": {
-            "id": "BUSL-1.1"
+            "id": "Apache-2.0"
           }
         }
       ],

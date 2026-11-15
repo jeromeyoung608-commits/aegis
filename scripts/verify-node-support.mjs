@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Offline Node.js security-line gate. Zero dependencies, no network calls.
 // Checks the running Node against a maintainable, reviewable baseline and tells
 // the operator exactly where to confirm current advisories. It does NOT claim to

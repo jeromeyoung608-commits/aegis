@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // src/gpu/pipelines-webgl2.js — WebGL2 render backend (mobile / no-WebGPU fallback).
 //
 // This is a DROP-IN alternative to GpuRenderer (WebGPU). It implements the SAME

@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis - adapters/tsa-rfc3161/pki.js
 // Test-only helpers: synthesize a CA + TSA signer certificate and a minimal but
 // structurally valid RFC 3161 Time-Stamp Token (CMS SignedData). This lets the

@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // src/mem/sab.js — SharedArrayBuffer layout: the zero-copy bridge between the
 // physics Worker and the main-thread GPU renderer.
 //

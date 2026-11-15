@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Zero-dependency OIDC tests: id_token verification (RS256), discovery / token
 // exchange / JWKS against an in-process mock IdP, and the Aegis OIDC dispatch.
 import test from 'node:test';

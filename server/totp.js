@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // server/totp.js — RFC 6238 TOTP + RFC 4226 HOTP, zero dependencies.
 // Uses only node:crypto. TOTP secrets are sealed with AES-256-GCM before being
 // stored, so a database leak does not hand over working second factors.

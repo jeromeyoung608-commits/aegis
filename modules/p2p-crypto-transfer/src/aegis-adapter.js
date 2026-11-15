@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // src/aegis-adapter.js — Aegis integration seam for the P2P transfer module.
 //
 // Runs inside each P2P iframe. The Aegis shell addresses a specific iframe by

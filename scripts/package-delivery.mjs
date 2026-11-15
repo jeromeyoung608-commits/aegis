@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // scripts/package-delivery.mjs — Aegis release packer (AEG-19).
 //
 // The working tree is ~845 MB because it carries reproducible build caches
@@ -90,7 +90,7 @@ function isNeverShip(rel) {
 // warning. vendor/MANIFEST.json is the third-party attribution index.
 const REQUIRED = [
   'server.js', 'package.json', 'README.md', 'DELIVERY_REPORT.md', 'LICENSE',
-  'LICENSES/Apache-2.0.txt', 'LICENSES/Business-Source-License-1.1.txt',
+  'LICENSES/Apache-2.0.txt',
   'SBOM.cdx.json', 'SECURITY.md', '.well-known/security.txt',
   'COMMERCIAL-LICENSE.md', 'EULA.md', 'PRICING.md', 'CHANGELOG.md',
   'CONTRIBUTING.md', 'CODE_OF_CONDUCT.md', 'docs/API.md', 'docs/SDK.md',

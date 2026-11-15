@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Verify the LAN client actually consumes a signaling token (closes C3 end-to-end).
 // Spins a tiny mock relay: /session mints a token, /signal records the token it
 // received. Asserts HttpSignaler attaches the token to BOTH the POST and the GET.

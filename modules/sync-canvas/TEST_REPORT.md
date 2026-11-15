@@ -120,7 +120,7 @@ Four scenarios:
 | Status bar attribution | `ENGINE BY JEROME YOUNG` visible |
 | Canvas attribution | Gold dot + `JEROME YOUNG` at the top-left of every note |
 | Unrelated third-party marks (`trae / marscode / doubao / bytedance / coze`) | 0 matches |
-| License file | `LICENSE` present (BUSL-1.1 pointer) and referenced by every source header |
+| License file | `LICENSE` present (Apache-2.0 pointer) and referenced by every source header |
 
 ### 4.6 T7 distributed chaos (50 replicas)
 

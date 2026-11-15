@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 /**
  * MDS-1 unit tests for REDAKTOR geometry helpers.
  * These are the functions that decide whether a black box actually covers the PII:

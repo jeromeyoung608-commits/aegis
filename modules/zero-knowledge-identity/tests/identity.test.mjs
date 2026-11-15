@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis/zero-knowledge-identity/tests/identity.test.mjs
 // The issue → persist → reload → unlock cycle, driven through the same modules
 // the browser loads. "Reload" is modelled by handing the serialized record to a

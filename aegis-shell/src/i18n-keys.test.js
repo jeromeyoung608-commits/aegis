@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // 交叉校验：HTML/JS 里引用的每个 i18n key，必须在 en/de/fr/es 四本目录里都存在。
 // 之前只比对“目录之间是否互等”，漏掉了 HTML 引用但目录里没有的 key
 // （2026-11-15 实际发生过：compliance.ropa 直接以原始 key 显示在合规面板标题上）。

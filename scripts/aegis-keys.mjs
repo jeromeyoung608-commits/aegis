@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis/scripts/aegis-keys.mjs — manage the root key for token-gated signaling.
 //
 // Zero-dependency (uses the in-repo token-gate module). Two commands:

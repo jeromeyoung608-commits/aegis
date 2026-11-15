@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // adapters/tsa-rfc3161/rfc3161-client.js — RFC 3161 Time-Stamp Protocol client.
 //
 // PURE glue / forwarder. This module does NOT implement any cryptographic signing

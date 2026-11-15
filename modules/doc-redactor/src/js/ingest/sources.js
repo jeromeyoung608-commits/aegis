@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 /**
  * File intake: turns dropped files into page sources.
  * PDFs are opened with pdf.js, raster images are decoded via createImageBitmap.

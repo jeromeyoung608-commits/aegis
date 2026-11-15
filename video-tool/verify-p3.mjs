@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // video-tool/verify-p3.mjs — post-audit P3 regression (AEG-19/21/23/24) + P0 PoCs.
 //
 // 1. All 12 shipping pages load with no pageerror, no real 4xx and no CSP

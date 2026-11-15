@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis - adapters/tsa-rfc3161/verify.js
 // RFC 3161 Time-Stamp Token verification WITHOUT a third-party ASN.1 library.
 // Parses the CMS SignedData with the minimal DER codec, then — using Node's

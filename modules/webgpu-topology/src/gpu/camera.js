@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // src/gpu/camera.js — 2D orthographic camera with smooth focus animation.
 //
 // World <-> screen mapping MUST match the WGSL `worldToClip` AND the WebGPU

@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis/server/store.js — zero-dependency embedded store (node:sqlite, built into Node 22+).
 //
 // This is the persistence + compliance foundation (Phase 0 → Phase 1). It needs NO

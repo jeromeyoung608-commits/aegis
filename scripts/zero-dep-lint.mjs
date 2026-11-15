@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // scripts/zero-dep-lint.mjs — CI gate that enforces the Aegis kernel boundary.
 //
 // The kernel (crypto / hash-chain / audit / signaling / redaction render) MUST

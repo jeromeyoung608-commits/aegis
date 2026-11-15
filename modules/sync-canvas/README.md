@@ -367,11 +367,7 @@ Signature stamps (Module 2) let two engineers drop attributed, locked marks on a
 Copyright (c) 2026 Jerome Young (Yang Jie)
 Contact: jeromeyoung608@gmail.com
 
-**Business Source License 1.1 (BUSL-1.1)** — source-available, not open source.
-The root `LICENSE` governs. Non-production use is free. Production use is free
-for organizations with fewer than 10 FTE and consolidated annual revenue below
-EUR 2,000,000; otherwise a commercial license is required (see
-`COMMERCIAL-LICENSE.md`). On 2030-11-15 this version converts to Apache-2.0.
+**Open source, Apache-2.0** — see `LICENSE`.
 
 ---
 
@@ -415,11 +411,7 @@ Expected output includes `# pass 13`, `# fail 0`.
 A · Pure Zero: 0 npm dependencies, 0 vendor, 0 external requests.
 
 ### 11. License
-**Business Source License 1.1 (BUSL-1.1)** — source-available, not open source.
-The root `LICENSE` governs. Non-production use is free. Production use is free
-for organizations with fewer than 10 FTE and consolidated annual revenue below
-EUR 2,000,000; otherwise a commercial license is required (see
-`COMMERCIAL-LICENSE.md`). On 2030-11-15 this version converts to Apache-2.0.
+**Open source, Apache-2.0** — see `LICENSE`.
 
 ### 12. Changelog
 See [`CHANGELOG.md`](./CHANGELOG.md).

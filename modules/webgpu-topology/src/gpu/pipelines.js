@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // src/gpu/pipelines.js — WebGPU render pipelines + per-frame command encoding.
 //
 // Draw budget: edges = 1 line-list draw, nodes = 1 instanced draw (6 verts x N).

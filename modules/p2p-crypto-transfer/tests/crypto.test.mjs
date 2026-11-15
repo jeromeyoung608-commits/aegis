@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // tests/crypto.test.mjs — zero-dependency unit tests for the crypto layer.
 // Run with: npm test   (uses node: built-in test runner, no third-party deps)
 //

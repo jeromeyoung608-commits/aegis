@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Docker delivery gate. NEVER reports a successful build unless docker actually
 // built and the image served /health. With no daemon it prints BLOCKED and the
 // reason; use --strict in CI to make that a hard failure.

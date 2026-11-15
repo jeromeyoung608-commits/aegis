@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // adapters/tsa-rfc3161/config-default.js — default (disabled) adapter configuration.
 //
 // The adapter is OFF by default and ships with no provider. Operators supply their

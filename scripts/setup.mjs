@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis/scripts/setup.mjs — foolproof one-click setup.
 //
 // Zero external dependencies: the only thing it needs is Node.js >= 22 (for the

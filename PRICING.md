@@ -1,25 +1,30 @@
-# Aegis — Pricing
+# Aegis — Support & Services Pricing
 
-List pricing for the **Aegis Commercial License** (the required license for
-production/commercial use beyond the BSL-1.1 free tier). All prices net, exclusive
-of VAT. Custom OEM/white-label and public-sector terms on request. For licensing
-enquiries contact **Jerome Young (Yang Jie)** at **jeromeyoung608@gmail.com**.
+The software is free under Apache-2.0. These prices are for support and services only.
+
+List pricing for **Aegis support plans** (optional paid support and services).
+All prices net, exclusive of VAT. Custom engagements and public-sector terms on
+request. For enquiries contact **Jerome Young (Yang Jie)** at **jeromeyoung608@gmail.com**.
 
 > Indicative structure — confirm with counsel and your own finance before selling.
 
-| Tier | Seats | Annual list | Support (see EULA §5) | What's included |
-|------|-------|-------------|------------------------|-----------------|
-| **Starter** | up to 5 | €4,900 | best-effort / community | Aegis Commercial License, email support, minor updates |
-| **Business** | up to 50 | €24,000 | 2 business days | Everything in Starter + priority support, security advisories, annual audit review |
-| **Enterprise** | unlimited | €75,000+ | 4h Sev-1 / 1d Sev-2 | Everything in Business + dedicated support, SLA credits, on-prem/air-gapped guidance, custom modules |
+| Plan | Coverage | Annual list | Response time | What's included |
+|------|----------|-------------|---------------|-----------------|
+| **Starter** | 1 team / 1 deployment | €4,900 | best-effort / community | Email support, minor updates, 1 hardening review / year |
+| **Business** | up to 5 deployments | €24,000 | 2 business days | Everything in Starter + priority support, security advisories, annual audit review, 1 compliance pack / year, SIEM integration |
+| **Enterprise** | unlimited | €75,000+ | 4h Sev-1 / 1d Sev-2 | Everything in Business + dedicated support, SLA credits, on-prem/air-gapped guidance, custom modules, 2 compliance packs / year |
+
+Coverage describes how many deployments and which services are included — it
+is **not** a seat count or a licence to use the software. A support contract is
+never required to run Aegis.
 
 ## What you are buying
 
-- A **perpetual or term** license to use Aegis in production **without** the
-  BSL-1.1 production-use restriction.
-- The right to brand your deployment, provided attribution watermarks and copyright
-  headers are retained (see `COMMERCIAL-LICENSE.md` §4).
-- Updates and security fixes for the subscription term.
+- A support and services engagement: response-time commitments, hardening
+  reviews, compliance packs and SIEM integration as listed above.
+- Updates and security-fix guidance during the subscription term.
+- The software itself is free under Apache-2.0; this plan does not grant or
+  restrict any right to use, modify or redistribute it (see `LICENSE`).
 
 ## What is NOT included
 
@@ -41,7 +46,7 @@ a visible anchor is what makes the introductory discount credible.
 ## Payment and renewal
 
 - Invoiced annually in advance. Late payment beyond 30 days, after written notice,
-  suspends support and may terminate the license per `COMMERCIAL-LICENSE.md` §7.
+  suspends support per `COMMERCIAL-LICENSE.md`.
 - **Renewal (§307 BGB — attorney review required):** the term does not renew
   silently. The Provider gives written notice of the upcoming renewal **60 days**
   before term end; the customer may terminate with effect at term end on **30 days'
@@ -53,6 +58,5 @@ a visible anchor is what makes the introductory discount credible.
 
 ## Trial
 
-A 30-day evaluation is available under the BSL-1.1 free tier (non-production use, or
-small-organization production use) for evaluation. Production use beyond the free tier
-requires a paid license.
+The software can be evaluated freely and used in production under Apache-2.0 with
+no paid plan. The plans above are for optional support and services only.

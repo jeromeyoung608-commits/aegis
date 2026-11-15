@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Aegis — Privacy-First Local Data Cleansing Engine. Root orchestrator: zero runtime dependencies; this package only wires `npm test` to run every module's test suite.",
   "engines": {
-    "node": "26.0.0"
+    "node": ">=22"
   },
   "scripts": {
     "predev": "lsof -ti:8080 | xargs kill -9 2>/dev/null || true",
@@ -30,5 +30,5 @@
     "pack:delivery": "node scripts/package-delivery.mjs",
     "verify:delivery": "node scripts/package-delivery.mjs --verify"
   },
-  "license": "BUSL-1.1"
+  "license": "Apache-2.0"
 }

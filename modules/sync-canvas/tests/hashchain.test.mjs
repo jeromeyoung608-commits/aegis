@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 /**
  * MDS-1 tests for sync-canvas audit hash chain.
  * Failure path: tampering with any record must be detected, not silently accepted.

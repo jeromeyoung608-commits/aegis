@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // adapters/tsa-rfc3161/tests/rfc3161.test.mjs — unit + integration tests.
 //
 // Verifies: DER request encoding, TSTInfo extraction from a CMS fixture, input

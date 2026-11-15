@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis/zero-knowledge-identity/tests/keystore.test.mjs
 // The storage contract. `openIndexedDbVault` needs a browser, so its shape is
 // asserted indirectly: MemoryVault implements the identical interface, and every

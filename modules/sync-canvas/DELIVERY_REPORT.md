@@ -37,7 +37,7 @@ A hub sequencer is mandatory; no end-to-end encryption; single-room scale measur
 **A · Pure Zero**: 0 npm deps, 0 vendor, 0 external requests.
 
 ### 11. License
-**Business Source License 1.1 (BUSL-1.1)** — see `LICENSE`. Production use beyond the Additional Use Grant requires a commercial license.
+**Open source, Apache-2.0** — see `LICENSE`.
 
 ### 12. Changelog
 - 2026-11-11 — verified 13/13 green; MDS-1 contract delivered.

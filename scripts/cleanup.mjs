@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // scripts/cleanup.mjs — safe teardown / uninstall helper for Aegis.
 // SAFE BY DEFAULT: prints a plan and removes nothing unless --yes is passed.
 //

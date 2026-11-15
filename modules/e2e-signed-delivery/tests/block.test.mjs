@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // tests/block.test.mjs — signed-artifact assembly, parsing and verification.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';

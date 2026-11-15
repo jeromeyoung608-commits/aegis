@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Regression tests for token-gate — room-token issue/verify, with a focus on the
 // forged-token acceptance bug (base64url padding-bit tampering, 2026-11-14 fix).
 // Run: node modules/token-gate/test-token-gate.mjs

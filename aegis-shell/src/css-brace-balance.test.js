@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // 括号平衡测试：防止“追加到文件末尾的规则被未闭合块吞掉”。
 // 2026-11-15 实测：doc-redactor/app.css 的 `@media (max-width: 980px) {` 未闭合，
 // 导致末尾追加的品牌焦点环规则只在 ≤980px 生效，1280px 下仍是浏览器默认环。

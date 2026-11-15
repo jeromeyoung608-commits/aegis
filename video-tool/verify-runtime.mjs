@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Runtime smoke test for CI: boots checks that only a real browser + the served
 // app can prove — WebGPU canvas mounts, the command-center surfaces render, the
 // token-gated signaling relay enforces admission, and no fatal console errors

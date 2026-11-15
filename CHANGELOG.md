@@ -6,6 +6,11 @@ semantic versioning (`MAJOR.MINOR.PATCH`).
 
 ## [1.0.0] — 2026-11-15
 
+### Changed
+- **License changed from BSL-1.1 to Apache-2.0** — Aegis is now open source and
+  free to use, including commercially; paid support and services are optional
+  (see `LICENSE`, `docs/LICENSING.md`, `PRICING.md`).
+
 ### Added
 - **Workbench windows**: every surface (Topology, REDAKTOR, SignedDelivery, Vault,
   Audit, Admin) is now a draggable, resizable floating window; position/size persist

@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 /**
  * Rule catalogue for English-language paperwork (UK + US).
  * Inherits the language-agnostic SHARED_RULES (email / IBAN / phone / date /

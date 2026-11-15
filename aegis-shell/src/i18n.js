@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis/aegis-shell/src/i18n.js — minimal, dependency-free i18n (Phase 7+).
 //
 // Real working primitive: English + German + French + Spanish catalogs and a clear

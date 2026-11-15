@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // src/crypto.js — App-layer encryption built on the browser-native Web Crypto API.
 //
 // Why an app-layer AES-GCM layer on top of WebRTC's DTLS?

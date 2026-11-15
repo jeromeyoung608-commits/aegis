@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // tests/fps-smoke.mjs — record REAL WebGPU render FPS to JSON (no hardcoded numbers).
 //
 // Requires a WebGPU-capable Chromium. The Aegis workbench already passes

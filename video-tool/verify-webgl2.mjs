@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // video-tool/verify-webgl2.mjs — B5 regression: force the WebGL2 fallback path.
 //
 // We pass ?gpu=webgl2 in the URL, which pickGpu() honors as an explicit override

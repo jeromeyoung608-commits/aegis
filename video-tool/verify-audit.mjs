@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Verify the audit-trail concurrency fix (cross-tab write lease) and the
 // optional RFC 3161 TSA anchor interface. Pure Node — uses a shared in-memory
 // "localStorage" mock so two AuditTrail instances behave like two browser tabs.

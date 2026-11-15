@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // adapters/tsa-rfc3161/schema.js — fixed input/output contract for the TSA adapter.
 //
 // The output shape is STABLE: callers (the Aegis audit chain, FieldSeal manifest

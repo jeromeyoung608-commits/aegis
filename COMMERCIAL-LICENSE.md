@@ -1,99 +1,78 @@
-# Aegis Commercial License
+# Aegis Paid Support & Services Terms
+
+> The Aegis software itself is licensed under Apache-2.0 (see `LICENSE`). This document covers paid support and services only.
 
 **Copyright (c) 2026 Jerome Young (Yang Jie). All rights reserved.**
 
-This Commercial License governs paid use of Aegis. It is offered as the license
-required by the **Business Source License 1.1 (BSL-1.1)** (see `LICENSE`) for
-production or commercial use that the BSL-1.1 free tier (non-production, or
-organizations with fewer than 10 employees AND annual revenue below EUR 2,000,000)
-does not cover. If you qualify for the BSL-1.1 free tier you need not purchase this
-license; otherwise this Commercial License is the required grant.
+This services agreement governs **paid support and services** for Aegis. The
+software is open source under Apache-2.0 and can be used, modified and
+redistributed freely without this agreement; these terms only describe the
+optional services the copyright holder offers and the terms on which they are
+provided.
 
 > This is a commercial-structure template, not legal advice. Have a qualified
 > German/EU attorney review it — especially the liability limitations — before
 > you sell or deploy Aegis commercially.
 
-## 1. Grant of license
+## 1. Scope of services
 
-Subject to payment of the applicable fees in `PRICING.md` and continued compliance
-with this agreement, the copyright holder grants you a **non-exclusive,
-non-transferable, worldwide** license to install, use, and operate Aegis for your
-internal business purposes and to provide it as a service to your own customers,
-**without** the production-use restriction that BSL-1.1 would otherwise impose.
+The Provider offers the following services, as selected in an Order Form:
 
-## 2. Licensed scope (what you may do)
+- **Deployment and integration** of Aegis into the customer's environment.
+- **Hardening review** of the deployment and configuration.
+- **Compliance readiness pack** (SBOM, CRA evidence material).
+- **SIEM integration** and log-forwarding setup.
+- **Annual support** and maintenance as described in section 2.
 
-- Deploy Aegis on your own infrastructure or a trusted cloud tenant.
-- Integrate Aegis into your product as a bundled component.
-- Create Derivative Works **for your own use** without publishing their source.
-- Brand the deployment (your logo, your name) provided the in-product watermarks
-  (`ENGINE BY JEROME YOUNG`, the source copyright headers, and the generated
-  `producer`/`provenance` fields) are **retained and not removed or obscured**.
+Services are provided on a time-and-materials or fixed-fee basis as stated in
+the Order Form. Nothing here grants or withholds any right to use the software.
 
-## 3. Seats and entitlement
+## 2. Support and SLA
 
-- A **seat** is one named operator or automated service account.
-- The purchased tier sets the maximum concurrent seats (see `PRICING.md`).
-- Reselling, sub-licensing, or white-label redistribution of Aegis **as a
-  competing product** is **prohibited** unless a separate OEM/reseller agreement
-  is signed.
+- Support response targets follow the purchased plan in `PRICING.md`.
+- Support is provided only under a paid services agreement with an active
+  Order Form; the software itself carries no support obligation.
 
-## 4. Prohibited uses
+## 3. Confidentiality
 
-- Removing or bypassing the copyright headers, the `ENGINE BY JEROME YOUNG`
-  watermark, or the generated `producer` / `provenance` attribution.
-- Stripping the attribution to re-badge Aegis as a third party's own product
-  without a written OEM agreement.
-- Using Aegis to build a product whose primary purpose is to compete with Aegis
-  itself, without a commercial license that explicitly permits it.
+Each party will keep confidential the other party's non-public information
+received under this services agreement and use it only to perform or receive
+the services, for the term of the engagement and three years thereafter.
+Customer data processed during a deployment remains the customer's data; the
+Provider does not host it.
 
-## 5. Compliance audit
+## 4. Fees
 
-- You will keep records of deployed seats and versions for 24 months.
-- On written request (no more than once per 12 months), you will, within 30 days,
-  provide a signed statement of seat count and deployment scope.
-- **Inspection right:** where the signed statement shows usage at or above the
-  licensed seat count, or the Provider has reasonable grounds to believe the
-  licensed scope is exceeded, the Provider may, on 30 days' written notice and no
-  more than once per 12 months, audit the relevant deployment records (remotely
-  or on-site, during business hours, under confidentiality) solely to verify
-  compliance with the licensed seat count and scope.
-- **True-up:** the audit may be carried out by an independent auditor bound by
-  confidentiality. If the audit reveals seats in excess of the licensed count,
-  you will pay the shortfall at the then-current list price for the period of
-  excess use, plus reasonable audit costs where the excess exceeds 5%.
-- Material misrepresentation of seat counts terminates this license (§7).
+Fees for services are those stated in the Order Form / `PRICING.md`. Coverage
+is described by plan (response time, number of hardening reviews, compliance
+packs, SIEM integrations and annual audit reviews) — not by seat count. All
+prices are net, exclusive of VAT, unless the Order Form states otherwise.
 
-## 6. Support and SLA
+## 5. No warranty; limitation of liability
 
-- Support response targets follow the purchased tier in `PRICING.md`.
-- Use under the BSL-1.1 free tier carries **no** support obligation; support is
-  provided only under a paid Aegis Commercial License.
+Aegis and the services are provided "AS IS", without warranty of any kind. To
+the maximum extent permitted by law, the copyright holder is **not liable** for
+any indirect, incidental, special, or consequential damages.
 
-## 7. Termination
-
-This license terminates automatically if you breach any term, fail to pay, or
-exceed the licensed seat count after written notice and a 14-day cure period.
-On termination you must cease use and delete all copies of Aegis in your control,
-except archived backups retained solely for the 24-month audit window.
-
-## 8. No warranty; limitation of liability
-
-Aegis is provided "AS IS", without warranty of any kind. To the maximum extent
-permitted by law, the copyright holder is **not liable** for any indirect,
-incidental, special, or consequential damages.
-
-The Provider's aggregate liability under this license is limited to the cap
-stated in the Order Form / executed schedule for the applicable engagement.
+The Provider's aggregate liability under this services agreement is limited to
+the cap stated in the Order Form / executed schedule for the applicable
+engagement.
 
 Nothing in this clause limits liability that cannot be excluded by applicable
 law (intent, gross negligence, death/personal injury caused by negligence,
 product liability under ProdHaftG, fraud, or the simple-negligence breach of a
 cardinal obligation — the latter limited to typical foreseeable loss).
 
-## 9. Governing law
+## 6. Term and termination
 
-This agreement is governed by the laws of the Federal Republic of Germany,
-excluding its conflict-of-laws rules. The courts of the copyright holder's
-registered seat have exclusive jurisdiction, unless mandatory local consumer or
-data-protection law provides otherwise.
+This services agreement terminates on completion of the services or as set out
+in the Order Form. Either party may terminate for material breach with a
+14-day cure period. Termination does not affect the customer's right to use
+Aegis under Apache-2.0.
+
+## 7. Governing law
+
+This services agreement is governed by the laws of the Federal Republic of
+Germany, excluding its conflict-of-laws rules. The courts of the copyright
+holder's registered seat have exclusive jurisdiction, unless mandatory local
+consumer or data-protection law provides otherwise.

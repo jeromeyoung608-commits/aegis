@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis/zero-knowledge-identity/tests/crypto.test.mjs
 // Headless assertions over the real Web Crypto path (Node 18+ ships the same
 // `crypto.subtle` the browser uses, so these are not mocks).

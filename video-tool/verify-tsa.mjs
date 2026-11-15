@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // video-tool/verify-tsa.mjs — TSA adapter smoke test (offline, no real TSA).
 //
 // Boots server.js WITH the TSA adapter enabled but pointed at an unreachable TSA,

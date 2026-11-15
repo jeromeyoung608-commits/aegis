@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis/server.js — unified, ZERO-dependency server for the whole Aegis workbench.
 //
 // It does three things:
@@ -1684,8 +1684,8 @@ function handler(req, res) {
         product: 'Aegis',
         version: VERSION,
         author: 'Jerome Young (Yang Jie)',
-        copyright: 'Copyright (c) 2026 Jerome Young (Yang Jie). Commercial use requires a license — see COMMERCIAL-LICENSE.md.',
-        license: 'Business Source License 1.1 (BUSL-1.1); commercial license available — see COMMERCIAL-LICENSE.md',
+        copyright: 'Copyright (c) 2026 Jerome Young (Yang Jie). Open source under Apache-2.0.',
+        license: 'Apache License 2.0 (Apache-2.0) — see LICENSE. Paid support is optional.',
         generatedBy: 'AEGIS v' + VERSION + ' (Jerome Young)',
       },
       events: rows,

@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // src/js/aegis-adapter.js — Aegis integration seam for the REDAKTOR redaction module.
 //
 // Runs inside the REDAKTOR iframe. It (1) accepts a `redaktor:load-doc` command from

@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis/zero-knowledge-identity/src/base64.js
 // Minimal, dependency-free Base64 for byte arrays.
 //

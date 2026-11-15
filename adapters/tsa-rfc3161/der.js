@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis - adapters/tsa-rfc3161/der.js
 // Minimal, dependency-free DER codec + OID helpers, just enough for RFC 3161
 // (CMS SignedData) parsing/synthesis and X.509 cert building. No external libs.

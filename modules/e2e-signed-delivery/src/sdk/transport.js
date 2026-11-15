@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // src/sdk/transport.js — P2P transport for the signed artifact.
 //
 // This deliberately reuses the project's own p2p-crypto-transfer module:

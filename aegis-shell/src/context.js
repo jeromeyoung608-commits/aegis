@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // aegis-shell/src/context.js — the single, shared Context for the Aegis workbench.
 //
 // The submodules (Topology, REDAKTOR, P2P, SignedDelivery, Vault, AuditTrail) are

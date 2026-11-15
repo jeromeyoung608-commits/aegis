@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis/aegis-shell/src/console.js — Operator Console logic (Phase 6).
 // Talks to the server's operator endpoints (auth, audit, revocation, escrow, TSA
 // verify). The session token is held in memory + sessionStorage; no secret leaves

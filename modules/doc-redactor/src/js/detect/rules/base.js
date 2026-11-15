@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 /**
  * Shared detection rules — language-agnostic PII that looks the same in every
  * European language: email, IBAN, monetary amounts, dates and phone numbers.

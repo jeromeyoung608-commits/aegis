@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // src/signalers.js — pluggable signaling transports for WebRTC SDP exchange.
 //
 // A "signaler" is a tiny object with the same shape used by p2p.js:

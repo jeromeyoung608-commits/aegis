@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis/aegis-shell/sw.js — offline shell cache (Phase 7: PWA).
 // Caches the operator console + design system so the operator UI loads offline.
 // Content is keyed by URL; bump CACHE on deploy. File bytes and keys are NEVER

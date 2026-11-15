@@ -1,9 +1,9 @@
 Aegis
 Copyright (c) 2026 Jerome Young (Yang Jie). All rights reserved.
-Licensed under the Business Source License 1.1 (see LICENSE and LICENSES/).
+Licensed under the Apache License 2.0 (see LICENSE and LICENSES/).
 
 This product bundles third-party software. Those components keep their own
-upstream licenses and are NOT relicensed by the BSL-1.1 or the Aegis Commercial
+upstream licenses and are NOT relicensed by Apache-2.0 or any Aegis services agreement
 License:
 
   - PDF.js            Apache-2.0   modules/doc-redactor/vendor/pdfjs/

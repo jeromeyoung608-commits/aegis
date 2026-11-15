@@ -12,9 +12,8 @@
 > **The server never sees the topology, the document, the file, a key, or a passphrase.**
 > Every sensitive byte stays inside the browser; transport is P2P direct.
 
-> **License:** source-available under the [Business Source License 1.1](./LICENSE)
-> (SPDX `BUSL-1.1`), with a paid [Aegis Commercial License](./COMMERCIAL-LICENSE.md)
-> for production use beyond the free tier. Not open source. See [§ Licensing](#licensing--source-available-under-bsl-11-or-a-paid-commercial-license).
+> **License:** open source under the [Apache License 2.0](./LICENSE) (SPDX `Apache-2.0`).
+> Free to use, including commercially; paid support is optional. See [§ License](#license).
 
 ---
 
@@ -303,8 +302,8 @@ Concretely:
 Aegis/
 |-- server.js                  # unified server: COOP/COEP + static + signaling (zero-dep)
 |-- README.md                  # this file
-|-- LICENSE                    # Business Source License 1.1 (BUSL-1.1)
-|-- LICENSES/                  # full BSL-1.1 + Apache-2.0 license texts
+|-- LICENSE                    # Apache License 2.0 (Apache-2.0)
+|-- LICENSES/                  # Apache-2.0 license text
 |-- DELIVERY_REPORT.md         # engineering + test report
 |-- aegis-shell/               # the unifying SPA (dark command-center)
 |   |-- index.html             # seven-stage Stepper + sidebar surfaces
@@ -732,47 +731,28 @@ upstream build step, not by this repository — attribution therefore lives in t
 `LICENSE` and `NOTICE` files. Nothing here removed or altered an attribution notice, and no
 vendored file was modified.
 
-### Licensing — source-available under BSL 1.1, or a paid commercial license
+### License
 
-Aegis is **source-available**, not open source. It is licensed under the
-**Business Source License 1.1 (BSL-1.1)** (see [`LICENSE`](./LICENSE) and
-[`LICENSES/Business-Source-License-1.1.txt`](./LICENSES/Business-Source-License-1.1.txt)),
-with an **Aegis Commercial License** (see [`COMMERCIAL-LICENSE.md`](./COMMERCIAL-LICENSE.md),
-with [`EULA.md`](./EULA.md) and [`PRICING.md`](./PRICING.md)) as the paid alternative for
-production / commercial use.
+Aegis is **open source**, licensed under the **Apache License 2.0** — see
+[`LICENSE`](LICENSE). You may use, modify, redistribute and sell it,
+including commercially, without paying us anything and without asking
+permission. The only obligations are those Apache-2.0 itself imposes:
+keep the licence and attribution notices, and state significant changes.
 
-- **Free tier (no payment):** BSL-1.1 permits non-production use (evaluation, development,
-  testing, training) and **production use by organizations with fewer than ten (10) full-time
-  equivalents AND consolidated annual revenue below EUR 2,000,000** in the most recently closed
-  fiscal year, counting the licensee together with all affiliates it controls or is controlled
-  by. Everyone else must buy a commercial license.
-- **Paid tier:** the Aegis Commercial License removes the production-use restriction and adds
-  support, SLA, liability coverage, and enterprise features.
-- **Change Date `2030-11-15`:** the BSL-1.1 grant on each version converts to Apache-2.0 four
-  years after that version's first publication, so old versions eventually become free for all.
-- **Security support period:** 5 years from v1.0.0 (2026-11-15 → 2031-11-15), disclosed at
-  purchase per CRA Art. 13(8)/13(19); see `SECURITY.md`.
+**What is free:** the software. Every first-party file in this repository is
+Apache-2.0. There is no paid tier, no seat limit, no revenue threshold and no
+"contact sales" gate.
 
-This is **not** the old "free, attribution-not-required" MIT grant. To use Aegis in production
-for a paying customer or as part of a distributed product, you must either qualify for the BSL
-free tier or hold a valid Aegis Commercial License.
+**What is paid (optional):** our time. Deployment, integration, hardening
+reviews, SBOM/CRA readiness packs and annual support are offered as services
+(see [`PRICING.md`](PRICING.md)). A support contract is never required to run
+the software.
 
-Two things the license requires that the old MIT grant did not:
+**Third-party components** keep their own licences — see [`NOTICE`](NOTICE)
+and each `vendor/<component>/LICENSE`. Apache-2.0 does not relicense them.
 
-1. **Attribution is mandatory.** The `ENGINE BY JEROME YOUNG` footers, the source copyright
-   headers, and the generated `producer` / `provenance` watermark fields must be retained and
-   not removed or obscured (enforced by `scripts/verify-headers.mjs` and `scripts/verify-licensing.mjs`).
-2. **Reselling / white-label redistribution** as a competing product is prohibited without a
-   separate OEM agreement (see `COMMERCIAL-LICENSE.md` §4).
-
-Vendored third-party components are not relicensed: pdf.js, tesseract.js, tesseract.js-core and
-tessdata stay Apache-2.0; pdf-lib stays MIT. Their terms travel with those files. If you
-redistribute, carry `LICENSE`, `LICENSES/`, `COMMERCIAL-LICENSE.md`, `NOTICE` plus the
-`vendor/<component>/LICENSE` and `NOTICE` files, and keep the "Powered by" credits for pdf.js,
-tesseract.js and pdf-lib in the `doc-redactor` UI.
-
-> Commercial-structure guidance, not legal advice. Have a qualified EU attorney review the
-> license, EULA and liability limits before you sell.
+Aegis™ is a trademark of the copyright holder; the licence grants no
+trademark rights. Do not use the name to endorse a modified build.
 
 ---
 

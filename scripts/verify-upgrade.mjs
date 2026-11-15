@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Upgrade rehearsal: simulate an OLD Aegis install (pre-enabled, pre-MFA,
 // pre-SCIM-token schema) and prove that the current server migrates it in place
 // without losing accounts, sessions, revocations or audit events.

@@ -117,15 +117,11 @@ Full evidence: `TEST_REPORT.md` §3–§5.
 
 ## 6 · License and attribution
 
-**Business Source License 1.1 (BUSL-1.1)** — source-available, not open source.
-The root `LICENSE` governs. Non-production use is free. Production use is free
-for organizations with fewer than 10 FTE and consolidated annual revenue below
-EUR 2,000,000; otherwise a commercial license is required (see
-`COMMERCIAL-LICENSE.md`). On 2030-11-15 this version converts to Apache-2.0.
+**Open source, Apache-2.0** — see `LICENSE`.
 
 Attribution layers present:
 
-1. Header comment in every source file (`Jerome Young`, BUSL-1.1).
+1. Header comment in every source file (`Jerome Young`, Apache-2.0).
 2. Styled console signature on page load.
 3. `ENGINE BY JEROME YOUNG` fixed in the footer.
 

@@ -2,6 +2,9 @@
 
 ## [1.0.0] - 2026-11-10
 
+### Changed
+- License changed to Apache-2.0 (open source); `LICENSE` now points to the Apache-2.0 root license.
+
 ### Added
 - `LICENSE` (Business Source License 1.1, SPDX: BUSL-1.1)
 - `CHANGELOG.md`, `.gitignore`, `package.json`

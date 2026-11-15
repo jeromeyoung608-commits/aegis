@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // signal-server.js — standalone, ZERO-dependency WebRTC signaling relay for the
 // p2p-crypto-transfer "lan" mode. The same protocol is also served inline by the
 // Aegis workbench (server.js) at /signal; this file lets you deploy P2P transfer

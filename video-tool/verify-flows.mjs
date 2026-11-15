@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // video-tool/verify-flows.mjs — permanent gate for the 12 deep end-to-end flows.
 //
 // Consolidates the ad-hoc /tmp/flow-*.mjs scripts (which vanished on reboot) so

@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // aegis-shell/src/adapters.js — the three module "adapters" that the shell uses to
 // drive and observe the independent modules. Each adapter is a thin, typed wrapper
 // around an iframe + its `postMessage` bridge, exposing the exact control surface the

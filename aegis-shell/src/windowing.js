@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis/aegis-shell/src/windowing.js — make the workbench panels draggable and
 // resizable. Each panel is "lifted" out of the static layout into a free-floating
 // window the first time it is positioned (either restored from localStorage or

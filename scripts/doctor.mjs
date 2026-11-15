@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis self-diagnostic (doctor). Zero external dependencies — node: built-ins only.
 // Usage: npm run doctor   (set PORT / AEGIS_ISSUER_SECRET to test a real config)
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync } from 'node:fs';

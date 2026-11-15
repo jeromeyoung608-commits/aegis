@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis - adapters/tsa-rfc3161/test-integration.mjs
 // Proves the verifier is correctly wired into the adapter + trust-store config
 // (the exact path the /adapter/tsa/verify HTTP endpoint uses): a freshly minted

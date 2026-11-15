@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis flow capture — drives the REAL app in headless Chrome (WebGPU via SwiftShader)
 // and screenshots the deliverable ("产出物") of every stage of the 7-step loop.
 import { chromium } from 'playwright';

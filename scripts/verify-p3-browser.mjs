@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // scripts/verify-p3-browser.mjs — P3 browser gate (A1).
 // Runs a headless-Chromium smoke test against the real server: page loads, no
 // console errors, and the B-01~B-04 static-exposure paths are denied even over the

@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 /**
  * MDS-1 T1/T2/T3 tests for sync-canvas OT core.
  * Pure functions only: no DOM, no network, deterministic.

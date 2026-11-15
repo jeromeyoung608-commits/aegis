@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // video-tool/verify-csp.mjs — AEG-23 regression: per-response nonce CSP.
 //
 // Proves (1) every HTML document gets a fresh nonce + CSP header, (2) every

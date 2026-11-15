@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // server.js — minimal, ZERO-dependency static server for the topology renderer.
 //
 // The only job beyond serving files is sending the two COOP/COEP headers that put

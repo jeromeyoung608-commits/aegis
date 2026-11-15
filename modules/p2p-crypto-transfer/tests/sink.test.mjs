@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // tests/sink.test.mjs — verify the OOM fix at the logic level (no browser needed).
 //
 // We cannot drive a real browser (showSaveFilePicker / FileSystemWritableFileStream /

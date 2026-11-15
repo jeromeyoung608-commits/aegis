@@ -144,9 +144,18 @@ Platzhalter ausgewiesen und müssen vom Controller vor Inbetriebnahme ausgefüll
 
 ## 8 — Lizenz
 
-BUSL-1.1 (Business Source License 1.1) — source-available, kein Open Source.
-Maßgeblich ist die Root-`LICENSE`. Nicht-produktive Nutzung ist kostenfrei.
-Produktive Nutzung ist für Organisationen mit weniger als 10 FTE und
-konsolidiertem Jahresumsatz unter 2 Mio. EUR kostenfrei; andernfalls ist eine
-kommerzielle Lizenz erforderlich (siehe `COMMERCIAL-LICENSE.md`).
-Am 15.11.2030 wird diese Version zu Apache-2.0.
+Aegis ist **Open Source** unter der **Apache License 2.0** — siehe `LICENSE`.
+Sie dürfen die Software nutzen, verändern, weitergeben und auch kommerziell
+verkaufen, ohne zu zahlen und ohne Genehmigung. Pflichten sind nur die der
+Apache-2.0: Lizenz- und Urheberhinweise erhalten, wesentliche Änderungen
+kennzeichnen.
+
+**Kostenlos:** die Software — jede First-Party-Datei in diesem Repository.
+Kein Lizenzpreis, keine Sitzplatzgrenze, keine Umsatzschwelle.
+
+**Kostenpflichtig (optional):** unsere Zeit. Deployment, Integration,
+Security-Reviews, SBOM/CRA-Pakete und Jahres-Support sind Dienstleistungen
+(siehe `PRICING.md`). Ein Supportvertrag ist für die Nutzung nie erforderlich.
+
+**Drittanbieter** behalten ihre eigenen Lizenzen (siehe `NOTICE` und die
+`LICENSE`-Dateien unter `vendor/`). Apache-2.0 lizenziert sie nicht neu.

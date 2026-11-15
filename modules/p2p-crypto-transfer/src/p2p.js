@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // src/p2p.js — WebRTC connection orchestration (offer/answer + ICE, non-trickle).
 //
 // Non-trickle design: we wait for ICE gathering to COMPLETE before sending the

@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // src/sdk/pdf.js — assemble a "signed artifact" from a PDF document + a signature
 // trailer, and verify it on the receiver side.
 //

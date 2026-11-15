@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // src/physics/worker.js — force-directed layout running OFF the main thread.
 //
 // It reads/writes the SAME SharedArrayBuffer the GPU renderer reads, so there is

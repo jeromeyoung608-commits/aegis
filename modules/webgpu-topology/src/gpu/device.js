@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // src/gpu/device.js — GPU backend bootstrap + capability detection.
 //
 // Backend priority: WebGPU (native, default) -> WebGL2 (mobile / no-WebGPU

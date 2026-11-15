@@ -24,7 +24,7 @@ to concrete Aegis controls. ✅ = implemented, 🟡 = partial / design-ready,
 - 🟡 **Security policy** (`SECURITY.md`); **not yet** an external bug-bounty.
 
 ## NIS2 governance / supply chain
-- 🟡 Single-maintainer source-available (BUSL-1.1); supply chain is just Node.js (LTS recommended).
+- 🟡 Single-maintainer open source (Apache-2.0); supply chain is just Node.js (LTS recommended).
 - ⏳ Formal **conformance / EN 301 549 (accessibility)** testing — P7 (WCAG 2.1 AA
   foundations started via the design system + i18n).
 

@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis/scripts/gen-sbom.mjs — generate a CycloneDX 1.5 SBOM (Phase 7).
 //
 // HONEST DEPENDENCY SURFACE (verified, not assumed):
@@ -13,7 +13,7 @@
 //
 // Licenses use SPDX identifiers only (CycloneDX `license.id`), never free-text
 // placeholders — CRA evidence requires machine-readable SPDX ids. The root
-// component is BUSL-1.1; the five vendored libs map to their upstream SPDX ids
+// component is Apache-2.0; the five vendored libs map to their upstream SPDX ids
 // (cross-checked against README §13 and each vendor/LICENSE file); anything
 // unknown uses the SPDX-defined `NOASSERTION`, which CycloneDX accepts.
 //
@@ -25,20 +25,22 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
 
-// Node version must be reproducible: read the declared constant from package.json
-// (engines.node) rather than whoever happens to run the generator. Verify the
-// running runtime's MAJOR matches the declaration; refuse to emit otherwise.
-const declaredNode = pkg.engines && pkg.engines.node;
-if (!declaredNode || !/^\d+\.\d+\.\d+$/.test(declaredNode)) {
-  console.error('[sbom] FAIL — package.json engines.node must be an exact x.y.z version (got: ' + declaredNode + ')');
+// engines.node is the SUPPORTED range (>=22); the SBOM records the ACTUAL build
+// runtime (process.versions.node) — these are deliberately different concepts.
+// Fail closed if the running runtime does not satisfy the declared minimum.
+const declaredRange = pkg.engines && pkg.engines.node;
+const minMajor = /^>=\s*(\d+)/.exec(declaredRange || '') ? Number(/^>=\s*(\d+)/.exec(declaredRange)[1]) : null;
+if (minMajor === null) {
+  console.error('[sbom] FAIL — package.json engines.node must declare a >=N support range (got: ' + declaredRange + ')');
   process.exit(1);
 }
 const actualNode = process.versions.node;
-if (declaredNode.split('.')[0] !== actualNode.split('.')[0]) {
-  console.error(`[sbom] FAIL — engines.node declares Node ${declaredNode} (major ${declaredNode.split('.')[0]}) but runtime is ${actualNode} (major ${actualNode.split('.')[0]}). Refusing to emit a non-reproducible SBOM.`);
+const actualMajor = Number(actualNode.split('.')[0]);
+if (actualMajor < minMajor) {
+  console.error(`[sbom] FAIL — runtime Node ${actualNode} is below the declared support floor ${declaredRange}.`);
   process.exit(1);
 }
-const nodeVer = declaredNode;
+const nodeVer = actualNode;
 const outFile = process.argv.includes('--out') ? process.argv[process.argv.indexOf('--out') + 1] : null;
 
 const declaredDeps = Object.keys(pkg.dependencies || {});
@@ -214,7 +216,7 @@ const bom = {
       name: pkg.name,
       version: pkg.version,
       description: `${pkg.description} NOTE: root declares zero npm deps, but browser modules vendor third-party libs (PDF.js, pdf-lib, Tesseract.js) and test harnesses use playwright.`,
-      licenses: [{ license: { id: 'BUSL-1.1' } }],
+      licenses: [{ license: { id: 'Apache-2.0' } }],
       'bom-ref': 'aegis',
     },
   },

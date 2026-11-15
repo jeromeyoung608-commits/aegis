@@ -1,6 +1,6 @@
 // scripts/verify-headers.mjs
 // Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 //
 // Watermark gate: every shipped source file must carry the Aegis copyright line
 // near the top. Vendored third-party code (pdf.js, tesseract, …) is intentionally

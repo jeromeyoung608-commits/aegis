@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 /**
  * MDS-1 tests for the Aegis shell seven-step state machine.
  * The commercial promise is "one node click walks seven stages without going

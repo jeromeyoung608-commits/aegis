@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 /**
  * Rule catalogue for French-language paperwork. Inherits SHARED_RULES and adds
  * Francophone identifiers. NOTE: French OCR needs the `fra.traineddata.gz` model

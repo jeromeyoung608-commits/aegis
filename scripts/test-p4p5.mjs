@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // Aegis/scripts/test-p4p5.mjs — end-to-end regression for Phase 4 (relay + escrow)
 // and Phase 5 (revocation). Boots server.js on a throwaway port, exercises the
 // new endpoints, then shuts it down. Run: node scripts/test-p4p5.mjs

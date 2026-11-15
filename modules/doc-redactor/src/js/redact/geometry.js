@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 /**
  * Rectangle helpers. All boxes are normalized to the page: x, y, w, h ∈ [0, 1]
  * with the origin at the top-left corner.

@@ -1,5 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: Apache-2.0
 // tests/e2e.browser.mjs — real-browser end-to-end check of the signed-delivery
 // flow. Drives the actual page UI (seal A & B -> finalize -> boss verdict) in
 // headless Chromium for both the clean and the tampered paths. Self-hosts the

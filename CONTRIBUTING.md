@@ -1,8 +1,8 @@
 # Contributing to Aegis
 
-Thanks for your interest. Aegis is source-available under the **Business Source
-License 1.1** (BSL-1.1, SPDX `BUSL-1.1`; see `LICENSE`). The copyright holder may
-also distribute contributed code under the **Aegis Commercial License**.
+Thanks for your interest. Aegis is **open source** under the **Apache License
+2.0** (SPDX `Apache-2.0`; see `LICENSE`). Contributions are accepted under the
+same license.
 
 ## Ways to contribute
 
@@ -39,6 +39,5 @@ npm run pack:delivery && npm run verify:delivery   # reproducible shipping archi
 ## License of your contribution
 
 By submitting a pull request you agree your contribution is licensed under the
-Business Source License 1.1 (BSL-1.1), and you grant the copyright holder a
-perpetual, irrevocable right to relicense it under the Aegis Commercial License
-and any future Change License. If you do not agree, do not submit.
+Apache License 2.0 (Apache-2.0), the same license as the project. You confirm you
+have the right to submit it under those terms. If you do not agree, do not submit.

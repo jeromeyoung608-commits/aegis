@@ -127,11 +127,7 @@ Detailed evidence: `TEST_REPORT.md`.
 
 ## 6. License and watermarks
 
-**Business Source License 1.1 (BUSL-1.1)** — source-available, not open source.
-The root `LICENSE` governs. Non-production use is free. Production use is free
-for organizations with fewer than 10 FTE and consolidated annual revenue below
-EUR 2,000,000; otherwise a commercial license is required (see
-`COMMERCIAL-LICENSE.md`). On 2030-11-15 this version converts to Apache-2.0.
+**Open source, Apache-2.0** — see `LICENSE`.
 
 The three watermark layers are present: source headers, the console signature, and the
 visible UI footer.
