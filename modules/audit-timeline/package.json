@@ -1,0 +1,17 @@
+{
+  "name": "@aegis/audit-timeline",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tamper-evident hash-chained audit trail with a visual timeline for compliance reviews.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "start": "python3 -m http.server 8014",
+    "verify": "node ../../scripts/verify-module.mjs . --tests"
+  },
+  "dependencies": {},
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}

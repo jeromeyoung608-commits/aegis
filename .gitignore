@@ -1,0 +1,16 @@
+node_modules/
+.DS_Store
+*.log
+coverage/
+.idea/
+.vscode/
+# video output folder is generated, not source
+modules/aegis/*
+
+# AEG-19 release archives are build output, never source
+dist/
+*.tgz
+
+# Phase 0: embedded store + locally-generated config (contains a secret)
+data/
+config/local.json

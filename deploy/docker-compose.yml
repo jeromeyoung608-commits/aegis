@@ -1,0 +1,30 @@
+# Aegis deployment — docker-compose (single node).
+# The image is pushed to YOUR OWN registry (never a shared one) — see
+# docs/compliance/ACR-PRIVATE-REGISTRY.md. Secrets come from env / a .env file
+# that is NOT committed. The SQLite DB lives on a named volume under /app/data.
+services:
+  aegis:
+    image: ${AEGIS_IMAGE:-aegis:local}      # pin to your registry + tag
+    container_name: aegis
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:8080"              # bind to localhost; front with a reverse proxy for TLS
+    environment:
+      AEGIS_ISSUER_SECRET: ${AEGIS_ISSUER_SECRET}   # required, unique per environment
+      AEGIS_AUTH_MODE: ${AEGIS_AUTH_MODE:-local}
+      AEGIS_OIDC_ISSUER: ${AEGIS_OIDC_ISSUER:-}
+      AEGIS_OIDC_CLIENT_ID: ${AEGIS_OIDC_CLIENT_ID:-}
+      AEGIS_OIDC_CLIENT_SECRET: ${AEGIS_OIDC_CLIENT_SECRET:-}
+      AEGIS_MFA_KEY: ${AEGIS_MFA_KEY:-}
+      TZ: ${TZ:-UTC}
+    volumes:
+      - aegis-data:/app/data
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://127.0.0.1:8080/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  aegis-data:

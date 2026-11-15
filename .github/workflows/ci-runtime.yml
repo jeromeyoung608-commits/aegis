@@ -1,0 +1,111 @@
+name: Aegis runtime verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  runtime:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Chrome for the Playwright runtime checks (WebGPU / OCR / WebRTC can only
+      # be verified in a real browser, never in a headless DOM).
+      - name: Install Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chromium-browser
+          echo "CHROME_EXE=$(which chromium-browser)" >> "$GITHUB_ENV"
+
+      - name: Install Playwright
+        run: npm install --no-save playwright
+
+      # Node syntax checks across the touched modules before booting the server.
+      - name: Syntax check
+        run: |
+          node --check server.js
+          node --check modules/audit-timeline/src/trail.js
+          node --check aegis-shell/src/app.js
+          node --check modules/doc-redactor/src/js/app.js
+          node --check modules/webgpu-topology/src/gpu/device.js
+          node --check modules/webgpu-topology/src/gpu/pipelines-webgl2.js
+          node --check modules/webgpu-topology/src/main.js
+          node --check adapters/tsa-rfc3161/index.js
+          node --check adapters/tsa-rfc3161/rfc3161-client.js
+          node --check adapters/tsa-rfc3161/schema.js
+          node --check adapters/tsa-rfc3161/config-default.js
+          node --check modules/zero-knowledge-identity/src/main.js
+          node --check modules/sync-canvas/src/aegis-cosign.js
+          node --check scripts/package-delivery.mjs
+          node --check scripts/verify-claims.mjs
+          node --check video-tool/verify-csp.mjs
+          node --check video-tool/verify-p3.mjs
+
+      # Enforce the kernel boundary: no npm/bare imports and no vendor leakage.
+      # adapters/ is scanned too; only its vendor/ subdir is skipped.
+      - name: Zero-dependency kernel lint
+        run: node scripts/zero-dep-lint.mjs server.js modules aegis-shell/src adapters
+
+      # AEG-22: marketing shorthand must not creep back into user-facing copy.
+      - name: Claims wording gate
+        run: node scripts/verify-claims.mjs
+
+      # AEG-19: the shipping surface must stay small and reproducible.
+      - name: Delivery package gate
+        run: |
+          node scripts/package-delivery.mjs
+          node scripts/package-delivery.mjs --verify
+
+      # Node-level unit checks (audit concurrency lock + TSA anchor interface).
+      - name: Unit checks
+        run: node video-tool/verify-audit.mjs
+
+      # RFC 3161 TSA adapter (optional): DER codec, schema, fail-safe, mock TSA.
+      - name: TSA adapter unit tests
+        run: node --test adapters/tsa-rfc3161/tests/rfc3161.test.mjs
+
+      # Adapter enabled but external TSA unreachable → graceful failed, relay intact.
+      - name: TSA adapter offline smoke
+        run: node video-tool/verify-tsa.mjs
+
+      - name: Boot server
+        run: node server.js &
+        env:
+          PORT: 8080
+
+      - name: Wait for server
+        run: |
+          for i in $(seq 1 20); do
+            curl -sf http://localhost:8080/ >/dev/null && break
+            sleep 0.5
+          done
+
+      - name: Role views
+        run: BASE=http://localhost:8080 node video-tool/verify-roles.mjs
+
+      - name: Redactor drawer / fullscreen
+        run: node video-tool/verify-fix.mjs
+
+      - name: Runtime smoke
+        run: BASE=http://localhost:8080 node video-tool/verify-runtime.mjs
+
+      # AEG-23: every HTML gets a fresh nonce, inline module scripts still run,
+      # injected scripts without a nonce are refused, dist/ is not downloadable.
+      - name: CSP nonce gate
+        run: BASE=http://localhost:8080 node video-tool/verify-csp.mjs
+
+      # AEG-19/21/24 + P0 PoCs: 12-page smoke, opt-in diagnostics, Sign gate,
+      # 404 on source/key/archive paths, fail-closed /session.
+      - name: P3 closure gate
+        run: BASE=http://localhost:8080 node video-tool/verify-p3.mjs
+
+      # B5 regression: force the WebGL2 fallback (no WebGPU) and prove it draws.
+      - name: WebGL2 fallback smoke
+        run: BASE=http://localhost:8080 node video-tool/verify-webgl2.mjs

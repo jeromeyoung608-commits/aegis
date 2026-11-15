@@ -1,0 +1,12 @@
+{
+  "name": "blind-relay",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Zero-Knowledge WebSocket Relay — a dependency-free relay that only routes encrypted envelopes and never sees canvas state. Pairs with token-gate for admission control. Runs in Node, integrable from the browser.",
+  "scripts": {
+    "test": "node --test",
+    "start": "node src/relay.js --port 8081"
+  },
+  "license": "MIT"
+}

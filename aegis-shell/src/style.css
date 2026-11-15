@@ -1,0 +1,473 @@
+/* Aegis - Copyright (c) 2026 Jerome Young (Yang Jie) */
+/* SPDX-License-Identifier: BUSL-1.1 */
+/* aegis-shell/src/style.css — dark "command center" theme for the Aegis workbench. */
+
+:root {
+  --bg: #0a0e14;
+  --bg-2: #0f1521;
+  --panel: #121a28;
+  --panel-2: #16203150;
+  --line: #1f2b3e;
+  --txt: #d7e2f0;
+  --txt-dim: #8195ad;
+  --accent: #36d399;   /* vert — secure / ok */
+  --accent-2: #38bdf8; /* cyan — active */
+  --gold: #d4b06a;     /* gold — archive / sealed */
+  --gold-dim: #8a7442;
+  --warn: #f6c453;
+  --err: #f06a6a;
+  --mono: "SFMono-Regular", "JetBrains Mono", "Fira Code", Consolas, monospace;
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body.cmd-center {
+  background:
+    radial-gradient(1200px 600px at 80% -10%, #11203180 0%, transparent 60%),
+    var(--bg);
+  color: var(--txt);
+  font-family: var(--sans);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Top bar ─────────────────────────────────────────────── */
+.topbar {
+  display: flex; align-items: center; gap: 24px;
+  padding: 12px 20px;
+  background: linear-gradient(180deg, #0e1622, #0b111b);
+  border-bottom: 1px solid var(--line);
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand .logo {
+  width: 30px; height: 30px; border-radius: 7px;
+  background: conic-gradient(from 210deg, var(--accent), var(--accent-2), var(--accent));
+  box-shadow: 0 0 18px #38bdf855;
+}
+.brand h1 { margin: 0; font-size: 20px; letter-spacing: 3px; }
+.brand .sub { font-size: 11px; color: var(--txt-dim); letter-spacing: .5px; }
+
+.stepper { display: flex; gap: 6px; flex: 1; min-width: 0; }
+.step {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 8px; border: 1px solid var(--line); border-radius: 10px;
+  background: var(--panel); flex: 1 1 0; min-width: 0; transition: .25s;
+}
+.step .n {
+  width: 22px; height: 22px; flex: 0 0 22px; border-radius: 50%;
+  display: grid; place-items: center; font-weight: 700; font-size: 11px;
+  background: #0c1320; color: var(--txt-dim); border: 1px solid var(--line);
+}
+.step > div:last-child { min-width: 0; }
+.step .t {
+  font-size: 11px; font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.step .d {
+  font-size: 11px; color: var(--txt-dim);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.step.active { border-color: var(--accent-2); box-shadow: 0 0 0 1px var(--accent-2) inset, 0 0 18px #38bdf833; }
+.step.active .n { background: var(--accent-2); color: #04263a; }
+.step.done { border-color: var(--accent); }
+.step.done .n { background: var(--accent); color: #04231a; }
+
+.pill {
+  font-size: 11px; color: var(--accent);
+  border: 1px solid #1d3a31; background: #0c1a16;
+  padding: 6px 12px; border-radius: 999px; letter-spacing: .5px;
+}
+
+/* ── Layout: left stage + right sidebar ──────────────────── */
+.layout {
+  flex: 1; display: grid; grid-template-columns: 1fr 520px; gap: 14px;
+  padding: 14px; min-height: 0;
+}
+.stage, .sidebar { display: flex; flex-direction: column; min-height: 0; gap: 10px; }
+
+.pane-head { display: flex; align-items: baseline; gap: 10px; padding: 0 2px; }
+.pane-head .tag {
+  font-size: 12px; font-weight: 700; letter-spacing: .6px;
+  color: var(--accent-2); text-transform: uppercase;
+}
+.pane-head .hint { font-size: 11px; color: var(--txt-dim); }
+
+.frame-box {
+  flex: 1; min-height: 0; border: 1px solid var(--line); border-radius: 12px;
+  overflow: hidden; background: var(--bg-2);
+  box-shadow: 0 12px 40px #00000040 inset;
+}
+/* Keep the redaction surface usable when the audit card is also mounted.
+   Fixed clamp height instead of flex leftovers: the sidebar scrolls, so the
+   redaction workbench keeps a tall, predictable working area. */
+.redact-wrap { flex: none; height: clamp(420px, 58vh, 680px); }
+
+/* A — expand the embedded REDAKTOR to a full-screen editor. Same iframe
+   instance, so any manual redaction the operator draws stays inside the exact
+   document that later gets signed & sent. The wide frame also lets REDAKTOR show
+   its full 3-column layout, so Rules / Custom terms / Export are directly visible. */
+.expand-btn {
+  position: absolute; top: 8px; right: 8px; z-index: 6;
+  width: 30px; height: 30px; border-radius: 8px;
+  border: 1px solid var(--line); background: #0c1320cc; color: var(--txt);
+  cursor: pointer; font-size: 15px; line-height: 1;
+  display: grid; place-items: center;
+}
+.expand-btn:hover { border-color: var(--accent-2); color: var(--accent-2); }
+body.redact-expanded .redact-wrap {
+  position: fixed; inset: 0; z-index: 9999; width: 100vw; height: 100vh;
+  border-radius: 0; box-shadow: none;
+}
+body.redact-expanded .expand-btn { top: 14px; right: 14px; font-size: 0; }
+body.redact-expanded .expand-btn::before { content: '\2715'; font-size: 18px; }
+
+.mini-btn {
+  margin-left: auto; padding: 5px 10px; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--panel); color: var(--txt);
+  font: inherit; font-size: 11px;
+}
+.mini-btn:hover { border-color: var(--accent-2); color: var(--accent-2); }
+
+/* ── Role-based views ───────────────────────────────────────────────────
+   One command-center surface, five roles. body[data-role] + the `read-only`
+   flag choose which cards show and which actions are enabled. Driven by the
+   top-bar switcher (and ?role= / saved preference). */
+.role-switch { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--txt-dim); }
+.role-switch select {
+  background: var(--panel); color: var(--txt); border: 1px solid var(--line);
+  border-radius: 8px; padding: 4px 8px; font: inherit; font-size: 12px;
+}
+.role-switch-label { letter-spacing: .5px; }
+
+/* Surfaces hidden per role (operator sees everything; admin too). */
+body[data-role="recipient"] #stage-topo,
+body[data-role="recipient"] .redact-action,
+body[data-role="recipient"] .redact-wrap,
+body[data-role="recipient"] #transferCard,
+body[data-role="auditor"] #stage-topo,
+body[data-role="auditor"] .redact-action,
+body[data-role="auditor"] .redact-wrap,
+body[data-role="auditor"] #transferCard,
+body[data-role="external"] #stage-topo,
+body[data-role="external"] .redact-action,
+body[data-role="external"] .redact-wrap,
+body[data-role="external"] #redactHead,
+body[data-role="external"] #transferCard { display: none; }
+
+/* Hide the REDAKTOR header row with its load button when the whole redactor
+   surface is hidden for a role. */
+body[data-role="recipient"] #redactHead,
+body[data-role="auditor"] #redactHead { display: none; }
+
+/* Recipient / auditor / external collapse to a single centered column. */
+body[data-role="recipient"] .layout,
+body[data-role="auditor"] .layout,
+body[data-role="external"] .layout { grid-template-columns: minmax(0, 900px); justify-content: center; }
+
+/* Read-only roles cannot sign / send / archive. */
+body.read-only .redact-action,
+body.read-only #btnArchive { display: none; }
+
+/* Admin panel only for the admin role. */
+.admin-panel { display: none; }
+body[data-role="admin"] .admin-panel { display: block; }
+.admin-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 2px; font-size: 12px; color: var(--txt); }
+.admin-row select, .admin-row input { background: var(--panel); color: var(--txt); border: 1px solid var(--line); border-radius: 8px; padding: 4px 8px; font: inherit; font-size: 12px; }
+.admin-note { font-size: 11px; color: var(--txt-dim); line-height: 1.5; margin: 6px 0 0; }
+.sidebar { overflow-y: auto; scrollbar-width: thin; }
+.frame-box iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+/* ── Windowing: draggable / resizable panels (windowing.js) ──
+   Each workbench surface becomes a free-floating window: moved by its header
+   bar, resized by the bottom-right grip. Card-specific bg/border/padding are left
+   untouched so the existing visual design is preserved. */
+.win { position: relative; display: flex; flex-direction: column; border-radius: 12px; box-shadow: 0 18px 50px #00000066; }
+/* Windowing sets display:flex on .win, which overrides the UA [hidden]{display:none}
+   default. Without this, a role-gated panel such as #adminPanel keeps showing for
+   non-privileged roles (operator could see the admin panel). Re-assert hidden. */
+.win[hidden] { display: none !important; }
+.win > .pane-head { cursor: move; user-select: none; flex: none; }
+.win.dragging, .win.dragging * { cursor: move !important; }
+/* The redactor wrap ALSO carries .frame-box (index.html: class="redact-wrap frame-box"),
+   so the topology fill rule must be scoped to the topology window — otherwise it
+   overrides .redact-wrap's clamped height and collapses the document preview down to
+   the iframe's intrinsic ~150px, hiding the page canvas entirely. */
+#stage-topo .frame-box { flex: 1; min-height: 0; }
+/* Once a window has been lifted (windowing.js adds .floated), the redactor iframe
+   fills the window instead of keeping its in-flow clamped height. */
+.win.floated#win-redact .redact-wrap { flex: 1; min-height: 0; height: auto; }
+.win-resize {
+  position: absolute; right: 0; bottom: 0; width: 18px; height: 18px;
+  cursor: nwse-resize; touch-action: none; opacity: .4; border-bottom-right-radius: 10px;
+  background: linear-gradient(135deg,
+    transparent 0 42%, var(--accent-2) 42% 50%, transparent 50% 60%,
+    var(--accent-2) 60% 68%, transparent 68%);
+}
+.win-resize:hover, .win-resize.active { opacity: 1; }
+
+/* Sidebar surfaces light up depending on the active stage (unified router).
+   The seven-step router reaches stages 4..7, so the transfer and redaction
+   surfaces must stay emphasised for every stage after delivery begins. */
+.sidebar .transfer-card { opacity: .55; transition: .25s; }
+body[data-stage="3"] .sidebar .transfer-card,
+body[data-stage="4"] .sidebar .transfer-card,
+body[data-stage="5"] .sidebar .transfer-card,
+body[data-stage="6"] .sidebar .transfer-card,
+body[data-stage="7"] .sidebar .transfer-card { opacity: 1; }
+body[data-stage="2"] .sidebar .redact-wrap,
+body[data-stage="3"] .sidebar .redact-wrap,
+body[data-stage="4"] .sidebar .redact-wrap,
+body[data-stage="5"] .sidebar .redact-wrap,
+body[data-stage="6"] .sidebar .redact-wrap,
+body[data-stage="7"] .sidebar .redact-wrap { box-shadow: 0 0 0 1px var(--accent-2) inset; }
+
+/* ── Transfer card ──────────────────────────────────────── */
+.transfer-card {
+  border: 1px solid var(--line); border-radius: 12px; padding: 12px;
+  background: var(--panel); display: flex; flex-direction: column; gap: 8px;
+}
+.peer-row {
+  display: flex; align-items: center; gap: 8px; font-size: 13px;
+  padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel-2);
+}
+.peer-state { margin-left: auto; font-size: 11px; color: var(--txt-dim); font-family: var(--mono); }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: #33405a; }
+.dot.ok { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+.dot.warn { background: var(--warn); box-shadow: 0 0 10px var(--warn); }
+.dot.err { background: var(--err); box-shadow: 0 0 10px var(--err); }
+
+.recv-decision {
+  border: 1px dashed var(--accent-2); border-radius: 10px; padding: 10px;
+  background: #0c1a2633; display: flex; flex-direction: column; gap: 8px;
+}
+/* display:flex above would beat the UA's [hidden] { display:none } (same
+   specificity, author styles win) — the decision box would render on every
+   fresh load before anything is received. Re-state it explicitly. */
+.recv-decision[hidden] { display: none; }
+.recv-name { font-family: var(--mono); font-size: 12px; color: var(--accent-2); }
+.recv-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.btn {
+  font: inherit; font-size: 12.5px; cursor: pointer;
+  border: 1px solid var(--accent-2); color: #04263a;
+  background: var(--accent-2); border-radius: 8px; padding: 8px 12px; font-weight: 600;
+}
+.btn.ghost { background: transparent; color: var(--accent-2); }
+.btn.gold { background: var(--gold); border-color: var(--gold-dim); color: #171204; }
+.btn.small { padding: 5px 9px; font-size: 11px; }
+.btn:hover { filter: brightness(1.08); }
+
+/* Shell-side "Sign & Send to Peer" CTA. Lives outside the REDAKTOR iframe so
+   the narrow-width slide-out drawer can never hide the only export control. */
+.redact-action {
+  flex: none; display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; padding: 9px 11px; border: 1px solid #6b5420; border-radius: 12px;
+  background: linear-gradient(180deg, #1d1a10, #14130d);
+}
+.redact-action-meta { display: flex; align-items: center; gap: 8px; min-width: 0; }
+#scanState {
+  font-size: 11px; color: var(--txt-dim); font-family: var(--mono);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.scan-dot { width: 8px; height: 8px; border-radius: 50%; background: #6b7787; flex: none; }
+.scan-dot.busy { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
+.scan-dot.ready { background: var(--accent-2); box-shadow: 0 0 8px var(--accent-2); }
+.btn.sign-send {
+  flex: none; font-size: 13px; font-weight: 700; padding: 9px 14px;
+  background: linear-gradient(180deg, #ffd75e, #e0a92b);
+  border: 1px solid #ffdf80; color: #171204; border-radius: 9px;
+  box-shadow: 0 0 0 1px #00000040, 0 6px 18px #e0a92b33;
+  letter-spacing: .2px; white-space: nowrap;
+}
+.btn.sign-send:not(:disabled) { animation: signPulse 2.2s ease-in-out infinite; }
+.btn.sign-send:disabled,
+.btn.sign-send:disabled:hover {
+  background: #1b2230; border-color: #2b3542; color: #6b7787;
+  box-shadow: none; animation: none; cursor: not-allowed; opacity: .8; filter: none;
+}
+.btn.sign-send.is-busy { animation: none; }
+@keyframes signPulse {
+  0%, 100% { box-shadow: 0 0 0 1px #00000040, 0 6px 18px #e0a92b33; }
+  50% { box-shadow: 0 0 0 1px #00000040, 0 6px 24px #e0a92b77, 0 0 14px #ffd75e44; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn.sign-send:not(:disabled) { animation: none; }
+}
+
+/* ── Local encrypted vault (OPFS) ─────────────────────────── */
+.vault-card {
+  border: 1px solid #2c3a2a; border-radius: 12px; padding: 12px;
+  background: linear-gradient(180deg, #101a14, #0d1410);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.vault-row { display: flex; align-items: center; gap: 10px; font-size: 11.5px; }
+.vault-row #vaultState {
+  flex: 1; font-family: var(--mono); font-size: 11px; color: var(--txt-dim);
+}
+.vault-row a { color: var(--gold); text-decoration: none; font-size: 11.5px; white-space: nowrap; }
+.vault-row a:hover { text-decoration: underline; }
+
+/* ── Audit trail (hash-chained timeline) ─────────────────── */
+.audit-card {
+  border: 1px solid #2d2a1f; border-radius: 12px; padding: 10px;
+  background: linear-gradient(180deg, #14140f, #0d1118);
+  display: flex; flex-direction: column; gap: 7px;
+}
+.pane-head .audit-link {
+  margin-left: auto; color: var(--gold); text-decoration: none;
+  font-size: 11px; white-space: nowrap;
+}
+.pane-head .audit-link:hover { text-decoration: underline; }
+.audit-meta { display: flex; align-items: center; gap: 6px; }
+.audit-state {
+  flex: 1; min-width: 0; font-family: var(--mono); font-size: 10px;
+  color: var(--txt-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.audit-state.ok { color: var(--accent); }
+.audit-state.bad { color: var(--err); }
+.audit-meta .btn.small { padding: 4px 7px; font-size: 10px; }
+
+.timeline {
+  list-style: none; margin: 0; padding: 2px 2px 2px 14px;
+  max-height: 132px; overflow-y: auto; position: relative;
+}
+.timeline::before {
+  content: ""; position: absolute; left: 4px; top: 4px; bottom: 4px; width: 1px;
+  background: linear-gradient(180deg, var(--gold), #26313f 85%);
+}
+.tl-item { position: relative; padding: 0 0 9px 8px; }
+.tl-item:last-child { padding-bottom: 0; }
+.tl-item::before {
+  content: ""; position: absolute; left: -14px; top: 3px;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold); box-shadow: 0 0 8px #d4b06a88;
+}
+.tl-item.tl-broken::before { background: var(--err); box-shadow: 0 0 8px #f06a6a88; }
+.tl-top { display: flex; align-items: baseline; gap: 7px; flex-wrap: wrap; }
+.tl-time { font-family: var(--mono); font-size: 10px; color: var(--gold); }
+.tl-actor { font-size: 10px; font-weight: 700; color: var(--accent-2); letter-spacing: .3px; }
+.tl-event { margin-top: 1px; font-size: 11.5px; color: var(--txt); }
+.tl-detail { margin-top: 1px; font-size: 10px; line-height: 1.4; color: var(--txt-dim); }
+.tl-fingerprint {
+  margin-top: 1px; font-family: var(--mono); font-size: 11px; color: #b99a5b;
+}
+.tl-hash {
+  margin-top: 2px; font-family: var(--mono); font-size: 8.5px;
+  letter-spacing: .4px; color: #55657a;
+}
+.tl-broken .tl-event { color: var(--err); }
+.tl-empty { list-style: none; font-size: 10.5px; line-height: 1.45; color: var(--txt-dim); }
+.audit-foot {
+  border-top: 1px dashed var(--line); padding-top: 7px;
+  font-size: 9.5px; line-height: 1.45; color: var(--txt-dim);
+}
+
+/* ── Archive passphrase dialog ────────────────────────────── */
+dialog.dialog {
+  width: min(460px, calc(100vw - 32px));
+  padding: 22px; border-radius: 14px;
+  border: 1px solid #4a3f28;
+  background: linear-gradient(180deg, #171b23, #10141a);
+  color: var(--txt);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.62);
+}
+dialog.dialog::backdrop { background: rgba(5, 7, 10, 0.72); backdrop-filter: blur(3px); }
+dialog.dialog h3 { margin: 0 0 8px; font-size: 16px; }
+dialog.dialog .lede { margin: 0 0 14px; font-size: 12px; color: var(--txt-dim); }
+dialog.dialog .lede b { color: var(--gold); font-family: var(--mono); font-weight: 600; }
+dialog.dialog label {
+  display: block; margin: 0 0 6px; font-size: 10.5px;
+  text-transform: uppercase; letter-spacing: .8px; color: var(--txt-dim);
+}
+dialog.dialog input {
+  width: 100%; font: inherit; font-size: 12.5px; color: var(--txt);
+  background: #0b1119; border: 1px solid var(--line); border-radius: 9px;
+  padding: 10px 12px; outline: none;
+}
+dialog.dialog input:focus { border-color: var(--gold-dim); }
+dialog.dialog .row { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
+dialog.dialog .msg { min-height: 16px; margin-top: 10px; font-family: var(--mono); font-size: 11.5px; }
+dialog.dialog .msg.err { color: var(--err); }
+dialog.dialog .msg.ok { color: var(--accent); }
+
+.log {
+  font-family: var(--mono); font-size: 11.5px; color: var(--txt-dim);
+  background: #0a111c; border: 1px solid var(--line); border-radius: 8px;
+  padding: 8px 10px; min-height: 34px; word-break: break-word;
+}
+
+@media (max-width: 980px) {
+  /* Natural stacking + page scroll. The previous `grid-template-rows: 1fr 1fr`
+     forced the sidebar into half the viewport: the REDAKTOR iframe was crushed
+     to ~2px and the transfer card (fixed intrinsic height) overflowed the
+     layout bottom — the "overlapping" look on narrow viewports. */
+  body.cmd-center { height: auto; min-height: 100%; }
+  .topbar { flex-wrap: wrap; gap: 10px 16px; }
+  .stepper { flex-wrap: wrap; }
+  .step { min-width: 0; flex: 1 1 46%; }
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    flex: none;
+    gap: 12px;
+  }
+  .stage { height: 52vh; min-height: 300px; }
+  .redact-wrap { flex: none; height: 56vh; min-height: 380px; }
+}
+
+/* ── In-page PDF preview modal ─────────────────────────────────────────── */
+.pdf-modal { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; }
+.pdf-modal[hidden] { display: none; }
+.pdf-modal-backdrop { position: absolute; inset: 0; background: rgba(4, 8, 16, 0.78); backdrop-filter: blur(3px); }
+.pdf-modal-panel {
+  position: relative; width: min(920px, 92vw); height: min(86vh, 900px);
+  display: flex; flex-direction: column; background: #0b1220;
+  border: 1px solid rgba(120, 160, 255, 0.28); border-radius: 12px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55); overflow: hidden;
+}
+.pdf-modal-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 14px; border-bottom: 1px solid rgba(120, 160, 255, 0.18);
+}
+.pdf-modal-name {
+  font: 600 13px/1.3 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: #e8eefc; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+#pdfModalFrame { flex: 1; width: 100%; border: 0; background: #1a1f2b; }
+
+/* ── Reveal hidden P2P transfer screens (demo/inspection aid) ───────────────
+   Peer A and Peer B run in iframes that are `hidden` by default. Toggling the
+   top-bar button makes them visible in the bottom corners so a reviewer/demo can
+   SEE the encrypted transfer on both ends. Display-only: the iframes are never
+   reloaded, so the live WebRTC link stays intact. */
+.topbar .reveal-btn {
+  cursor: pointer; font: 600 11px/1 var(--sans); letter-spacing: .5px;
+  color: var(--txt); background: #0c1320; border: 1px solid var(--line);
+  padding: 6px 12px; border-radius: 999px; transition: .2s;
+}
+.topbar .reveal-btn:hover { border-color: var(--accent-2); }
+.topbar .reveal-btn.active {
+  color: var(--accent-2); border-color: var(--accent-2);
+  box-shadow: 0 0 14px #38bdf844;
+}
+body.show-p2p #f-p2p-send,
+body.show-p2p #f-p2p-recv {
+  display: block; position: fixed; width: 384px; height: 264px;
+  border-radius: 10px; background: #0b1220; z-index: 600;
+  box-shadow: 0 16px 50px #0009;
+}
+body.show-p2p #f-p2p-send { left: 16px; bottom: 16px; border: 2px solid var(--accent); }
+body.show-p2p #f-p2p-recv { right: 16px; bottom: 16px; border: 2px solid var(--gold); }
+.p2p-peek-label {
+  position: fixed; bottom: 288px; z-index: 601;
+  font: 700 11px/1 var(--mono); padding: 4px 8px; border-radius: 6px;
+  background: #0b1220cc; border: 1px solid var(--line); color: var(--txt);
+}
+.p2p-peek-label[hidden] { display: none; }
+body.show-p2p #peekLabelA { display: block; left: 16px; border-color: var(--accent); color: var(--accent); }
+body.show-p2p #peekLabelB { display: block; right: 16px; border-color: var(--gold); color: var(--gold); }
+
+/* 品牌焦点环：键盘用户必须能看到当前控件 (patch 3) */
+:focus-visible { outline: 2px solid #C8A44D; outline-offset: 2px; }
+input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid #C8A44D; outline-offset: 2px; }

@@ -1,0 +1,17 @@
+{
+  "name": "@aegis/encrypted-archive",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local Encrypted Vault: zero-cloud archiving of signed documents in OPFS.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "start": "python3 -m http.server 8015",
+    "verify": "node ../../scripts/verify-module.mjs . --tests"
+  },
+  "dependencies": {},
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}

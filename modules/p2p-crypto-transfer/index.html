@@ -1,0 +1,110 @@
+<!-- Aegis - Copyright (c) 2026 Jerome Young (Yang Jie) -->
+<!-- SPDX-License-Identifier: BUSL-1.1 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aegis-Transport - P2P Encrypted Transfer</title>
+  <style>
+    :root {
+      --bg: #0e1116; --panel: #161b22; --line: #283040;
+      --text: #e6edf3; --muted: #8b949e; --accent: #2f81f7;
+      --ok: #3fb950; --warn: #d29922; --err: #f85149;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.5;
+    }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 28px 18px 60px; }
+    h1 { font-size: 22px; margin: 0 0 4px; }
+    .sub { color: var(--muted); font-size: 13px; margin-bottom: 22px; }
+    .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin-bottom: 16px; }
+    .panel h2 { font-size: 14px; margin: 0 0 14px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    label { display: block; font-size: 12px; color: var(--muted); margin: 10px 0 4px; }
+    input, select { width: 100%; padding: 10px 12px; background: #0d1117; border: 1px solid var(--line); border-radius: 8px; color: var(--text); font-size: 14px; }
+    .row { display: flex; gap: 10px; }
+    .row > * { flex: 1; }
+    button { cursor: pointer; border: 1px solid var(--line); background: #21262d; color: var(--text); padding: 11px 14px; border-radius: 8px; font-size: 14px; transition: .15s; }
+    button:hover:not(:disabled) { border-color: var(--accent); }
+    button:disabled { opacity: .45; cursor: not-allowed; }
+    button.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+    .status { margin-top: 12px; font-size: 13px; }
+    .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--muted); margin-right: 7px; vertical-align: middle; }
+    .dot.ok { background: var(--ok); } .dot.warn { background: var(--warn); } .dot.err { background: var(--err); }
+    .bar { height: 8px; background: #0d1117; border-radius: 99px; overflow: hidden; margin-top: 6px; border: 1px solid var(--line); }
+    .bar > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), #79c0ff); transition: width .2s; }
+    .log { background: #0d1117; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; height: 150px; overflow-y: auto; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--muted); }
+    .log p { margin: 2px 0; } .log .e { color: var(--err); } .log .s { color: var(--ok); }
+    a.dl { color: var(--accent); }
+    .hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    code { background: #0d1117; padding: 1px 5px; border-radius: 4px; }
+  </style>
+
+<style>
+:focus-visible { outline: 2px solid #C8A44D; outline-offset: 2px; }
+input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid #C8A44D; outline-offset: 2px; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Aegis-Transport</h1>
+    <div class="sub">WebRTC DataChannel + Web Crypto AES-GCM · Zero dependency · The server never sees any file content</div>
+
+    <div class="panel">
+      <h2>1 - Connect</h2>
+      <label>Transport mode</label>
+      <select id="mode" aria-label="Signaling mode">
+        <option value="lan">LAN (signaling server)</option>
+        <option value="local">Same-machine demo (BroadcastChannel)</option>
+      </select>
+      <div class="row">
+        <div>
+          <label>Room (same on both sides)</label>
+          <input id="room" aria-label="Room id" placeholder="e.g. 8848" />
+        </div>
+        <div>
+          <label>Shared key (same on both sides, never sent)</label>
+          <input id="pass" aria-label="Shared room passphrase" type="password" placeholder="e.g. shared-room-key" />
+        </div>
+      </div>
+      <div class="row">
+        <button id="btnCreate" class="primary">Create room (initiator)</button>
+        <button id="btnJoin">Join room (receiver)</button>
+      </div>
+      <div class="status"><span id="statusDot" class="dot"></span><span id="status">Not connected</span></div>
+      <div class="hint">Same-machine demo: open two tabs, pick "Same-machine demo", use the same room + key, then one clicks "Create" and the other "Join".</div>
+    </div>
+
+    <div class="panel">
+      <h2>2 - Send file</h2>
+      <label>Choose file</label>
+      <input id="fileInput" type="file" aria-label="File to send" disabled />
+      <div style="margin-top:10px"><button id="btnSend" class="primary" disabled>Encrypt &amp; send</button></div>
+      <label>Send progress</label>
+      <div class="bar"><i id="sendBar"></i></div>
+    </div>
+
+    <div class="panel">
+      <h2>3 - Receive</h2>
+      <button id="saveLocBtn" class="primary"> Choose save location</button>
+      <p class="hint">Click this (a gesture) to lock a disk file before your peer sends - then any size streams straight to disk. Without it, browsers without disk-streaming cap memory at 1&nbsp;GB.</p>
+      <label>Receive progress</label>
+      <div class="bar"><i id="recvBar"></i></div>
+      <div id="dl" class="hint"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Log</h2>
+      <div id="log" class="log"></div>
+    </div>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+  <script type="module" src="./src/aegis-adapter.js"></script>
+  <div style="position: fixed; bottom: 8px; right: 12px; font-size: 10px; color: rgba(255,255,255,0.3); font-family: monospace; pointer-events: none; user-select: none; z-index: 9999;">
+    ENGINE BY JEROME YOUNG
+  </div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+# Keep the Docker build context minimal and never ship secrets/data into the image.
+node_modules/
+**/node_modules/
+video-tool/node_modules/
+.git/
+.gitignore
+data/
+config/
+_audit/
+tls/
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+# rendered / large media assets (not needed by the server or shell)
+*.mp4
+*.webm
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.wav
+*.mp3
+# local tooling / generated artifacts that only matter on the host
+scripts/verification/
+dist/
+*.log
+.DS_Store
+.aegis/

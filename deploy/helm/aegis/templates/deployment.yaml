@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels: { app: {{ .Release.Name }} }
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector: { matchLabels: { app: {{ .Release.Name }} } }
+  template:
+    metadata: { labels: { app: {{ .Release.Name }} } }
+    spec:
+      securityContext: { runAsNonRoot: true, fsGroup: 1000 }
+      containers:
+        - name: aegis
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports: [{ containerPort: {{ .Values.service.targetPort }} }]
+          env:
+            - name: AEGIS_ISSUER_SECRET
+              valueFrom: { secretKeyRef: { name: "{{ .Release.Name }}-secrets", key: AEGIS_ISSUER_SECRET } }
+            - name: AEGIS_AUTH_MODE
+              value: {{ .Values.auth.mode | quote }}
+            - name: PORT
+              value: {{ .Values.service.targetPort | quote }}
+          readinessProbe:
+            httpGet: { path: /healthz, port: {{ .Values.service.targetPort }} }
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          livenessProbe:
+            httpGet: { path: /healthz, port: {{ .Values.service.targetPort }} }
+            initialDelaySeconds: 15
+            periodSeconds: 30
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - { name: data, mountPath: /app/data }
+      volumes:
+        - name: data
+          persistentVolumeClaim: { claimName: {{ .Release.Name }}-data }

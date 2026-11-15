@@ -1,3 +1,5 @@
+<!-- Aegis - Copyright (c) 2026 Jerome Young (Yang Jie) -->
+<!-- SPDX-License-Identifier: BUSL-1.1 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +20,11 @@
   .tag.ok { background:rgba(63,185,80,.15); color:var(--ok); }
   .tag.bad { background:rgba(248,81,73,.15); color:var(--bad); }
   input { width:100%; background:#0a0d12; color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:8px; font-family:ui-monospace,Menlo,monospace; }
+</style>
+
+<style>
+:focus-visible { outline: 2px solid #C8A44D; outline-offset: 2px; }
+input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid #C8A44D; outline-offset: 2px; }
 </style>
 </head>
 <body>
@@ -46,35 +53,48 @@ const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
 let root = null, tokValid = null;
 
+const busy = (el, on) => { if (el) el.setAttribute('aria-busy', on ? 'true' : 'false'); };
+
 $('issueBtn').onclick = async () => {
-  root = await G.generateRootKey();
-  tokValid = await G.issueToken(root.privateKey, { room: 'R1', ttlMs: 10 * 60 * 1000 });
-  $('tokOut').textContent = tokValid;
-  $('gateOut').innerHTML = '';
+  $('issueBtn').disabled = true; busy($('issueBtn'), true);
+  try {
+    root = await G.generateRootKey();
+    tokValid = await G.issueToken(root.privateKey, { room: 'R1', ttlMs: 10 * 60 * 1000 });
+    $('tokOut').textContent = tokValid;
+    $('gateOut').innerHTML = '';
+  } finally {
+    $('issueBtn').disabled = false; busy($('issueBtn'), false);
+  }
 };
 
 document.querySelectorAll('button[data-case]').forEach((b) => {
   b.onclick = async () => {
     if (!root) return alert('Issue a token first');
-    const rootPub = await G.importPublicKey(await G.exportPublicKey(root.publicKey));
-    let token = tokValid, room = 'R1';
-    if (b.dataset.case === 'expired') token = await G.issueToken(root.privateKey, { room: 'R1', exp: Date.now() - 1000 });
-    if (b.dataset.case === 'wrongroom') token = await G.issueToken(root.privateKey, { room: 'R9' });
-    if (b.dataset.case === 'forged') {
-      const p = tokValid.split('.');
-      const b64 = p[2].replace(/-/g, '+').replace(/_/g, '/');
-      const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
-      bytes[8] ^= 0x01;                                   // flip a REAL signature byte, not the base64url padding bit
-      p[2] = btoa(String.fromCharCode(...bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-      token = p.join('.');
+    b.disabled = true; busy(b, true);
+    try {
+      const rootPub = await G.importPublicKey(await G.exportPublicKey(root.publicKey));
+      let token = tokValid, room = 'R1';
+      if (b.dataset.case === 'expired') token = await G.issueToken(root.privateKey, { room: 'R1', exp: Date.now() - 1000 });
+      if (b.dataset.case === 'wrongroom') token = await G.issueToken(root.privateKey, { room: 'R9' });
+      if (b.dataset.case === 'forged') {
+        const p = tokValid.split('.');
+        const b64 = p[2].replace(/-/g, '+').replace(/_/g, '/');
+        const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+        bytes[8] ^= 0x01;                                   // flip a REAL signature byte, not the base64url padding bit
+        p[2] = btoa(String.fromCharCode(...bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+        token = p.join('.');
+      }
+      const res = await G.verifyToken(rootPub, token, { room });
+      const ok = res.ok;
+      const el = document.createElement('div');
+      el.innerHTML = `<span class="tag ${ok ? 'ok' : 'bad'}">${b.textContent}</span> → <span class="tag ${ok ? 'ok' : 'bad'}">${ok ? 'ADMIT' : 'DENY (' + esc(res.reason) + ')'}</span>`;
+      $('gateOut').appendChild(el);
+    } finally {
+      b.disabled = false; busy(b, false);
     }
-    const res = await G.verifyToken(rootPub, token, { room });
-    const ok = res.ok;
-    const el = document.createElement('div');
-    el.innerHTML = `<span class="tag ${ok ? 'ok' : 'bad'}">${b.textContent}</span> → <span class="tag ${ok ? 'ok' : 'bad'}">${ok ? 'ADMIT' : 'DENY (' + esc(res.reason) + ')'}</span>`;
-    $('gateOut').appendChild(el);
   };
 });
 </script>
+<div class="watermark" style="position:fixed;right:10px;bottom:6px;font:600 10px/1.2 system-ui,sans-serif;letter-spacing:.08em;color:#c8a44d;opacity:.55;pointer-events:none;z-index:50">ENGINE BY JEROME YOUNG</div>
 </body>
 </html>

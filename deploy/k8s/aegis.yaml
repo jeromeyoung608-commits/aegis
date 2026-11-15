@@ -1,0 +1,87 @@
+# Aegis — Kubernetes manifests (Deployment + Service + Ingress + Secret).
+# Replace aegis.example and the image with your registry/tag. The Secret holds the
+# issuer secret; mount it as env (do NOT bake secrets into the image — see
+# docs/compliance/ACR-PRIVATE-REGISTRY.md).
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aegis-secrets
+  namespace: aegis
+type: Opaque
+stringData:
+  AEGIS_ISSUER_SECRET: "CHANGE_ME_unique_per_env"
+  AEGIS_OIDC_CLIENT_SECRET: ""
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aegis
+  namespace: aegis
+  labels: { app: aegis }
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: aegis } }
+  template:
+    metadata: { labels: { app: aegis } }
+    spec:
+      securityContext: { runAsNonRoot: true, fsGroup: 1000 }
+      containers:
+        - name: aegis
+          image: registry.example/aegis:1.0.0
+          ports: [{ containerPort: 8080 }]
+          env:
+            - name: AEGIS_ISSUER_SECRET
+              valueFrom: { secretKeyRef: { name: aegis-secrets, key: AEGIS_ISSUER_SECRET } }
+            - name: AEGIS_AUTH_MODE
+              value: "local"
+            - name: PORT
+              value: "8080"
+          readinessProbe:
+            httpGet: { path: /healthz, port: 8080 }
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          livenessProbe:
+            httpGet: { path: /healthz, port: 8080 }
+            initialDelaySeconds: 15
+            periodSeconds: 30
+          resources:
+            requests: { cpu: 100m, memory: 128Mi }
+            limits: { cpu: "1", memory: 512Mi }
+          volumeMounts:
+            - { name: data, mountPath: /app/data }
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: aegis-data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata: { name: aegis-data, namespace: aegis }
+spec:
+  accessModes: [ReadWriteOnce]
+  resources: { requests: { storage: 10Gi } }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: aegis, namespace: aegis }
+spec:
+  selector: { app: aegis }
+  ports: [{ port: 80, targetPort: 8080 }]
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aegis
+  namespace: aegis
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+    - hosts: [aegis.example]
+      secretName: aegis-tls
+  rules:
+    - host: aegis.example
+      http:
+        paths:
+          - { path: /, pathType: Prefix, backend: { service: { name: aegis, port: { number: 80 } } } }

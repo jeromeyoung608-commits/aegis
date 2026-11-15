@@ -1,0 +1,11 @@
+{
+  "name": "Aegis — Secure Edge Collaboration Workbench",
+  "short_name": "Aegis",
+  "description": "Privacy-First Local Data Cleansing Engine. Zero runtime dependencies; server-blind transfer and retention.",
+  "start_url": "/aegis-shell/index.html",
+  "scope": "/aegis-shell/",
+  "display": "standalone",
+  "background_color": "#0e1116",
+  "theme_color": "#0e1116",
+  "icons": []
+}

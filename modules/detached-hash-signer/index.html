@@ -1,3 +1,5 @@
+<!-- Aegis - Copyright (c) 2026 Jerome Young (Yang Jie) -->
+<!-- SPDX-License-Identifier: BUSL-1.1 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +22,11 @@
   .tag { display:inline-block; padding:1px 8px; border-radius:999px; font-size:11px; }
   .tag.ok { background:rgba(63,185,80,.15); color:var(--ok); }
   .tag.bad { background:rgba(248,81,73,.15); color:var(--bad); }
+</style>
+
+<style>
+:focus-visible { outline: 2px solid #C8A44D; outline-offset: 2px; }
+input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid #C8A44D; outline-offset: 2px; }
 </style>
 </head>
 <body>
@@ -52,18 +59,22 @@ import * as D from './src/detached-hash-signer.js';
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+const busy = (el, on) => { if (el) el.setAttribute('aria-busy', on ? 'true' : 'false'); };
 const execs = ['A (CEO)', 'B (CFO)', 'C (Legal)'];
 const state = { hash: null, signers: [] };
 
 $('hashBtn').onclick = async () => {
-  const bytes = new TextEncoder().encode($('doc').value);
-  state.hash = await D.sha256Hex(bytes);
-  state.signers = [];
-  $('hashOut').textContent = state.hash;
-  $('bundleOut').textContent = '(not generated yet)';
-  $('verifyOut').textContent = '';
-  $('blindNote').textContent = '';
-  renderExecs();
+  const b = $('hashBtn'); b.disabled = true; busy(b, true);
+  try {
+    const bytes = new TextEncoder().encode($('doc').value);
+    state.hash = await D.sha256Hex(bytes);
+    state.signers = [];
+    $('hashOut').textContent = state.hash;
+    $('bundleOut').textContent = '(not generated yet)';
+    $('verifyOut').textContent = '';
+    $('blindNote').textContent = '';
+    renderExecs();
+  } finally { b.disabled = false; busy(b, false); }
 };
 
 function renderExecs() {
@@ -76,11 +87,14 @@ function renderExecs() {
     btn.textContent = 'Generate key & sign hash';
     btn.className = 'sec';
     btn.onclick = async () => {
-      const kp = await D.generateKeyPair();
-      const pub = await D.exportPublicKey(kp.publicKey);
-      const sig = await D.signHash(kp.privateKey, state.hash);
-      state.signers.push({ id: name, pub, sig });
-      $(`s_${name}`).textContent = `pub: ${pub.slice(0, 24)}…\nsig: ${sig.slice(0, 24)}…`;
+      btn.disabled = true; busy(btn, true);
+      try {
+        const kp = await D.generateKeyPair();
+        const pub = await D.exportPublicKey(kp.publicKey);
+        const sig = await D.signHash(kp.privateKey, state.hash);
+        state.signers.push({ id: name, pub, sig });
+        $(`s_${name}`).textContent = `pub: ${pub.slice(0, 24)}…\nsig: ${sig.slice(0, 24)}…`;
+      } finally { btn.disabled = false; busy(btn, false); }
     };
     card.appendChild(btn);
     $('execs').appendChild(card);
@@ -88,19 +102,23 @@ function renderExecs() {
 }
 
 $('assembleBtn').onclick = async () => {
-  if (!state.hash) return alert('Compute the document hash first');
-  if (state.signers.length < 1) return alert('At least one executive must sign');
-  const bundle = D.makeBundle({ docName: 'unicorn-2026.pdf', docHash: state.hash, signers: state.signers });
-  $('bundleOut').textContent = bundle;
-  const res = await D.verifyBundle(bundle);
-  const ok = res.ok;
-  $('verifyOut').innerHTML = `<span class="tag ${ok ? 'ok' : 'bad'}">${ok ? '✓ all signatures valid' : '✗ ' + esc(res.reason)}</span>` +
-    res.signers.map((s) => ` ${esc(s.id)}:<span class="tag ${s.ok ? 'ok' : 'bad'}">${s.ok ? 'ok' : 'fail'}</span>`).join('');
-  const detached = D.isDetached(bundle);
-  $('blindNote').textContent = detached
-    ? '✓ Proven: the bundle contains no document bytes (only hash + signatures) — blind/detached signing.'
-    : '⚠ Detached check failed.';
+  const b = $('assembleBtn'); b.disabled = true; busy(b, true);
+  try {
+    if (!state.hash) return alert('Compute the document hash first');
+    if (state.signers.length < 1) return alert('At least one executive must sign');
+    const bundle = D.makeBundle({ docName: 'unicorn-2026.pdf', docHash: state.hash, signers: state.signers });
+    $('bundleOut').textContent = bundle;
+    const res = await D.verifyBundle(bundle);
+    const ok = res.ok;
+    $('verifyOut').innerHTML = `<span class="tag ${ok ? 'ok' : 'bad'}">${ok ? '✓ all signatures valid' : '✗ ' + esc(res.reason)}</span>` +
+      res.signers.map((s) => ` ${esc(s.id)}:<span class="tag ${s.ok ? 'ok' : 'bad'}">${s.ok ? 'ok' : 'fail'}</span>`).join('');
+    const detached = D.isDetached(bundle);
+    $('blindNote').textContent = detached
+      ? '✓ Proven: the bundle contains no document bytes (only hash + signatures) — blind/detached signing.'
+      : '⚠ Detached check failed.';
+  } finally { b.disabled = false; busy(b, false); }
 };
 </script>
+<div class="watermark" style="position:fixed;right:10px;bottom:6px;font:600 10px/1.2 system-ui,sans-serif;letter-spacing:.08em;color:#c8a44d;opacity:.55;pointer-events:none;z-index:50">ENGINE BY JEROME YOUNG</div>
 </body>
 </html>

@@ -1,0 +1,32 @@
+image:
+  repository: registry.example/aegis
+  tag: "1.0.0"
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  port: 80
+  targetPort: 8080
+
+ingress:
+  enabled: true
+  host: aegis.example
+  tls:
+    enabled: true
+    clusterIssuer: letsencrypt-prod
+
+persistence:
+  enabled: true
+  size: 10Gi
+  storageClass: ""
+
+# Set these via --set or a sealed secret; never commit the real value.
+auth:
+  mode: local            # local | oidc
+  issuerSecret: "CHANGE_ME"
+  oidcClientSecret: ""
+
+resources:
+  requests: { cpu: 100m, memory: 128Mi }
+  limits: { cpu: "1", memory: 512Mi }

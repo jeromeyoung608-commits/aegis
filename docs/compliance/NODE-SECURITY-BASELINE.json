@@ -1,0 +1,16 @@
+{
+  "schema": "aegis-node-security-baseline/1",
+  "reviewedOn": "2026-11-14",
+  "maxReviewAgeDays": 90,
+  "minimumVersion": "22.0.0",
+  "supportedMajors": [22, 24, 26],
+  "eolMajors": [16, 18, 20],
+  "runtimeNote": "Aegis uses node:sqlite (DatabaseSync), available from Node 22. No third-party runtime dependencies are shipped.",
+  "advisorySources": [
+    "https://nodejs.org/en/blog/vulnerability/",
+    "https://github.com/nodejs/node/security/advisories",
+    "https://nodejs.org/en/about/previous-releases"
+  ],
+  "reviewProcedure": "At least quarterly (and on every Node security announcement): verify the running Node major is still in security support, confirm no advisory affects node:sqlite / node:crypto / http used by server.js, update reviewedOn, and record the finding in docs/release evidence.",
+  "limitation": "Offline gate. It cannot detect a newly published CVE; the advisory URL review is a mandatory human/CI-with-network step and is recorded by reviewedOn."
+}

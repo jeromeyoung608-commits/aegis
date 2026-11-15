@@ -1,0 +1,15 @@
+{
+  "name": "@aegis/shell",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "MIT",
+  "description": "Aegis seven-step closed-loop command center",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "test": "node --test tests/*.test.mjs",
+    "verify": "node ../../scripts/verify-module.mjs . --tests"
+  }
+}

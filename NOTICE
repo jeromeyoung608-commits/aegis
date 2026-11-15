@@ -1,0 +1,18 @@
+Aegis
+Copyright (c) 2026 Jerome Young (Yang Jie). All rights reserved.
+Licensed under the Business Source License 1.1 (see LICENSE and LICENSES/).
+
+This product bundles third-party software. Those components keep their own
+upstream licenses and are NOT relicensed by the BSL-1.1 or the Aegis Commercial
+License:
+
+  - PDF.js            Apache-2.0   modules/doc-redactor/vendor/pdfjs/
+  - pdf-lib           MIT          modules/doc-redactor/vendor/pdf-lib/
+                                    modules/e2e-signed-delivery/vendor/pdf-lib/
+  - Tesseract.js      Apache-2.0   modules/doc-redactor/vendor/tesseract/
+  - tesseract.js-core Apache-2.0   modules/doc-redactor/vendor/tesseract-core/
+  - tessdata (eng)    Apache-2.0   modules/doc-redactor/vendor/tessdata/
+
+Full upstream license and notice text for each component is in its respective
+vendor/<component>/LICENSE and vendor/<component>/NOTICE files. Their terms
+travel with those files; nothing here removes or alters an attribution notice.

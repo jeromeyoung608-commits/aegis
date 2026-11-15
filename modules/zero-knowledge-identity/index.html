@@ -1,0 +1,134 @@
+<!-- Aegis - Copyright (c) 2026 Jerome Young (Yang Jie) -->
+<!-- SPDX-License-Identifier: BUSL-1.1 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aegis-Identity - Locally Self-Custodied Keys</title>
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="sigil" aria-hidden="true"></span>
+      <div>
+        <h1>Aegis-Identity</h1>
+        <p>ECDSA P-256 - PBKDF2 → AES-GCM wrapped key · IndexedDB vault · nothing leaves the device</p>
+      </div>
+    </div>
+    <div class="badges">
+      <span class="badge" id="badgeStore">vault: IndexedDB</span>
+      <span class="badge" id="badgeNet">network: checking…</span>
+    </div>
+  </header>
+
+  <main class="grid">
+    <section class="panel" id="panelSetup">
+      <div class="panel-head">
+        <h2>01 - Issue a digital seal</h2>
+        <span class="tag">new identity</span>
+      </div>
+      <form id="formSetup" autocomplete="off">
+        <label for="name">Display name</label>
+        <input id="name" placeholder="Engineer-A" maxlength="32" autocomplete="off" spellcheck="false" />
+
+        <label for="passphrase">Vault passphrase</label>
+        <input id="passphrase" type="password" placeholder="at least 8 characters" autocomplete="new-password" />
+        <p class="hint">Used only to derive the wrapping key. It is never stored, never hashed to disk, never sent.</p>
+
+        <label for="confirm">Confirm passphrase</label>
+        <input id="confirm" type="password" placeholder="repeat the passphrase" autocomplete="new-password" />
+
+        <button id="btnCreate" type="submit" class="primary">Generate ECDSA P-256 identity</button>
+      </form>
+      <div id="setupMsg" class="msg"></div>
+    </section>
+
+    <section class="panel" id="panelUnlock" hidden>
+      <div class="panel-head">
+        <h2>02 - Unlock the vault</h2>
+        <span class="tag warn">sealed</span>
+      </div>
+      <p class="lede">An identity already lives in this browser profile. Its name, public key and fingerprint are readable - the private key stays sealed until the passphrase is supplied.</p>
+      <form id="formUnlock" autocomplete="off">
+        <label for="unlockPass">Vault passphrase</label>
+        <input id="unlockPass" type="password" placeholder="passphrase" autocomplete="current-password" />
+        <div class="row">
+          <button id="btnUnlock" type="submit" class="primary">Unlock private key</button>
+          <button id="btnDelete" type="button" class="ghost danger">Delete identity…</button>
+        </div>
+      </form>
+      <div id="unlockMsg" class="msg"></div>
+    </section>
+
+    <section class="panel" id="panelCard" hidden>
+      <div class="panel-head">
+        <h2>Digital business card</h2>
+        <span class="tag ok">public material only</span>
+      </div>
+      <div class="card">
+        <canvas id="avatar" width="132" height="132" aria-label="identity avatar"></canvas>
+        <div class="card-body">
+          <div class="card-name" id="cardName">-</div>
+          <div class="card-role">ECDSA P-256 - digital seal</div>
+          <div class="fp-label">SHA-256 fingerprint</div>
+          <div class="fp" id="cardFp">-</div>
+          <div class="card-meta">
+            <span id="cardCreated">-</span>
+            <span class="state" id="cardState">sealed</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="key-box">
+        <div class="key-label">Public key · SPKI · Base64</div>
+        <code id="pubKey">-</code>
+      </div>
+
+      <div class="row">
+        <button id="btnCopy" type="button" class="ghost">Copy public key</button>
+        <button id="btnExport" type="button" class="ghost">Download card (.json)</button>
+        <button id="btnLock" type="button" class="ghost">Lock</button>
+      </div>
+      <div id="signMsg" class="msg"></div>
+    </section>
+
+    <section class="panel" id="panelProof">
+      <div class="panel-head">
+        <h2>Acceptance checks</h2>
+        <span class="tag">live evidence</span>
+      </div>
+      <ul class="checks" id="checks"></ul>
+      <div class="row">
+        <button id="btnSign" type="button" class="ghost" aria-describedby="signGateHint" title="Create an identity first" disabled>Sign a test challenge</button>
+        <button id="btnReload" type="button" class="ghost">Reload page</button>
+      </div>
+      <!-- AEG-24: the disabled Sign button used to look broken. State the gate and
+           the next action explicitly instead of auto-unlocking (which would keep
+           the private key in memory and defeat the sealed-vault guarantee). -->
+      <p class="hint gate-hint" id="signGateHint">Create an identity, then unlock it with your passphrase to enable Sign.</p>
+      <p class="hint">Reload is the acceptance test: a sealed identity must come back from IndexedDB with the same fingerprint, and the same passphrase must still unlock it.</p>
+    </section>
+  </main>
+
+  <dialog id="deleteDialog" class="dialog">
+    <form id="formDelete" autocomplete="off">
+      <h3>Delete this identity?</h3>
+      <p class="lede">This erases the wrapped private key from IndexedDB on this device. There is no recovery path: anything already signed can no longer be re-proven from this browser.</p>
+      <label for="deleteConfirm">Type <b id="deleteTarget">-</b> to confirm</label>
+      <input id="deleteConfirm" autocomplete="off" spellcheck="false" />
+      <div class="row">
+        <button type="button" id="btnDeleteCancel" class="ghost">Cancel</button>
+        <button type="submit" id="btnDeleteConfirm" class="danger-solid" disabled>Delete permanently</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div style="position: fixed; bottom: 8px; right: 12px; font-size: 10px; color: rgba(255,255,255,0.3); font-family: monospace; pointer-events: none; user-select: none; z-index: 9999;">
+    ENGINE BY JEROME YOUNG
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

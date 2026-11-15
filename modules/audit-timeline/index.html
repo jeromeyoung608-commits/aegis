@@ -1,0 +1,66 @@
+<!-- Aegis - Copyright (c) 2026 Jerome Young (Yang Jie) -->
+<!-- SPDX-License-Identifier: BUSL-1.1 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aegis-AuditTrail - Tamper-Evident Audit Trail</title>
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo"></span>
+      <div>
+        <h1>Aegis-AuditTrail</h1>
+        <span class="sub">Aegis-AuditTrail | Compliance Review | Tamper-Evident Audit Trail</span>
+      </div>
+    </div>
+    <span class="pill">Local only · SHA-256 - append-only</span>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Tamper-evident hash-chained audit trail</p>
+        <h2>Who did what, and when.</h2>
+        <p class="lede">
+          Every workbench action is appended to a SHA-256 hash chain stored on this
+          device. Each link folds in the previous one, so an edited, deleted or
+          reordered entry breaks the chain and is called out below.
+        </p>
+      </div>
+      <div class="stats">
+        <div class="stat"><span class="k">Links</span><b id="linkCount">0</b></div>
+        <div class="stat"><span class="k">Head</span><b id="headHash" class="mono">-</b></div>
+        <div class="stat"><span class="k">Storage</span><b id="storageState" class="mono">-</b></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div class="panel-title">
+          <span class="tag">Timeline</span>
+          <span id="chainState" class="state idle">loading chain…</span>
+        </div>
+        <div class="actions">
+          <button id="btnVerify" class="btn">Verify chain</button>
+          <button id="btnExport" class="btn ghost">Export JSON</button>
+          <button id="btnClear" class="btn ghost">Clear</button>
+        </div>
+      </div>
+
+      <ol id="timeline" class="timeline"></ol>
+
+      <p class="footnote" id="footnote">
+        Genesis 000…000 - hash[i] = SHA-256(hash[i-1] | canonical(entry)) · no document
+        content is stored in this log
+      </p>
+    </section>
+  </main>
+
+  <footer class="watermark">ENGINE BY JEROME YOUNG</footer>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

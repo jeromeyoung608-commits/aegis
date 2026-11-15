@@ -1,0 +1,20 @@
+{
+  "name": "sync-canvas",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A dependency-free realtime collaborative canvas with a hand-written OT engine. Module 2: collaborative approval board with signature stamps, state locking and an audit hash chain.",
+  "license": "MIT",
+  "author": "Jerome Young <jeromeyoung608@gmail.com>",
+  "scripts": {
+    "dev": "python3 -m http.server 8080",
+    "test": "node tests/fuzz.mjs && node tests/stamp.test.mjs",
+    "test:stamp": "node tests/stamp.test.mjs",
+    "chaos": "python3 chaos/fuzzer.py",
+    "start": "python3 -m http.server 8080",
+    "verify": "node ../../scripts/verify-module.mjs . --tests"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

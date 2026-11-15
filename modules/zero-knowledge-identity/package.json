@@ -1,0 +1,26 @@
+{
+  "name": "zero-knowledge-identity",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "Locally self-custodied key vault: ECDSA P-256: ECDSA P-256 via Web Crypto, private key wrapped with PBKDF2 + AES-GCM and stored in IndexedDB. No dependencies, no network.",
+  "scripts": {
+    "start": "node ../../server.js",
+    "test": "node --test",
+    "verify": "node ../../scripts/verify-module.mjs . --tests"
+  },
+  "dependencies": {},
+  "keywords": [
+    "webcrypto",
+    "ecdsa",
+    "p-256",
+    "indexeddb",
+    "self-custody",
+    "identity",
+    "zero-dependency"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}

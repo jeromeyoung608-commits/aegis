@@ -1,0 +1,105 @@
+<!-- Aegis - Copyright (c) 2026 Jerome Young (Yang Jie) -->
+<!-- SPDX-License-Identifier: BUSL-1.1 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Zero-Knowledge WebSocket Relay — Server-Blind Demo</title>
+<style>
+  :root { color-scheme: dark; --bg:#0e1116; --card:#161b22; --line:#2a3038; --txt:#e6edf3; --mut:#8b949e; --ok:#3fb950; --bad:#f85149; --acc:#58a6ff; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:14px/1.5 system-ui,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--txt); padding:24px; }
+  h1 { font-size:18px; margin:0 0 4px; } h2 { font-size:14px; margin:16px 0 8px; color:var(--acc); }
+  .mut { color:var(--mut); font-size:12px; } pre { background:#0a0d12; border:1px solid var(--line); border-radius:8px; padding:10px; overflow:auto; max-height:150px; font-size:12px; }
+  button { background:var(--acc); color:#04101f; border:0; border-radius:8px; padding:8px 12px; font-weight:600; cursor:pointer; margin:4px 4px 0 0; }
+  .row { display:flex; gap:16px; flex-wrap:wrap; } .col { flex:1 1 260px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px; margin-top:8px; }
+  .sig { font-family:ui-monospace,Menlo,monospace; font-size:11px; word-break:break-all; color:var(--mut); }
+  .tag { display:inline-block; padding:1px 8px; border-radius:999px; font-size:11px; }
+  .tag.ok { background:rgba(63,185,80,.15); color:var(--ok); }
+  .tag.bad { background:rgba(248,81,73,.15); color:var(--bad); }
+</style>
+
+<style>
+:focus-visible { outline: 2px solid #C8A44D; outline-offset: 2px; }
+input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid #C8A44D; outline-offset: 2px; }
+</style>
+</head>
+<body>
+<h1>Zero-Knowledge WebSocket Relay · Server-Blind Demo</h1>
+<p class="mut">The relay only forwards <strong>encrypted envelopes</strong> and never sees the canvas state or document. The in-browser simulated relay below proves the "server blind spot".</p>
+
+<div class="row">
+  <div class="col">
+    <h2>Device A (executive)</h2>
+    <div class="card">
+      <input id="aText" aria-label="Message text" value="Whiteboard coords (12,34): approve clause §3" />
+      <button id="aSend">Encrypt end-to-end & send</button>
+      <pre id="aWire" class="sig">(pending)</pre>
+    </div>
+  </div>
+  <div class="col">
+    <h2>Device B (executive)</h2>
+    <div class="card">
+      <pre id="bPlain" class="sig">(waiting to receive & decrypt)</pre>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>🛡 Relay / server view (all it ever sees)</h2>
+  <pre id="relayView" class="sig">(empty)</pre>
+  <div id="blindOut"></div>
+  <p class="mut">Real deployment: run <code>node src/relay.js --port 8081</code> in another terminal; the browser uses client.js's connectRelay(). The relay source (src/relay.js) is zero-dependency and forwards ciphertext only.</p>
+</div>
+
+<script type="module">
+import { makeSymKey, encryptEnvelope, decryptEnvelope } from './src/client.js';
+
+// Local helper: the page addresses controls as $('aSend') etc. Without it the
+// first click throws "ReferenceError: $ is not defined" and the demo looks dead.
+const $ = (id) => {
+  const el = document.getElementById(id);
+  if (!el) throw new Error('missing element #' + id);
+  return el;
+};
+
+// Two devices share one symmetric key; the relay never gets it.
+const raw = crypto.getRandomValues(new Uint8Array(32));
+const sym = await makeSymKey(raw);
+
+// In-browser "simulated relay": holds ciphertext only, forwards to the other device, records what it saw.
+const observed = [];
+const bInbox = [];
+function simulatedRelay(envelopeStr) {
+  observed.push(envelopeStr);           // the only thing the server sees
+  bInbox.push(envelopeStr);             // forward to device B (still ciphertext)
+}
+
+const busy = (el, on) => { if (el) el.setAttribute('aria-busy', on ? 'true' : 'false'); };
+
+$('aSend').onclick = async () => {
+  $('aSend').disabled = true; busy($('aSend'), true);
+  try {
+    const plain = { note: $('aText').value };
+    const env = await encryptEnvelope(sym, plain);
+    $('aWire').textContent = env;
+    simulatedRelay(env);
+    $('relayView').textContent = observed.join('\n\n');
+
+    const got = await decryptEnvelope(sym, bInbox[bInbox.length - 1]);
+    $('bPlain').textContent = 'Decrypted: ' + got.note;
+
+    const leaked = observed.join('\n').includes($('aText').value);
+    $('blindOut').innerHTML = leaked
+      ? '<span class="tag bad">✗ relay leaked plaintext</span>'
+      : '<span class="tag ok">✓ proven: relay sees ciphertext only — server blind spot holds</span>';
+  } finally {
+    $('aSend').disabled = false; busy($('aSend'), false);
+  }
+};
+</script>
+<div class="watermark" style="position:fixed;right:10px;bottom:6px;font:600 10px/1.2 system-ui,sans-serif;letter-spacing:.08em;color:#c8a44d;opacity:.55;pointer-events:none;z-index:50">ENGINE BY JEROME YOUNG</div>
+</body>
+</html>

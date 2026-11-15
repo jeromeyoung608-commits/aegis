@@ -1,0 +1,28 @@
+# Aegis — systemd unit. Copy to /etc/systemd/system/aegis.service, then:
+#   sudo systemctl daemon-reload && sudo systemctl enable --now aegis
+[Unit]
+Description=Aegis zero-dependency C2PA / provenance gateway
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=aegis
+WorkingDirectory=/opt/aegis
+ExecStart=/usr/bin/node /opt/aegis/server.js
+Environment=NODE_ENV=production
+Environment=AEGIS_ISSUER_SECRET=__CHANGE_ME__
+Environment=AEGIS_AUTH_MODE=local
+Environment=PORT=8080
+Environment=TZ=UTC
+# Sandboxing
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/aegis/data
+PrivateTmp=true
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

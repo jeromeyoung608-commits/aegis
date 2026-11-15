@@ -1,0 +1,99 @@
+<!-- Aegis - Copyright (c) 2026 Jerome Young (Yang Jie) -->
+<!-- SPDX-License-Identifier: BUSL-1.1 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aegis-Vault - Local Encrypted Vault</title>
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo"></span>
+      <div>
+        <h1>Aegis-Vault</h1>
+        <span class="sub">Zero-cloud archiving of signed documents</span>
+      </div>
+    </div>
+    <div class="badges">
+      <span class="pill" id="badgeOpfs">OPFS · checking</span>
+      <span class="pill" id="badgeCount">0 records</span>
+      <span class="pill" id="badgeNet">checking network…</span>
+    </div>
+  </header>
+
+  <main class="grid">
+    <!-- 1 - Seal a file -->
+    <section class="card">
+      <h2>1 - Seal a signed artifact</h2>
+      <p class="lede">
+        The file and its signature metadata are encrypted together with AES-GCM-256
+        and written into this browser's private OPFS vault. Nothing is uploaded.
+      </p>
+
+      <label class="drop" id="dropZone" for="fileInput">
+        <span class="drop-title">Choose a file or drop it here</span>
+        <span class="drop-sub" id="fileMeta">No file selected</span>
+        <input id="fileInput" type="file" hidden aria-label="File to store in the encrypted vault" />
+      </label>
+
+      <label for="metadataInput">Signature / verification metadata (JSON)</label>
+      <textarea id="metadataInput" rows="6" spellcheck="false">{
+  "kind": "manual-archive",
+  "note": "Sealed locally by the Aegis vault."
+}</textarea>
+
+      <label for="sealPass">Vault passphrase (min 8 characters)</label>
+      <input id="sealPass" type="password" autocomplete="new-password" />
+
+      <div class="row">
+        <button id="btnSeal" class="primary" disabled> Seal to vault</button>
+        <span class="hint">Stored as one opaque <code>.aegis</code> container</span>
+      </div>
+      <div class="msg" id="sealMsg"></div>
+    </section>
+
+    <!-- 2 - Vault browser -->
+    <section class="card">
+      <h2>2 - Vault contents</h2>
+      <p class="lede">
+        The index exposes only record ids and container sizes. File names, hashes and
+        signer details stay inside the encrypted payload until you unlock a record.
+      </p>
+
+      <div class="vault-bar">
+        <span id="vaultState">Opening OPFS vault…</span>
+        <button id="btnRefresh" class="ghost small"> Refresh</button>
+      </div>
+
+      <div class="list" id="vaultList" role="list"></div>
+
+      <label for="openPass">Passphrase for unlock</label>
+      <input id="openPass" type="password" autocomplete="off" />
+
+      <div class="detail" id="detail" hidden>
+        <div class="detail-head">
+          <span id="detailName">-</span>
+          <span class="tag" id="detailSize">-</span>
+        </div>
+        <dl id="detailMeta"></dl>
+        <pre id="detailJson"></pre>
+        <div class="row">
+          <button id="btnDownload" class="primary small"> Decrypt &amp; download</button>
+          <button id="btnCloseDetail" class="ghost small">Close</button>
+        </div>
+      </div>
+
+      <div class="msg" id="vaultMsg"></div>
+    </section>
+  </main>
+
+  <script type="module" src="./src/main.js"></script>
+
+  <div class="watermark">
+    ENGINE BY JEROME YOUNG
+  </div>
+</body>
+</html>

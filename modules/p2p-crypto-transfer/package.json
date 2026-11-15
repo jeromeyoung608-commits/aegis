@@ -1,0 +1,25 @@
+{
+  "name": "p2p-crypto-transfer",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "Zero-dependency, browser-native P2P encrypted file transfer over WebRTC DataChannel + Web Crypto AES-GCM.",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test",
+    "verify": "node ../../scripts/verify-module.mjs . --tests"
+  },
+  "dependencies": {},
+  "keywords": [
+    "webrtc",
+    "webcrypto",
+    "aes-gcm",
+    "p2p",
+    "zero-dependency",
+    "file-transfer"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -12,6 +12,10 @@
 > **The server never sees the topology, the document, the file, a key, or a passphrase.**
 > Every sensitive byte stays inside the browser; transport is P2P direct.
 
+> **License:** source-available under the [Business Source License 1.1](./LICENSE)
+> (SPDX `BUSL-1.1`), with a paid [Aegis Commercial License](./COMMERCIAL-LICENSE.md)
+> for production use beyond the free tier. Not open source. See [§ Licensing](#licensing--source-available-under-bsl-11-or-a-paid-commercial-license).
+
 ---
 
 ## 1 - Why this exists (the German industrial / medical pain point)
@@ -130,6 +134,17 @@ chain); their internal business logic is never modified.
 | Detached signing | `Aegis-DetachedSign` | `modules/detached-hash-signer` | Detached hash signing (sign the hash, not the document); NOT a blind-signature scheme |
 | Token-gated rooms | `Aegis-TokenGate` | `modules/token-gate` | ECDSA room tokens for trusted admission |
 | Server-blind relay | `Aegis-BlindRelay` | `modules/blind-relay` | Server-blind WebSocket relay (forwards ciphertext only) |
+
+Two further capabilities ship **server-side** (not as standalone modules): **enterprise auth**
+— OIDC (`AEGIS_AUTH_MODE=oidc`, logic in `server.js`, tests in `modules/oidc/`) and **SCIM**
+provisioning (tests in `modules/scim/`). Both are off by default and covered in
+`SECURITY.md` / `CONFIGURE-BEFORE-DEPLOY.md`.
+
+**Common commands:** `npm run dev` (start the workbench) · `npm run setup` (mint the local
+issuer secret + create the data dir) · `npm test` (full suite) · `npm run verify:delivery`
+(build + checksum the shippable tarball) · `npm run doctor` (environment self-check) ·
+`npm run verify:claims` (forbidden-claim scan) · `npm run sbom` (SBOM). The full script
+list is in `package.json`.
 
 Each standalone page carries its brand in the document title and its main heading, so a
 customer opening any module in isolation immediately sees which ecosystem it belongs to.
@@ -263,13 +278,33 @@ Open `http://localhost:8080` in **Chrome or Edge 113+**. Then:
 
 ---
 
+### Zero dependencies — the accurate claim
+
+Aegis is **not** "zero dependencies" as a whole product, and we do not claim it is.
+Concretely:
+
+- **9 of 11 modules, plus the shell (`aegis-shell/`) and the server (`server.js`),
+  ship with zero third-party runtime dependencies.** They use only Web Crypto and
+  other built-in browser / Node primitives.
+- **Two modules vendor third-party code:**
+  - `doc-redactor` vendors **pdf.js, pdf-lib, tesseract.js, tesseract-core, tessdata**
+    (~35 MB, all Apache-2.0 / MIT) for local OCR and PDF rendering.
+  - `e2e-signed-delivery` vendors **pdf-lib** (~524 KB, MIT) to render the signed
+    artifact to PDF.
+- **Nothing is fetched from a CDN at runtime** — every vendored library is served
+  locally from the image. The `video-tool/` directory ships only its browser
+  verification scripts (they need Playwright as a dev dependency); the promo-video
+  pipeline (Remotion, TTS, capture) is **not** part of the delivery package.
+- The full attribution and license matrix is in `docs/DEPENDENCY_AUDIT.md`.
+
 ## 6 - Project map
 
 ```
 Aegis/
 |-- server.js                  # unified server: COOP/COEP + static + signaling (zero-dep)
 |-- README.md                  # this file
-|-- LICENSE                    # MIT
+|-- LICENSE                    # Business Source License 1.1 (BUSL-1.1)
+|-- LICENSES/                  # full BSL-1.1 + Apache-2.0 license texts
 |-- DELIVERY_REPORT.md         # engineering + test report
 |-- aegis-shell/               # the unifying SPA (dark command-center)
 |   |-- index.html             # seven-stage Stepper + sidebar surfaces
@@ -290,7 +325,7 @@ Aegis/
     |-- encrypted-archive/      # Aegis-Vault
     |-- audit-timeline/         # Aegis-AuditTrail
     |-- sync-canvas/            # Aegis-Canvas
-    |-- detached-hash-signer/   # Aegis-BlindSign  (detached/blind hash signing)
+    |-- detached-hash-signer/   # Aegis-DetachedSign  (detached hash signing; NOT a blind-signature scheme)
     |-- token-gate/             # Aegis-TokenGate  (ECDSA room tokens)
     `-- blind-relay/            # Aegis-BlindRelay (server-blind WebSocket relay)
 ```
@@ -335,7 +370,7 @@ done
 
 # 3) P2P module unit tests - the OOM guard is proven here
 cd modules/p2p-crypto-transfer && npm test
-#   -> tests 10, pass 10, fail 0
+#   -> tests 11, pass 11, fail 0
 
 # 3b) Audit chain unit tests - hash linkage + tamper detection
 cd modules/audit-timeline && npm test
@@ -379,6 +414,101 @@ WebGPU rendering, OCR accuracy on real scans, cross-machine WebRTC, and the
 therefore validated by **static analysis + module-level test suites + signed-artifact
 round-trip + live header checks + server smoke tests**; the visual end-to-end loop is a
 manual acceptance step recorded here.
+
+---
+
+## 8b - Feature reference
+
+The eleven modules are listed in §3; three (Identity, Vault, AuditTrail) have their
+own deep-dive sections below. This section covers the **workbench shell, the operator
+compliance console, the remaining eight modules, enterprise auth, and Docker** — the
+parts the quick-tour table does not expand.
+
+### Workbench shell (`aegis-shell/`)
+
+The unified SPA. Each surface — Topology, REDAKTOR, SignedDelivery, Vault, Audit,
+Admin — is a **free-floating, draggable and resizable window**: grab its header to
+move it, drag the bottom-right grip to resize; position and size persist in
+`localStorage` and are restored on reload. Panels stay in their default two-column
+layout until you first grab one.
+
+### Operator compliance console (`console.html`) — *the EU/DE revenue feature*
+
+This is the product surface German/EU customers pay for, and it is a first-class
+feature, not a test artifact. It is an authenticated operator console (Issuer-secret
+bearer) with tabs:
+
+- **ROPA** — structured register of processing activities (GDPR Art. 30); fields
+  `controller.legalName / address / regNo`, `dpo.email`, `sla.mailbox / timezone`,
+  `euRep.name`. Missing facts surface as `409` on the doc gate and as a human-readable
+  banner (`COMPLIANCE_LABELS` maps raw field names to plain language).
+- **DSAR** — data-subject access-request ledger (GDPR Art. 12/15), 30-day `dueInDays`
+  tracking; creation requires a subject name **or** email.
+- **DPIA** — data-protection impact assessment record.
+- **Documents** — upload a signed ROPA/DPA/SLA/SCC/DPIA; the corresponding `/doc/*`
+  gate flips from `409` to `200` (`X-Aegis-Source: uploaded`). Blank templates
+  (`/template/*`) return `{{…}}` placeholders (`TEMPLATE — UNFILLED`).
+- **Audit / Revocations / Escrow / Sessions / Config / Setup** — operator controls,
+  key revocation, secret escrow, live session view, runtime config, first-run setup.
+- **Export & Erase** — download a filled `ROPA-filled.md`, and erase a data subject
+  (GDPR erasure) under audit. The GDPR Art. 20 data-portability bundle
+  (`/export/bundle`) now carries a `provenance` block identifying AEGIS (Jerome Young)
+  as the producer.
+
+The console is **role-gated**: the Admin panel is hidden from the `operator` role
+(`.win[hidden]`), visible to `admin`. Switching tabs offline shows a "server
+unreachable" banner instead of throwing.
+
+### Remaining eight modules
+
+- **Aegis-Topology** (`modules/webgpu-topology`) — WebGPU digital twin of up to 1M+
+  nodes; self-check passes 300/300 sampling; WebGL2 fallback when WebGPU is absent.
+- **Aegis-REDAKTOR** (`modules/doc-redactor`) — local OCR (tesseract.js) + destructive
+  PDF redaction. Load a document, draw/auto-detect PII boxes, set zoom / mode / clear,
+  export a redacted PDF whose `Producer` is stamped `REDAKTOR — local redaction engine`
+  (no bytes leave the browser).
+- **Aegis-SignedDelivery** (`modules/e2e-signed-delivery`) — assembles a *signed
+  artifact* = `[PDF document bytes] + [UTF-8 JSON signature trailer]`; two ECDSA-P256
+  signers (A & B) co-sign the document hash; tamper-evident (one flipped byte fails
+  verify). The trailer carries a `producer: "AEGIS v1.0.0 (Jerome Young)"` watermark.
+- **Aegis-Transport** (`modules/p2p-crypto-transfer`) — WebRTC + AES-GCM chunked
+  transfer. The receiver streams each decrypted chunk straight to disk (memory-safe,
+  no OOM on multi-GB files); LAN/P2P mode dropdown.
+- **Aegis-Canvas** (`modules/sync-canvas`) — real-time collaborative board with
+  operational-transform sync, multi-cursor presence, and a `fit` viewport control.
+- **Aegis-DetachedSign** (`modules/detached-hash-signer`) — *detached hash signing*:
+  the signer signs only the document's SHA-256 hash; the document bytes never enter
+  the signature bundle (blind/detached, not a blind-signature scheme).
+- **Aegis-TokenGate** (`modules/token-gate`) — ECDSA room-admission tokens; the demo
+  proves admit / expired / wrong-room / forged paths.
+- **Aegis-BlindRelay** (`modules/blind-relay`) — server-blind WebSocket relay that
+  forwards **ciphertext only**; the worked example proves the relay never sees
+  plaintext.
+
+### Enterprise auth: OIDC & SCIM
+
+- **OIDC** (`AEGIS_AUTH_MODE=oidc`, logic in `server.js`, tests in `modules/oidc/`):
+  unconfigured → `/auth/oidc/start` returns `503` (no silent降级). Configure an
+  IdP before enabling.
+- **SCIM 2.0 provisioning** (tests in `modules/scim/`): gated by `AEGIS_SCIM_TOKEN`;
+  `rotate` immediately revokes the old token.
+- Both are off by default. Configuration steps are in `CONFIGURE-BEFORE-DEPLOY.md`.
+
+### Docker deployment
+
+```bash
+docker build -t aegis .
+docker run -d -p 8099:8099 \
+  -e AEGIS_ISSUER_SECRET=<strong-secret> \
+  -v aegis-data:/app/data \
+  aegis
+```
+
+The image runs as a non-root user, bakes `docs/` into the image (so compliance
+templates resolve at runtime), and persists data on the `/app/data` volume. **Network
+exposure:** the server binds all interfaces by design — place it behind a reverse
+proxy with TLS and an ACL, as documented in `SECURITY.md`. Do **not** expose the port
+directly to untrusted networks.
 
 ---
 
@@ -538,7 +668,7 @@ or installing an npm package.
 
 ---
 
-## 11 - Third-party components
+## 13 - Third-party components
 
 Aegis declares **zero npm runtime dependencies**. Two modules vendor third-party code
 locally so the whole pipeline runs with no install and no network access — `doc-redactor`
@@ -602,29 +732,51 @@ upstream build step, not by this repository — attribution therefore lives in t
 `LICENSE` and `NOTICE` files. Nothing here removed or altered an attribution notice, and no
 vendored file was modified.
 
-### Licensing — MIT for first-party code, third-party terms unchanged
+### Licensing — source-available under BSL 1.1, or a paid commercial license
 
-Aegis is released under the **MIT License** (see [`LICENSE`](./LICENSE)). You may use,
-copy, modify, merge, publish, distribute, sublicense and sell it — commercial use included —
-with no fee and no permission needed from the author.
+Aegis is **source-available**, not open source. It is licensed under the
+**Business Source License 1.1 (BSL-1.1)** (see [`LICENSE`](./LICENSE) and
+[`LICENSES/Business-Source-License-1.1.txt`](./LICENSES/Business-Source-License-1.1.txt)),
+with an **Aegis Commercial License** (see [`COMMERCIAL-LICENSE.md`](./COMMERCIAL-LICENSE.md),
+with [`EULA.md`](./EULA.md) and [`PRICING.md`](./PRICING.md)) as the paid alternative for
+production / commercial use.
 
-Two things MIT does *not* do:
+- **Free tier (no payment):** BSL-1.1 permits non-production use (evaluation, development,
+  testing, training) and **production use by organizations with fewer than ten (10) full-time
+  equivalents AND consolidated annual revenue below EUR 2,000,000** in the most recently closed
+  fiscal year, counting the licensee together with all affiliates it controls or is controlled
+  by. Everyone else must buy a commercial license.
+- **Paid tier:** the Aegis Commercial License removes the production-use restriction and adds
+  support, SLA, liability coverage, and enterprise features.
+- **Change Date `2030-11-15`:** the BSL-1.1 grant on each version converts to Apache-2.0 four
+  years after that version's first publication, so old versions eventually become free for all.
+- **Security support period:** 5 years from v1.0.0 (2026-11-15 → 2031-11-15), disclosed at
+  purchase per CRA Art. 13(8)/13(19); see `SECURITY.md`.
 
-1. **It does not relicense the vendored components.** pdf.js, tesseract.js, tesseract.js-core
-   and tessdata stay Apache-2.0; pdf-lib stays MIT. Their terms travel with those files
-   whatever you do with the rest of the repo.
-2. **It does not require keeping the attribution.** MIT permits sublicense and modification,
-   so a redistributor may drop `ENGINE BY JEROME YOUNG` from their own copy. Attribution is
-   welcome, not required. The one thing that must survive is the copyright notice in
-   `LICENSE` — that is MIT's own condition, not an extra one.
+This is **not** the old "free, attribution-not-required" MIT grant. To use Aegis in production
+for a paying customer or as part of a distributed product, you must either qualify for the BSL
+free tier or hold a valid Aegis Commercial License.
 
-If you redistribute, carry `LICENSE` plus the `vendor/<component>/LICENSE` and `NOTICE`
-files above, and leave the "Powered by" credits for pdf.js, tesseract.js and pdf-lib in the
-`doc-redactor` UI, since those libraries ask for it in their own terms.
+Two things the license requires that the old MIT grant did not:
+
+1. **Attribution is mandatory.** The `ENGINE BY JEROME YOUNG` footers, the source copyright
+   headers, and the generated `producer` / `provenance` watermark fields must be retained and
+   not removed or obscured (enforced by `scripts/verify-headers.mjs` and `scripts/verify-licensing.mjs`).
+2. **Reselling / white-label redistribution** as a competing product is prohibited without a
+   separate OEM agreement (see `COMMERCIAL-LICENSE.md` §4).
+
+Vendored third-party components are not relicensed: pdf.js, tesseract.js, tesseract.js-core and
+tessdata stay Apache-2.0; pdf-lib stays MIT. Their terms travel with those files. If you
+redistribute, carry `LICENSE`, `LICENSES/`, `COMMERCIAL-LICENSE.md`, `NOTICE` plus the
+`vendor/<component>/LICENSE` and `NOTICE` files, and keep the "Powered by" credits for pdf.js,
+tesseract.js and pdf-lib in the `doc-redactor` UI.
+
+> Commercial-structure guidance, not legal advice. Have a qualified EU attorney review the
+> license, EULA and liability limits before you sell.
 
 ---
 
-## 13 - Post-audit P3 closure (delivery, CSP, diagnostics, wording)
+## 14 - Post-audit P3 closure (delivery, CSP, diagnostics, wording)
 
 Five items were deliberately left open in the 2026-11-13 audit because they needed a
 product decision. The decisions below are now implemented and gated in CI.
@@ -743,8 +895,73 @@ All gates green after the WebGL2 fix (run on clean, port-collision-free servers)
 |------|---------|--------|
 | Unit suite | `npm test` | 151 / 151 pass |
 | Claims wording (AEG-22) | `npm run verify:claims` | 216 files scanned, no forbidden claims |
-| Delivery packer (AEG-19) | `npm run verify:delivery` | 307 files, every sha256 matches, 16.0 MiB |
+| Delivery packer (AEG-19) | `npm run verify:delivery` | 385 files, every sha256 matches, 16.2 MiB; source-vs-package freshness check (B-02) |
 | CSP nonce (AEG-23) | `node video-tool/verify-csp.mjs` | ALL PASS |
 | P3 closure | `node video-tool/verify-p3.mjs` | ALL PASS (12 pages + AEG-21/24 + P0 PoCs + F-01 forged→DENY regression) |
 | WebGL2 fallback | `node video-tool/verify-webgl2.mjs` | 3 / 3 pass (was flaky) |
 | Runtime smoke | `node video-tool/verify-runtime.mjs` | ALL PASS (goto retry ×3 added — no longer flaky) |
+| Console (gated) | `node video-tool/verify-p3.mjs` | `/aegis-shell/console.html` 200 + sign-in control renders (N-01 coverage added) |
+| Page coverage | — | **13 / 13 first-party pages** (12 modules + shell + console) |
+| Deep flows | `npm run verify:flows` | **12 / 12 verified on Chromium (2026-11-14)** — token-gate 4-states, 3-party blind sign+verify, vault seal, canvas stamp edit, topology 100k, shell surface, zero-external, cosign 2/2, p2p local (same-context) + LAN (sessionStorage secret). Selectors matched to confirmed module DOM. p2p local/LAN assert page-load + zero-pageerror (peer-connect needs a live 2-peer / session secret). Requires Playwright + Chromium (dev-only; see note below). |
+| Accessibility | — | `aria-busy` on **every** long-task button across all 12 modules + console + shell (N-04 → EN 301 549 / WCAG 4.1.2 + 4.1.3) |
+| Security hardening | — | Audit trail is tamper-evident and append-only for operator/system subjects — `/audit/erase` refuses protected subjects (403); GDPR erasure still targets data subjects. Login throttled per-IP + per-(IP,user) (429 + lockout) **plus a per-IP enumeration guard** (distinct-username 429) that closes the account-existence side-channel; **a per-user lockout now spreads to the whole IP**, so probing non-existent usernames also returns 429 (v5 fix). **token-gate rejects non-canonical (tampered) signatures** — closes a forged-token acceptance flaw (~21% of trailing-char flips admitted before the fix). Console Audit CSV/JSON export fixed (`res.clone`); `GET /export/bundle` adds Art.20 portability (now includes account metadata). `npm run doctor` self-diagnostic. (B-04 + must-fix #5 + token-gate + M-01 + enum guard + lockout-spread) |
+| Static-surface lockdown (v7) | `server.js` | **B-01/B-01b/B-02/B-04 closed**: `config/`, `data/`, `server/` are denied as PRIVATE TOP-LEVEL dirs (depth-0 match, so `modules/webgpu-topology/src/data/` still serves), `.db*` extensions denied, encoded traversal (`%2e%2e`, double-encoded) rejected on the decoded path. `GET /config/local.json`, `/data/aegis.db`, `/server/store.js` now 403/404 — the issuer secret is no longer reachable from the port. `Referrer-Policy` / `Permissions-Policy` / `nosniff` / `HSTS` on every response; `/audit?limit=` requires a positive integer and clamps to 1000; DB startup failure prints an actionable message. |
+| Secret/DB never ship (v7) | `scripts/package-delivery.mjs` | **B-03 closed**: packer excludes `config/local.json` and top-level `data/*` regardless of `.gitignore`, with two hard assertions on both build and `--verify` (against actual tar entries). `scripts/setup.mjs` prints `rotating` and rotates any pre-existing `issuerSecret` instead of silently reusing it, and chmods the file to `0600` on both create and rotate. `Dockerfile` uses `node:22-alpine` (node:sqlite) and creates `config/` at build time instead of `COPY`-ing a secret. `npm run verify:zero-deps` / `npm run verify:p3` are now first-class gates. |
+| Compliance package | `docs/compliance/` | Privacy Policy (retention table, Art.12(3), cookie statement, DPO, DE), DPA (TOM Annex + 24h/72h breach + signature), ROPA (controller + transfer basis), SOC2 readiness, **SCIM 2.0 (implemented, `AEGIS_SCIM_TOKEN`)**, **OIDC SSO (implemented, `AEGIS_AUTH_MODE=oidc`)**, Incident Response / DR-Backup / Access-Review / Sub-processor inventory, VPAT 2.5 EU / WCAG 2.2 AA, SLA, Data-Residency; `GET /healthz` + `GET /health` probes; `GET /export/bundle` (Art.20); `scripts/cleanup.mjs` + `scripts/uninstall.mjs` + `Dockerfile`. (closes 欧美合规差距) |
+| Identity / SSO | `server/oidc.js` | OIDC authorization-code flow with RS256 id_token verification via `node:crypto` (zero external dependency) and SCIM 2.0 provisioning (`/scim/v2/Users`, `AEGIS_SCIM_TOKEN` bearer). Both are opt-in feature flags — the zero-config local deployment is unchanged. SCIM deprovisioning disables login (immediate 401) without purging the tamper-evident audit trail. |
+
+> **E2E prerequisite for `verify:flows`:** the deep-flow gate needs a browser.
+> Playwright is **dev-only** and does not affect the zero-runtime-dependency
+> claim. Install once with `npm i -D playwright && npx playwright install chromium`,
+> then run against a live server:
+> `BASE=http://localhost:8099 AEGIS_ISSUER_SECRET=<issuer> node video-tool/verify-flows.mjs`.
+
+---
+
+## 15 - From security-kernel demo to EU/US industrial deployment
+
+The core zero-trust kernel + the P3 audit closure are done (§14). To be shippable
+to European/American industrial-compliance customers, the workbench must move from
+a **local-first demo** to a **production system**. This is a phased program, executed
+phase by phase; each phase is verified ("调通") before the next starts. Status table
+at the end of this section.
+
+### 14.1 One-click install (Phase 0 — DONE)
+
+Zero external dependencies. The only requirement is **Node.js ≥ 22** (for the
+built-in `node:sqlite`); nothing else is installed or run.
+
+```bash
+npm run setup     # creates data/ + config/local.json (auto-generated issuer secret)
+npm start         # node server.js
+```
+
+- `data/aegis.db` is an embedded SQLite store (Node built-in) — no Postgres/Redis
+  to install, so "one-click" stays one-click.
+- `config/local.json` (git-ignored) carries an auto-generated `issuerSecret`;
+  `server.js` reads it automatically, or override via `AEGIS_ISSUER_SECRET`.
+- The server now writes a **server-side audit log** (`audit_events` table) that
+  survives restarts — the foundation for Phase 1's retained + GDPR-erasure-aware trail.
+
+### 14.2 Phased roadmap
+
+| Phase | Scope | Status |
+|-------|-------|--------|
+| **P0** | Foolproof install + embedded `node:sqlite` store + server-side audit log | ✅ done (this section) |
+| **P1** | Audit trail durable in SQLite + GDPR right-to-erasure (targeted deletion of a subject's rows + retained erasure marker) + retention purge (excludes compliance markers) + operator-gated `/audit` API (list / CSV export / erase / purge) | ✅ done |
+| **P2** | Identity foundation (server-side): local account (scrypt + salt) + server-side sessions (TTL) + operator auth accepts session OR bootstrap secret; OIDC authorize-redirect scaffold (config-driven, 501 until IdP configured); SAML/LDAP documented config stubs (not faked). Browser `token-gate` wiring to sessions deferred to module integration. | ✅ done |
+| **P3** | TSA RFC 3161 verification: signature-over-signedAttrs + message imprint + X.509 **chain-to-trust-store** + validity (eIDAS admissibility). Zero-dep (`node:crypto`). `verifyTimestampToken`, adapter `submit` returns `verification`, plus `/adapter/tsa/verify` endpoint. OCSP/CRL revocation check deferred. | ✅ done |
+| **P4** | Cross-site transport: token-gated `/relay` server-mediated data relay (server-blind fallback when no TURN) + STUN/TURN config surfaced via `/session` + server-side **key-escrow** policy (`/escrow` deposit/retrieve, operator break-glass) | ✅ done |
+| **P5** | Revocation: local CRL/OCSP-style deny-list of key fingerprints (`/admin/revoke`) + **admission-time check** in `/session` | ✅ done |
+| **P6** | Production-leaning UI foundation: unified **design system** + **Operator Console** (`/aegis-shell/console.html`) that makes P1–P5 server features usable (login, audit, revocation, escrow, TSA verify). Module product UIs are functional but not redesigned in this pass. | ✅ done (foundation) |
+| **P7** | Compliance shell: **i18n** (en/de) + **PWA** (manifest + offline service worker) + **SBOM** generation (CycloneDX) + **threat model** + **CRA/NIS2** + **SECURITY.md** self-assessment. Independent third-party penetration test remains required (cannot be performed by this project — explicitly out of scope). | ✅ done (pen-test external) |
+
+### 14.3 Honest scope note
+
+Two items cannot be closed by code alone:
+
+- **Independent penetration test** (part of P7) must be performed by a third party
+  — this project can only produce the threat model and an internal self-assessment.
+- P6 (full UI) and P7 (localization/a11y/PWA) are the largest phases and are
+  intentionally late in the order so the security + data foundations are solid first.
+

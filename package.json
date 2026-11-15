@@ -1,0 +1,31 @@
+{
+  "name": "aegis",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Aegis — Privacy-First Local Data Cleansing Engine. Root orchestrator: zero runtime dependencies; this package only wires `npm test` to run every module's test suite.",
+  "scripts": {
+    "predev": "lsof -ti:8080 | xargs kill -9 2>/dev/null || true",
+    "dev": "node server.js",
+    "start": "node server.js",
+    "setup": "node scripts/setup.mjs",
+    "test": "node scripts/verify-headers.mjs && node scripts/verify-licensing.mjs && node scripts/run-all-tests.mjs",
+    "test:quiet": "node scripts/run-all-tests.mjs --quiet",
+    "verify:headers": "node scripts/verify-headers.mjs",
+    "verify:claims": "node scripts/verify-claims.mjs",
+    "verify:tsa": "node adapters/tsa-rfc3161/test-verify.mjs && node adapters/tsa-rfc3161/test-integration.mjs",
+    "verify:p4p5": "node scripts/test-p4p5.mjs",
+    "verify:zero-deps": "node scripts/verify-zero-deps.mjs",
+    "verify:p3": "node video-tool/verify-p3.mjs",
+    "verify:p3:browser": "node scripts/verify-p3-browser.mjs",
+    "test:token-gate": "node modules/token-gate/test-token-gate.mjs",
+    "verify:flows": "node video-tool/verify-flows.mjs",
+    "doctor": "node scripts/doctor.mjs",
+    "uninstall": "node scripts/uninstall.mjs",
+    "verify:all": "node adapters/tsa-rfc3161/test-verify.mjs && node scripts/test-p4p5.mjs",
+    "sbom": "node scripts/gen-sbom.mjs --out SBOM.cdx.json",
+    "pack:delivery": "node scripts/package-delivery.mjs",
+    "verify:delivery": "node scripts/package-delivery.mjs --verify"
+  },
+  "license": "BUSL-1.1"
+}

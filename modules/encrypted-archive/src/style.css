@@ -1,0 +1,165 @@
+/* Aegis - Copyright (c) 2026 Jerome Young (Yang Jie) */
+/* SPDX-License-Identifier: BUSL-1.1 */
+/* modules/encrypted-archive/src/style.css — dark vault surface, gold seal accent. */
+
+:root {
+  --bg: #0a0e14;
+  --panel: #121821;
+  --panel-2: #161e29;
+  --line: #223041;
+  --txt: #d9e2ee;
+  --txt-dim: #8496ab;
+  --gold: #d4b06a;
+  --gold-dim: #8a7442;
+  --ok: #3fb950;
+  --warn: #d29922;
+  --err: #f85149;
+  --mono: "SFMono-Regular", "JetBrains Mono", "Fira Code", Consolas, monospace;
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  background:
+    radial-gradient(1000px 520px at 85% -12%, #1b2a3a66 0%, transparent 62%),
+    radial-gradient(700px 480px at -10% 110%, #2a241533 0%, transparent 60%),
+    var(--bg);
+  color: var(--txt);
+  font-family: var(--sans);
+  padding: 18px 20px 40px;
+  line-height: 1.5;
+}
+
+/* ── Top bar ─────────────────────────────────────────────── */
+.topbar {
+  display: flex; align-items: center; gap: 18px;
+  padding-bottom: 14px; margin-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.brand { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+.brand .logo {
+  width: 34px; height: 34px; flex: none; border-radius: 9px;
+  background: conic-gradient(from 210deg, var(--gold), #f0dcae, #8a7442, var(--gold));
+  box-shadow: 0 0 20px #d4b06a44;
+}
+.brand h1 { margin: 0; font-size: 15px; letter-spacing: 2.4px; }
+.brand .sub { font-size: 11.5px; color: var(--txt-dim); letter-spacing: .4px; }
+.badges { display: flex; gap: 8px; flex-wrap: wrap; }
+.pill {
+  font-size: 10.5px; font-family: var(--mono); color: var(--gold);
+  border: 1px solid #3a3226; background: #17140f;
+  padding: 5px 10px; border-radius: 999px; white-space: nowrap;
+}
+.pill.ok { color: var(--ok); border-color: #1d3a31; background: #0c1a16; }
+.pill.err { color: var(--err); border-color: #45201f; background: #1a0f0f; }
+
+/* ── Layout ──────────────────────────────────────────────── */
+.grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  max-width: 1180px;
+}
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+.card {
+  border: 1px solid var(--line); border-radius: 14px; padding: 18px;
+  background: linear-gradient(180deg, #131a24, #0f151d);
+  box-shadow: 0 18px 44px #00000038;
+}
+.card h2 {
+  margin: 0 0 8px; font-size: 12px; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--gold);
+}
+.lede { margin: 0 0 14px; font-size: 12px; color: var(--txt-dim); }
+.hint { font-size: 11px; color: var(--txt-dim); }
+code { font-family: var(--mono); color: var(--gold); font-size: 11px; }
+
+/* ── Form controls ───────────────────────────────────────── */
+label {
+  display: block; margin-top: 14px; margin-bottom: 6px;
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: .8px;
+  color: var(--txt-dim);
+}
+input[type="password"], textarea {
+  width: 100%; font: inherit; font-size: 12.5px;
+  color: var(--txt); background: #0b1119;
+  border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px;
+  outline: none; transition: border-color .15s;
+}
+input[type="password"]:focus, textarea:focus { border-color: var(--gold-dim); }
+textarea { font-family: var(--mono); font-size: 11.5px; resize: vertical; line-height: 1.45; }
+
+.drop {
+  display: flex; flex-direction: column; gap: 4px; margin-top: 0;
+  padding: 18px; border: 1px dashed #3a4b5f; border-radius: 11px;
+  background: #0b1119; cursor: pointer; transition: border-color .15s, background .15s;
+  text-transform: none; letter-spacing: 0;
+}
+.drop:hover, .drop.over { border-color: var(--gold); background: #12161c; }
+.drop-title { font-size: 12.5px; color: var(--txt); }
+.drop-sub { font-family: var(--mono); font-size: 10.5px; color: var(--txt-dim); }
+
+.row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+
+button {
+  font: inherit; font-size: 12px; cursor: pointer; font-weight: 600;
+  border: 1px solid var(--gold-dim); color: #171204;
+  background: var(--gold); border-radius: 8px; padding: 9px 14px;
+  transition: filter .15s, opacity .15s;
+}
+button:hover:not(:disabled) { filter: brightness(1.1); }
+button:disabled { opacity: .4; cursor: not-allowed; }
+button.ghost { background: transparent; color: var(--txt); border-color: var(--line); }
+button.small { padding: 6px 10px; font-size: 11px; }
+
+.msg { min-height: 18px; margin-top: 10px; font-size: 11.5px; font-family: var(--mono); }
+.msg.ok { color: var(--ok); }
+.msg.err { color: var(--err); }
+.msg.warn { color: var(--warn); }
+
+/* ── Vault browser ───────────────────────────────────────── */
+.vault-bar {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--mono); font-size: 11px; color: var(--txt-dim);
+}
+.vault-bar span { flex: 1; }
+.list { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; max-height: 220px; overflow: auto; }
+.row-item {
+  display: flex; align-items: center; gap: 10px;
+  border: 1px solid var(--line); border-radius: 9px;
+  padding: 8px 10px; background: var(--panel-2);
+}
+.row-item.active { border-color: var(--gold-dim); box-shadow: 0 0 0 1px #d4b06a33 inset; }
+.row-item .id { font-family: var(--mono); font-size: 10.5px; color: var(--txt-dim); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row-item .size { font-family: var(--mono); font-size: 10.5px; color: var(--gold); white-space: nowrap; }
+.empty { font-size: 11.5px; color: var(--txt-dim); padding: 10px 2px; font-style: italic; }
+
+.detail {
+  margin-top: 14px; padding: 12px; border: 1px solid #3a3226;
+  border-radius: 10px; background: #14110c;
+}
+.detail[hidden] { display: none; }
+.detail-head { display: flex; align-items: center; gap: 10px; }
+.detail-head span:first-child { font-size: 13px; font-weight: 600; flex: 1; }
+.tag {
+  font-family: var(--mono); font-size: 10px; color: var(--txt-dim);
+  border: 1px solid var(--line); border-radius: 999px; padding: 2px 8px;
+}
+dl { display: grid; grid-template-columns: 110px 1fr; gap: 4px 10px; margin: 12px 0 0; font-size: 11.5px; }
+dt { color: var(--txt-dim); }
+dd { margin: 0; font-family: var(--mono); font-size: 11px; word-break: break-all; }
+pre {
+  margin: 12px 0 0; padding: 10px; border: 1px solid var(--line); border-radius: 8px;
+  background: #0a0e14; color: var(--txt-dim); font-family: var(--mono);
+  font-size: 10.5px; max-height: 180px; overflow: auto; white-space: pre-wrap;
+}
+
+.watermark {
+  position: fixed; bottom: 8px; right: 12px; z-index: 9999;
+  font-size: 10px; font-family: monospace; color: rgba(255, 255, 255, 0.3);
+  pointer-events: none; user-select: none;
+}
+
+/* 品牌焦点环：键盘用户必须能看到当前控件 (patch 3) */
+:focus-visible { outline: 2px solid #C8A44D; outline-offset: 2px; }
+input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid #C8A44D; outline-offset: 2px; }

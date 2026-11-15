@@ -1,0 +1,19 @@
+{
+  "generatedBy": "Aegis CQO audit 2026-11-10",
+  "policy": "All third-party assets are vendored locally. The app makes zero network requests at runtime. These are genuine dependencies — their licenses must ship with any redistribution.",
+  "components": [
+    {
+      "name": "pdf-lib",
+      "version": "1.17.1",
+      "license": "MIT",
+      "upstreamUrl": "https://github.com/Hopding/pdf-lib",
+      "purpose": "Re-serialise the signed delivery PDF without third-party server round-trips",
+      "files": [
+        {
+          "path": "pdf-lib/pdf-lib.min.js",
+          "sha256": "0f9a5cad07941f0826586c94e089d89b918c46e5c17cf2d5a3c6f666e3bc694f"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,267 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "metadata": {
+    "timestamp": "2026-11-15T12:01:59.948Z",
+    "component": {
+      "type": "application",
+      "name": "aegis",
+      "version": "1.0.0",
+      "description": "Aegis — Privacy-First Local Data Cleansing Engine. Root orchestrator: zero runtime dependencies; this package only wires `npm test` to run every module's test suite. NOTE: root declares zero npm deps, but browser modules vendor third-party libs (PDF.js, pdf-lib, Tesseract.js) and test harnesses use playwright.",
+      "licenses": [
+        {
+          "license": {
+            "id": "BUSL-1.1"
+          }
+        }
+      ],
+      "bom-ref": "aegis"
+    }
+  },
+  "components": [
+    {
+      "type": "application",
+      "name": "Node.js",
+      "version": "26.0.0",
+      "purl": "pkg:generic/node@26.0.0",
+      "bom-ref": "node",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "pdf-lib",
+      "version": "1.17.1",
+      "bom-ref": "vendor:pdf-lib",
+      "scope": "required",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "aegis:vendored",
+          "value": "true"
+        },
+        {
+          "name": "aegis:bundledFiles",
+          "value": "2"
+        },
+        {
+          "name": "aegis:bundledBytes",
+          "value": "526169"
+        }
+      ],
+      "purl": "pkg:github/Hopding/pdf-lib@1.17.1"
+    },
+    {
+      "type": "library",
+      "name": "pdfjs",
+      "version": "3.11.174",
+      "bom-ref": "vendor:pdfjs",
+      "scope": "required",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "aegis:vendored",
+          "value": "true"
+        },
+        {
+          "name": "aegis:bundledFiles",
+          "value": "4"
+        },
+        {
+          "name": "aegis:bundledBytes",
+          "value": "1418296"
+        }
+      ],
+      "purl": "pkg:github/mozilla/pdf.js@3.11.174"
+    },
+    {
+      "type": "library",
+      "name": "tessdata",
+      "version": "4.0.0",
+      "bom-ref": "vendor:tessdata",
+      "scope": "required",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "aegis:vendored",
+          "value": "true"
+        },
+        {
+          "name": "aegis:bundledFiles",
+          "value": "4"
+        },
+        {
+          "name": "aegis:bundledBytes",
+          "value": "4297126"
+        }
+      ],
+      "purl": "pkg:github/tesseract-ocr/tessdata@4.0.0"
+    },
+    {
+      "type": "library",
+      "name": "tesseract",
+      "version": "5.1.1",
+      "bom-ref": "vendor:tesseract",
+      "scope": "required",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "aegis:vendored",
+          "value": "true"
+        },
+        {
+          "name": "aegis:bundledFiles",
+          "value": "4"
+        },
+        {
+          "name": "aegis:bundledBytes",
+          "value": "201469"
+        }
+      ],
+      "purl": "pkg:github/naptha/tesseract.js@5.1.1"
+    },
+    {
+      "type": "library",
+      "name": "tesseract-core",
+      "version": "5.1.1",
+      "bom-ref": "vendor:tesseract-core",
+      "scope": "required",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "aegis:vendored",
+          "value": "true"
+        },
+        {
+          "name": "aegis:bundledFiles",
+          "value": "10"
+        },
+        {
+          "name": "aegis:bundledBytes",
+          "value": "29991414"
+        }
+      ],
+      "purl": "pkg:github/naptha/tesseract.js-core@5.1.1"
+    },
+    {
+      "type": "library",
+      "name": "playwright-core",
+      "version": "1.55.0",
+      "bom-ref": "dev:playwright-core",
+      "scope": "excluded",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "aegis:scope",
+          "value": "dev/test tooling (not shipped)"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "playwright",
+      "version": "1.65.0",
+      "bom-ref": "dev:playwright",
+      "scope": "excluded",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "aegis:scope",
+          "value": "dev/test tooling (not shipped)"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "aegis",
+      "dependsOn": [
+        "node",
+        "vendor:pdf-lib",
+        "vendor:pdfjs",
+        "vendor:tessdata",
+        "vendor:tesseract",
+        "vendor:tesseract-core"
+      ]
+    },
+    {
+      "ref": "node",
+      "dependsOn": []
+    },
+    {
+      "ref": "vendor:pdf-lib",
+      "dependsOn": []
+    },
+    {
+      "ref": "vendor:pdfjs",
+      "dependsOn": []
+    },
+    {
+      "ref": "vendor:tessdata",
+      "dependsOn": []
+    },
+    {
+      "ref": "vendor:tesseract",
+      "dependsOn": []
+    },
+    {
+      "ref": "vendor:tesseract-core",
+      "dependsOn": []
+    },
+    {
+      "ref": "dev:playwright-core",
+      "dependsOn": []
+    },
+    {
+      "ref": "dev:playwright",
+      "dependsOn": []
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "token-gate",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Token-Gated Rooms — ECDSA-signed, time-bound room tokens for zero-knowledge collaborative signing. The relay trusts the token, never the person. Zero dependencies.",
+  "scripts": {
+    "test": "node --test"
+  },
+  "license": "MIT"
+}

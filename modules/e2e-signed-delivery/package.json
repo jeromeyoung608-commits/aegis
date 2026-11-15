@@ -1,0 +1,28 @@
+{
+  "name": "e2e-signed-delivery",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Aegis e2e-signed-delivery module: sign a PDF with two ECDSA signers and deliver it over an encrypted P2P channel for the boss to verify.",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "test:browser": "node tests/e2e.browser.mjs",
+    "start": "python3 -m http.server 8016",
+    "verify": "node ../../scripts/verify-module.mjs . --tests"
+  },
+  "keywords": [
+    "webrtc",
+    "webcrypto",
+    "ecdsa",
+    "aes-gcm",
+    "p2p",
+    "signed-delivery"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "playwright": "^1.65.0"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "doc-redactor",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node tests/e2e.test.cjs"
+  },
+  "devDependencies": {
+    "playwright-core": "1.55.0",
+    "pdf-lib": "1.17.1"
+  },
+  "license": "MIT"
+}

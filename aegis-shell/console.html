@@ -1,0 +1,404 @@
+<!-- Aegis - Copyright (c) 2026 Jerome Young (Yang Jie) -->
+<!-- SPDX-License-Identifier: BUSL-1.1 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aegis — Operator Console</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="stylesheet" href="./src/design-system.css" />
+</head>
+<body class="cmd-center">
+  <div class="app">
+    <div class="topbar-ds">
+      <a class="brand-link" href="/aegis-shell/index.html" rel="noopener">
+        <span class="logo"></span>
+        <img id="brandLogo" class="brand-logo" alt="Operator logo" hidden />
+        <div>
+          <h1>Aegis Operator Console</h1>
+          <span class="sub">Audit · Revocation · Key Escrow · TSA verification</span>
+        </div>
+      </a>
+      <div class="row-ds">
+        <label class="faint" for="langSel" data-i18n="lang.label" style="font-size:11px;margin-right:4px;">Language</label>
+        <select id="langSel" class="input" style="width:auto;padding:2px 4px;font-size:11px;">
+          <option value="en">EN</option><option value="de">DE</option><option value="fr">FR</option><option value="es">ES</option>
+        </select>
+        <span id="who" class="faint"></span>
+        <span id="netStatus" class="net-status" hidden></span>
+        <button id="btnLogout" class="btn small ghost" hidden>Sign out</button>
+        <a class="btn small" href="/aegis-shell/index.html">Workbench</a>
+      </div>
+    </div>
+
+    <!-- Login -->
+    <div id="loginCard" class="card-ds" style="max-width: 380px;">
+      <h2>Operator sign-in</h2>
+      <p class="hint">Local account (seeded by <code>npm run setup</code>; default password = the config issuer secret).</p>
+      <label class="field" for="username">Username</label>
+      <input id="username" class="input" value="admin" autocomplete="username" />
+      <label class="field" for="password">Password</label>
+      <input id="password" class="input" type="password" autocomplete="current-password" />
+      <div class="row-ds end" style="margin-top:14px;">
+        <span id="loginMsg" class="faint"></span>
+        <button id="btnLogin" class="btn primary">Sign in</button>
+      </div>
+    </div>
+
+    <!-- Console -->
+    <div id="console" hidden>
+      <div class="row-ds" style="margin-bottom:16px;">
+        <button class="btn small" data-tab="audit">Audit log</button>
+        <button class="btn small" data-tab="revoke">Revocation</button>
+        <button class="btn small" data-tab="escrow">Key escrow</button>
+        <button class="btn small" data-tab="tsa">TSA verify</button>
+        <button class="btn small" data-tab="sys">System</button>
+        <button class="btn small" data-tab="compliance">Compliance</button>
+        <button class="btn small" data-tab="setup">Setup</button>
+        <button class="btn small" data-tab="subjects">Data subjects</button>
+        <button class="btn small" data-tab="sessions">Sessions</button>
+        <button class="btn small" data-tab="config">Config</button>
+      </div>
+
+      <!-- Audit -->
+      <section data-panel="audit">
+        <div class="card-ds">
+          <h2>Audit trail</h2>
+          <p class="hint">Server-side, operator-facing log (survives restart). CSV export included.</p>
+          <div class="row-ds end">
+            <button id="auditRefresh" class="btn small">Refresh</button>
+            <button id="auditJson" class="btn small">Audit JSON</button>
+            <a id="auditCsv" class="btn small" href="/audit/export" download>Audit CSV</a>
+          </div>
+          <div id="auditLog" class="log-ds" style="margin-top:12px;">—</div>
+        </div>
+      </section>
+
+      <!-- Revocation -->
+      <section data-panel="revoke" hidden>
+        <div class="card-ds">
+          <h2>Revocation list</h2>
+          <p class="hint">CRL/OCSP-style deny-list of signing/transport key fingerprints. Checked at session admission.</p>
+          <label class="field" for="revFp">Key fingerprint (hex / colon-separated)</label>
+          <input id="revFp" class="input" placeholder="ab:cd:ef:…" />
+          <label class="field" for="revReason">Reason</label>
+          <input id="revReason" class="input" value="compromised" />
+          <div class="row-ds end" style="margin-top:12px;">
+            <span id="revMsg" class="faint"></span>
+            <button id="revAdd" class="btn primary">Revoke key</button>
+          </div>
+        </div>
+        <div class="card-ds">
+          <h2>Active revocations</h2>
+          <table class="table-ds" id="revTable"><thead><tr><th>Fingerprint</th><th>Reason</th><th>Revoked</th><th></th></tr></thead><tbody></tbody></table>
+        </div>
+      </section>
+
+      <!-- Escrow -->
+      <section data-panel="escrow" hidden>
+        <div class="card-ds">
+          <h2>Key escrow (break-glass recovery)</h2>
+          <p class="hint">Opaque envelopes sealed by clients to the operator key. The server never sees key material.</p>
+          <label class="field" for="escrowRoom">Room (optional)</label>
+          <input id="escrowRoom" class="input" placeholder="leave empty for all rooms" />
+          <div class="row-ds end" style="margin-top:12px;">
+            <button id="escrowRefresh" class="btn primary">Retrieve</button>
+          </div>
+        </div>
+        <div class="card-ds">
+          <h2>Deposited envelopes</h2>
+          <table class="table-ds" id="escrowTable"><thead><tr><th>Room</th><th>Fingerprint</th><th>By</th><th>Sealed</th></tr></thead><tbody></tbody></table>
+        </div>
+      </section>
+
+      <!-- TSA verify -->
+      <section data-panel="tsa" hidden>
+        <div class="card-ds">
+          <h2>RFC 3161 timestamp verification</h2>
+          <p class="hint">Paste a base64 token + the expected document SHA-256. Requires a configured trust store (see <code>adapters/tsa-rfc3161</code>).</p>
+          <label class="field" for="tsaTok">Token (base64)</label>
+          <textarea id="tsaTok" class="input" rows="4"></textarea>
+          <label class="field" for="tsaDigest">Expected digest (hex)</label>
+          <input id="tsaDigest" class="input" placeholder="64 hex chars" />
+          <div class="row-ds end" style="margin-top:12px;">
+            <span id="tsaMsg" class="faint"></span>
+            <button id="tsaVerify" class="btn primary">Verify</button>
+          </div>
+          <div id="tsaOut" class="log-ds" hidden style="margin-top:12px;"></div>
+        </div>
+      </section>
+
+      <!-- System -->
+      <section data-panel="sys" hidden>
+        <div class="card-ds">
+          <h2>Session / integrity</h2>
+          <p class="hint">Operator session details and quick links.</p>
+          <div id="sysInfo" class="log-ds">—</div>
+        </div>
+      </section>
+
+      <!-- Compliance: operator-supplied legal facts + document upload (Phase 8) -->
+      <section data-panel="compliance" hidden>
+        <div class="card-ds">
+          <h2 data-i18n="compliance.title">Compliance &amp; legal identity</h2>
+          <p class="hint" data-i18n="compliance.intro">These are <b>your</b> real legal facts — Aegis never fabricates them. Fill them once; they are rendered into ROPA / Privacy Policy / DPA / SLA and listed in the audit trail. Saved under the runtime volume (never shipped).</p>
+
+          <div id="compStatus" class="banner-ds"></div>
+
+          <h3 data-i18n="compliance.controller">Controller (data controller)</h3>
+          <label class="field" for="ctlLegalName">Legal name</label>
+          <input id="ctlLegalName" class="input" placeholder="Acme GmbH" />
+          <label class="field" for="ctlAddress">Registered address</label>
+          <input id="ctlAddress" class="input" placeholder="Hauptstr. 1, 10117 Berlin, Germany" />
+          <label class="field" for="ctlRegNo">Company registration no.</label>
+          <input id="ctlRegNo" class="input" placeholder="HRB 123456" />
+
+          <h3 data-i18n="compliance.dpo">Data Protection Officer</h3>
+          <label class="field" for="dpoName">DPO name</label>
+          <input id="dpoName" class="input" placeholder="Jane Doe" />
+          <label class="field" for="dpoEmail">DPO email</label>
+          <input id="dpoEmail" class="input" type="email" placeholder="dpo@acme.example" />
+          <label class="field" for="dpoAddress">DPO postal address</label>
+          <input id="dpoAddress" class="input" placeholder="…" />
+
+          <h3 data-i18n="compliance.eurep">EU representative (GDPR Art. 27 — if no EU entity)</h3>
+          <label class="field" for="euName">Representative name</label>
+          <input id="euName" class="input" placeholder="Acme EU Rep Ltd" />
+          <label class="field" for="euAddress">Representative address</label>
+          <input id="euAddress" class="input" placeholder="…" />
+
+          <h3 data-i18n="compliance.sla">SLA &amp; legal</h3>
+          <label class="field" for="slaMailbox">SLA contact mailbox</label>
+          <input id="slaMailbox" class="input" type="email" placeholder="ops@acme.example" />
+          <label class="field" for="slaTimezone">Operator timezone</label>
+          <input id="slaTimezone" class="input" placeholder="Europe/Berlin (UTC+1/+2)" />
+          <label class="field" for="govLaw">Governing law</label>
+          <input id="govLaw" class="input" placeholder="Laws of Germany" />
+          <label class="field" for="supAuth">Supervisory authority</label>
+          <input id="supAuth" class="input" placeholder="Berliner Beauftragte für Datenschutz" />
+          <label class="field" for="ctlRegion">Region preset (suggests authority)</label>
+          <select id="ctlRegion" class="input">
+            <option value="">— none —</option>
+            <option value="DE">Germany (BfDI)</option>
+            <option value="FR">France (CNIL)</option>
+            <option value="UK">United Kingdom (ICO)</option>
+            <option value="EU">Other EU member state</option>
+            <option value="US">United States</option>
+          </select>
+
+          <h3 data-i18n="compliance.ropa">ROPA structured register (GDPR Art. 30)</h3>
+          <p class="hint" data-i18n="compliance.ropaHint">These four columns are the structured minimum expected by the supervisory authority and are rendered into the filled ROPA. Until set, issuing the filled ROPA is blocked by the factory gate.</p>
+          <label class="field" for="ropaPurpose">Purpose of processing</label>
+          <input id="ropaPurpose" class="input" placeholder="e.g. local document cleansing &amp; integrity hashing" />
+          <label class="field" for="ropaRetention">Retention period</label>
+          <input id="ropaRetention" class="input" placeholder="e.g. 12 months, erasable on request" />
+          <label class="field" for="ropaRecipients">Recipients of the data</label>
+          <input id="ropaRecipients" class="input" placeholder="e.g. none (local) / configured TSA only" />
+          <label class="field" for="ropaLegalBasis">Legal basis</label>
+          <input id="ropaLegalBasis" class="input" placeholder="e.g. Art. 6(1)(f) legitimate interests" />
+
+          <h3 data-i18n="compliance.optional">Optional — TSA gateway</h3>
+          <label class="field" for="tsaEndpoint">RFC 3161 TSA endpoint</label>
+          <input id="tsaEndpoint" class="input" placeholder="https://tsa.example/timestamp" />
+          <div class="row-ds" style="margin-top:8px;">
+            <button id="tsaTest" class="btn small">Test TSA connection</button>
+            <span id="tsaMsg" class="faint"></span>
+          </div>
+
+          <div class="row-ds end" style="margin-top:14px;">
+            <span id="compMsg" class="faint"></span>
+            <button id="compReload" class="btn small" data-i18n="compliance.reload">Reload</button>
+            <button id="compSave" class="btn primary" data-i18n="compliance.save">Save facts</button>
+          </div>
+        </div>
+
+        <div class="card-ds">
+          <h2 data-i18n="compliance.uploadTitle">Upload filled compliance documents</h2>
+          <p class="hint" data-i18n="compliance.uploadHint">Upload the executed versions (signed ROPA / DPA / SLA, DPO appointment letter, logo). Stored server-side, retrievable only by an operator. Use “Download filled …” to generate the template with your facts substituted.</p>
+          <div class="row-ds">
+            <input id="compFile" class="input" type="file" style="flex:1;" aria-label="compliance document file" />
+            <label for="compKind" class="faint" style="align-self:center;">Document type</label>
+            <select id="compKind" class="input" style="max-width:220px;" aria-label="compliance document type">
+              <option value="ROPA">ROPA (signed)</option>
+              <option value="DPA">DPA (signed)</option>
+              <option value="SLA">SLA (signed)</option>
+              <option value="DPO-appointment">DPO appointment letter</option>
+              <option value="Logo">Company logo</option>
+              <option value="Other">Other</option>
+            </select>
+            <button id="compUpload" class="btn primary" data-i18n="compliance.upload">Upload</button>
+          </div>
+          <div class="row-ds end" style="margin-top:8px;">
+            <span id="compUploadMsg" class="faint"></span>
+          </div>
+          <table class="table-ds" id="compFiles" style="margin-top:12px;">
+            <thead><tr><th>Name</th><th>Kind</th><th>Size</th><th>Uploaded</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div class="card-ds">
+          <h2 data-i18n="compliance.genTitle">Generate filled templates</h2>
+          <p class="hint" data-i18n="compliance.genHint">Downloads the template with your facts substituted (unfilled fields show a “to be completed” marker).</p>
+          <div class="row-ds end">
+            <button id="docRopa" class="btn small" data-i18n="compliance.dlRopa">Download filled ROPA</button>
+            <button id="docDpa" class="btn small" data-i18n="compliance.dlDpa">Download filled DPA</button>
+            <button id="docSla" class="btn small" data-i18n="compliance.dlSla">Download filled SLA</button>
+            <button id="docPrivacy" class="btn small" data-i18n="compliance.dlPrivacy">Download filled Privacy Policy</button>
+            <button id="docScc" class="btn small" data-i18n="compliance.dlScc">Download filled SCC</button>
+            <button id="docDpia" class="btn small" data-i18n="compliance.dlDpia">Download filled DPIA</button>
+            <span class="faint" style="flex-basis:100%;margin-top:6px;" data-i18n="compliance.blankHint">— or download a blank template to fill/sign by hand —</span>
+            <button id="docRopaTpl" class="btn small ghost" data-i18n="compliance.dlRopaTpl">Blank ROPA</button>
+            <button id="docDpaTpl" class="btn small ghost" data-i18n="compliance.dlDpaTpl">Blank DPA</button>
+            <button id="docSlaTpl" class="btn small ghost" data-i18n="compliance.dlSlaTpl">Blank SLA</button>
+            <button id="docPrivacyTpl" class="btn small ghost" data-i18n="compliance.dlPrivacyTpl">Blank Privacy</button>
+            <button id="docSccTpl" class="btn small ghost" data-i18n="compliance.dlSccTpl">Blank SCC</button>
+            <button id="docDpiaTpl" class="btn small ghost" data-i18n="compliance.dlDpiaTpl">Blank DPIA</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pre-deploy setup checklist (mirrors docs/compliance/CONFIGURE-BEFORE-DEPLOY.md) -->
+      <section data-panel="setup" hidden>
+        <div class="card-ds">
+          <h2>Pre-deploy setup checklist</h2>
+          <p class="hint">Tick each item as it is completed in your environment. State is kept in this browser (localStorage) and can be exported as a signed-off checklist. The authoritative list lives in <code>docs/compliance/CONFIGURE-BEFORE-DEPLOY.md</code>.</p>
+          <div id="setupChecklist" class="checklist-ds"></div>
+          <div class="row-ds end" style="margin-top:14px;">
+            <span id="setupMsg" class="faint"></span>
+            <button id="setupExport" class="btn small">Export sign-off</button>
+            <button id="setupReset" class="btn small ghost">Reset</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- GDPR data subjects: DSAR export + erasure (Art.15–21 / Art.17) -->
+      <section data-panel="subjects" hidden>
+        <div class="card-ds">
+          <h2 data-i18n="dsar.title">DSAR request ledger (GDPR Art. 15 / 12)</h2>
+          <p class="hint" data-i18n="dsar.hint">Record data-subject requests and track the one-month (30-day) statutory deadline. Overdue rows are flagged. Resolving records the operator note and the completion time.</p>
+          <label class="field" for="dsarName" data-i18n="dsar.name">Subject name</label>
+          <input id="dsarName" class="input" placeholder="Jane Doe" />
+          <label class="field" for="dsarEmail" data-i18n="dsar.email">Subject email</label>
+          <input id="dsarEmail" class="input" type="email" placeholder="jane@example.com" />
+          <label class="field" for="dsarType" data-i18n="dsar.type">Request type</label>
+          <select id="dsarType" class="input">
+            <option value="access">Access (Art. 15)</option>
+            <option value="erasure">Erasure (Art. 17)</option>
+            <option value="rectification">Rectification (Art. 16)</option>
+            <option value="portability">Portability (Art. 20)</option>
+            <option value="restriction">Restriction (Art. 18)</option>
+          </select>
+          <label class="field" for="dsarDetail" data-i18n="dsar.detail">Detail</label>
+          <textarea id="dsarDetail" class="input" rows="2" placeholder="what the subject is asking for"></textarea>
+          <div class="row-ds end" style="margin-top:10px;">
+            <span id="dsarMsg" class="faint"></span>
+            <button id="dsarRefresh" class="btn small" data-i18n="common.refresh">Refresh</button>
+            <button id="dsarSubmit" class="btn primary" data-i18n="dsar.record">Record request</button>
+          </div>
+          <table class="table-ds" id="dsarTable" style="margin-top:12px;">
+            <thead><tr><th data-i18n="dsar.thName">Name</th><th data-i18n="dsar.thEmail">Email</th><th data-i18n="dsar.thType">Type</th><th data-i18n="dsar.thStatus">Status</th><th data-i18n="dsar.thCreated">Created</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div class="card-ds">
+          <h2 data-i18n="dpia.title">DPIA trigger check (GDPR Art. 35)</h2>
+          <p class="hint" data-i18n="dpia.hint">Advisory check based on the Controller's own <code>dpia</code> flags (set via the compliance facts JSON / API). Does not replace counsel's judgement.</p>
+          <div id="dpiaStatus" class="banner-ds"></div>
+          <div class="row-ds end" style="margin-top:10px;">
+            <button id="dpiaRefresh" class="btn small" data-i18n="common.refresh">Re-check</button>
+          </div>
+        </div>
+
+        <div class="card-ds">
+          <h2 data-i18n="export.title">Data subject access (DSAR / Art.20)</h2>
+          <p class="hint" data-i18n="export.hint">Export a self-describing JSON bundle of audit records + operator metadata a data subject can retrieve (GDPR Art.20 portability). Contains no key material or file bytes.</p>
+          <div class="row-ds end">
+            <span id="dsarMsg2" class="faint"></span>
+            <button id="dsarExport" class="btn primary" data-i18n="export.btn">Export bundle</button>
+          </div>
+        </div>
+        <div class="card-ds">
+          <h2 data-i18n="erase.title">Erasure request (Art.17)</h2>
+          <p class="hint" data-i18n="erase.hint">Erase a data-subject's personal references. Operator/system audit trail is protected and cannot be erased (B-04). Returns a salted tombstone hash so you can later prove the erasure without storing clear-text.</p>
+          <label class="field" for="eraseSubject" data-i18n="erase.subject">Subject identifier</label>
+          <input id="eraseSubject" class="input" placeholder="subject hash or email" />
+          <label class="field" for="eraseReason" data-i18n="erase.reason">Reason</label>
+          <input id="eraseReason" class="input" value="data subject request (Art.17)" />
+          <label class="field" for="eraseBy" data-i18n="erase.by">Requested by</label>
+          <input id="eraseBy" class="input" value="operator" />
+          <div class="row-ds end" style="margin-top:12px;">
+            <span id="eraseMsg" class="faint"></span>
+            <button id="eraseBtn" class="btn danger">Erase subject</button>
+          </div>
+          <label class="field" for="tombSubject" style="margin-top:12px;">Verify tombstone</label>
+          <input id="tombSubject" class="input" placeholder="subject to verify" />
+          <div class="row-ds end" style="margin-top:8px;">
+            <span id="tombMsg" class="faint"></span>
+            <button id="tombBtn" class="btn small">Verify</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Operator session management (C5) -->
+      <section data-panel="sessions" hidden>
+        <div class="card-ds">
+          <h2>Active operator sessions</h2>
+          <p class="hint">Server-side sessions (TTL ≤ 1 h). Tokens are shown only as a prefix. Revoking a session forces its holder to re-authenticate.</p>
+          <table class="table-ds" id="sessTable" style="margin-top:12px;">
+            <thead><tr><th>Token prefix</th><th>Operator</th><th>Created</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Operator-facing deploy configuration (C6) -->
+      <section data-panel="config" hidden>
+        <div class="card-ds">
+          <h2>Deployment configuration</h2>
+          <p class="hint">Read-only reflection of boot-time config plus a small allowlist of safe toggles. Toggles are persisted to config/local.json and apply on the next restart.</p>
+          <div id="cfgView" class="log-ds" style="margin-bottom:12px;">—</div>
+          <label class="check-ds"><input type="checkbox" id="cfgEscrow" /> Require key escrow for session admission</label>
+          <label class="check-ds"><input type="checkbox" id="cfgMfa" /> Enforce MFA for operators</label>
+          <label class="field" for="cfgForward" style="margin-top:12px;">SIEM / audit forward URL (webhook)</label>
+          <input id="cfgForward" class="input" placeholder="https://siem.example/aegis-audit (POST per event)" />
+          <label class="field" for="incidentBtn" style="margin-top:12px;">Incident / breach notification (Art.33/34)</label>
+          <div class="row-ds">
+            <label for="incidentUrl" class="faint" style="align-self:center;">Notification URL</label>
+            <input id="incidentUrl" class="input" style="flex:1;" placeholder="override notification URL (else uses forward URL)" aria-label="incident notification URL" />
+            <button id="incidentBtn" class="btn small">Send incident test</button>
+            <span id="incidentMsg" class="faint"></span>
+          </div>
+          <div class="row-ds" style="margin-top:16px;border-top:1px solid var(--border);padding-top:12px;">
+            <h3 style="margin:0 0 6px;">Database backup (operator)</h3>
+            <button id="dbBackupBtn" class="btn small">Download DB backup</button>
+            <span id="dbBackupMsg" class="faint"></span>
+          </div>
+          <div class="row-ds end" style="margin-top:12px;">
+            <span id="cfgMsg" class="faint"></span>
+            <button id="cfgSave" class="btn primary">Save toggles</button>
+          </div>
+          <div class="row-ds" style="margin-top:16px;border-top:1px solid var(--border);padding-top:12px;">
+            <h3 style="margin:0 0 6px;">Admin: reset operator MFA</h3>
+            <label for="mfaResetUser" class="faint" style="align-self:center;">Operator</label>
+            <input id="mfaResetUser" class="input" style="flex:1;" placeholder="operator username" aria-label="operator username to reset MFA" />
+            <button id="mfaResetBtn" class="btn small danger">Reset MFA</button>
+            <span id="mfaResetMsg" class="faint"></span>
+          </div>
+        </div>
+      </section>
+    </div>
+    <p class="faint" style="margin-top:32px;font-size:11px;">
+      Aegis — Privacy-First Local Data Cleansing Engine. Zero runtime dependencies. Server is server-blind for file bytes.
+    </p>
+  </div>
+
+  <!-- Bootstrap token for the in-page console API calls (kept out of static paths). -->
+  <script type="module" src="./src/console.js"></script>
+  <div style="position: fixed; bottom: 8px; right: 12px; font-size: 10px; color: rgba(255,255,255,0.3); font-family: monospace; pointer-events: none; user-select: none; z-index: 9999;">
+    ENGINE BY JEROME YOUNG
+  </div>
+</body>
+</html>

@@ -1,3 +1,5 @@
+// Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// SPDX-License-Identifier: BUSL-1.1
 // video-tool/verify-p3.mjs — post-audit P3 regression (AEG-19/21/23/24) + P0 PoCs.
 //
 // 1. All 12 shipping pages load with no pageerror, no real 4xx and no CSP
@@ -28,12 +30,25 @@ const FORBIDDEN = [
   '/server.js', '/package.json', '/README.md', '/docs/',
   '/scripts/zero-dep-lint.mjs', '/key.pem', '/cert.pem',
   '/dist/aegis-delivery-1.0.0.tar.gz', '/dist/MANIFEST.json',
+  // v7 B-01/B-02/B-04: these four were missing from the list for six rounds,
+  // which is exactly why "all gates green" hid a full admin/DB disclosure.
+  '/config/local.json', '/%2e%2e/config/local.json',
+  '/data/aegis.db', '/server/store.js',
 ];
+// Root-cause fix for the coverage gap: don't rely on a hand-maintained list.
+// Derive probes from the private top-level dirs + encoded traversal variants +
+// every DB sidecar, so adding a new sensitive path cannot silently go untested.
+for (const d of ['config', 'data', 'server']) {
+  for (const f of ['local.json', 'aegis.db', 'aegis.db-shm', 'aegis.db-wal', 'store.js', 'oidc.js']) {
+    FORBIDDEN.push(`/${d}/${f}`);
+  }
+  FORBIDDEN.push(`/%2e%2e/${d}/`, `/%252e%252e/${d}/local.json`, `/./${d}/`, `/${d}/../${d}/local.json`);
+}
 for (const p of FORBIDDEN) {
   const r = await req(p);
-  assert.strictEqual(r.status, 404, `${p} must be 404 (got ${r.status})`);
+  assert.ok(r.status === 404 || r.status === 403, `${p} must be 403/404 (got ${r.status})`);
 }
-console.log(`[P3/P0] PASS — ${FORBIDDEN.length} source/key/archive paths are 404`);
+console.log(`[P3/P0] PASS — ${FORBIDDEN.length} source/key/secret/DB/traversal paths are 403/404`);
 
 const noCred = await req('/session?room=p3');
 assert.ok([401, 403, 503].includes(noCred.status), `/session without credential is fail-closed (got ${noCred.status})`);
@@ -62,6 +77,7 @@ const PAGES = [
   '/modules/token-gate/index.html',
   '/modules/webgpu-topology/index.html',
   '/modules/zero-knowledge-identity/index.html',
+  '/aegis-shell/console.html',        // + Operator Console (was missing from the page list — N-01)
 ];
 // Known headless SwiftShader noise, unrelated to the product.
 const BENIGN = /WebGPU|GPU|swiftshader|device lost|deprecat|favicon|404|Failed to load resource|External Instance/i;
@@ -86,6 +102,23 @@ for (const p of PAGES) {
   assert.strictEqual(bad.length, 0, `${p} has no real 4xx (${JSON.stringify(bad)})`);
   console.log(`[P3/PAGE] PASS — ${p}`);
   await page.close();
+}
+
+// ── 1c. N-01 regression: the gated Operator Console must serve and render its
+// sign-in control even when logged out. It was absent from PAGES, so the 12-page
+// "ALL PASS" silently skipped page 13 (the console).
+{
+  const cp = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+  const errs = [];
+  cp.on('pageerror', (e) => errs.push(e.message));
+  const resp = await cp.goto(BASE + '/aegis-shell/console.html', { waitUntil: 'load' });
+  assert.strictEqual(resp.status(), 200, 'console.html must be served');
+  await cp.waitForTimeout(1500);
+  const hasLogin = await cp.evaluate(() => !!document.getElementById('btnLogin'));
+  assert(hasLogin, 'console.html must render the sign-in control');
+  assert.strictEqual(errs.length, 0, 'console.html must not raise page errors: ' + errs.join('; '));
+  console.log('[P3/PAGE] PASS — /aegis-shell/console.html (gated console renders, no errors)');
+  await cp.close();
 }
 
 // ── 1b. F-01 regression: token-gate forged-signature must be DENIED ─────────

@@ -1,0 +1,347 @@
+<!-- Aegis - Copyright (c) 2026 Jerome Young (Yang Jie) -->
+<!-- SPDX-License-Identifier: BUSL-1.1 -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' blob:; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; connect-src 'self' blob: data:; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Aegis-REDAKTOR - Local PDF &amp; Image Redaction</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0c0f'/%3E%3Crect x='6' y='13' width='20' height='5' fill='%23d5b165'/%3E%3Crect x='6' y='21' width='11' height='5' fill='%23d5b165' opacity='.55'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="./src/css/app.css">
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2.5 4.5 5.8v6c0 4.4 3 8.2 7.5 9.7 4.5-1.5 7.5-5.3 7.5-9.7v-6L12 2.5Z"/><path d="M8.6 11.9l2.4 2.4 4.4-4.6"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4.8"/><path d="M7.4 9.2 12 4.6l4.6 4.6"/><path d="M4.5 15v3.5A2 2 0 0 0 6.5 20.5h11A2 2 0 0 0 19.5 18.5V15"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3.5h7.2L19 9.3v11.2H6z"/><path d="M13 3.6v6h5.9"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M4 16.5 9 11l5.5 5.5"/><circle cx="15.6" cy="9" r="1.6"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="m4 20 3.8-.9L20 6.9a2.1 2.1 0 0 0-3-3L4.9 16.2Z"/><path d="m14.8 5.8 3.4 3.4"/></symbol>
+  <symbol id="i-scan" viewBox="0 0 24 24"><path d="M8 3.5H5.5a2 2 0 0 0-2 2V8"/><path d="M16 3.5h2.5a2 2 0 0 1 2 2V8"/><path d="M8 20.5H5.5a2 2 0 0 1-2-2V16"/><path d="M16 20.5h2.5a2 2 0 0 0 2-2V16"/><path d="M3.5 12h17"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4.5 7h15"/><path d="M9.5 7V4.8h5V7"/><path d="M6.5 7l.9 12.2h9.2L17.5 7"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.2a2.6 2.6 0 1 1 3.8 2.4c-.9.5-1.3 1.1-1.3 2.1"/><circle cx="12" cy="17.2" r=".9"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10" rx="2.2"/><path d="M8 10.4V7.6a4 4 0 0 1 8 0v2.8"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4.5 12h15"/><path d="m14 6.5 5.5 5.5L14 17.5"/></symbol>
+</svg>
+
+<div class="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true"><span></span></div>
+      <div class="brand-text">
+        <h1>Aegis-REDAKTOR</h1>
+        <p>Local redaction engine · 100% in-browser</p>
+      </div>
+    </div>
+
+    <div class="topbar-right">
+      <button class="net-badge" id="netBadge" type="button" title="Show network audit">
+        <i class="dot"></i>
+        <span class="net-badge-main">OFFLINE</span>
+        <span class="net-badge-sub"><b id="netCount">0</b> <span>external requests</span></span>
+      </button>
+      <button class="icon-btn" id="helpBtn" type="button" aria-label="Help">
+        <svg><use href="#i-help"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <section class="workspace">
+
+    <!-- Documents -->
+    <aside class="rail rail-left" id="railLeft">
+      <div class="rail-head">
+        <span class="rail-label">Documents</span>
+        <button class="ghost-btn" id="clearAll" type="button">Clear all</button>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button">
+        <input type="file" id="fileInput" accept="application/pdf,image/png,image/jpeg,image/webp,image/bmp" multiple hidden aria-label="Document or image file to redact">
+        <svg class="dz-icon"><use href="#i-upload"/></svg>
+        <p class="dz-title">Drop files here</p>
+        <p class="dz-sub">PDF · JPG · PNG · WEBP - never leaves this device</p>
+        <button class="btn btn-outline" id="pickBtn" type="button">Choose files</button>
+      </div>
+
+      <div class="doc-list" id="docList"></div>
+
+      <div class="rail-foot">
+        <div class="proof">
+          <svg><use href="#i-lock"/></svg>
+          <div>
+            <strong>Zero-upload guarantee</strong>
+            <p>A strict CSP blocks every cross-origin connection. OCR, rendering and export run only inside this tab.</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Workspace -->
+    <main class="stage">
+      <div class="stage-bar">
+        <div class="stage-modes" role="group" aria-label="Mode">
+          <button class="seg is-active" id="modeSelect" type="button">
+            <svg><use href="#i-scan"/></svg><span>Review</span>
+          </button>
+          <button class="seg" id="modeDraw" type="button">
+            <svg><use href="#i-pen"/></svg><span>Mark</span>
+          </button>
+          <button class="seg" id="btnDocs" type="button" title="打开 / 收起文档列表">
+            <svg><use href="#i-doc"/></svg><span>Docs</span>
+          </button>
+          <button class="seg" id="btnDrawer" type="button" title="打开规则 / 发现 / 导出面板（含自定义字段）">
+            <span>Fields</span>
+          </button>
+        </div>
+
+        <div class="stage-meta" id="stageMeta">
+          <span class="page-chip" id="pageChip">No page</span>
+        </div>
+
+        <div class="stage-zoom">
+          <button class="icon-btn sm" id="zoomOut" type="button" aria-label="Zoom out">−</button>
+          <button class="zoom-value" id="zoomValue" type="button" title="Fit to view">100%</button>
+          <button class="icon-btn sm" id="zoomIn" type="button" aria-label="Zoom in">+</button>
+          <button class="ghost-btn sm" id="zoomFit" type="button">Fit</button>
+        </div>
+      </div>
+
+      <div class="canvas-wrap" id="canvasWrap">
+        <div class="empty-state" id="emptyState">
+          <div class="empty-glyph"><svg><use href="#i-shield"/></svg></div>
+          <h2>Nothing leaves this machine.</h2>
+          <p>Drop a PDF or a scan - detection starts automatically. Every page is rebuilt as a raster, so redacted areas cannot be reconstructed.</p>
+          <div class="empty-chips">
+            <span>Tesseract · WebAssembly</span>
+            <span>pdf.js · Canvas</span>
+            <span>pdf-lib · Rebuilt output</span>
+          </div>
+        </div>
+        <div class="canvas-scroll" id="canvasScroll" hidden>
+          <canvas id="pageCanvas"></canvas>
+        </div>
+      </div>
+
+      <div class="stage-foot">
+        <span class="foot-item"><i class="dot dot-amber"></i><span id="hitSummary">0 redactions</span></span>
+        <span class="foot-item foot-note">Click a redaction to select it · Delete removes it · Drag in “Mark” mode to add areas</span>
+      </div>
+    </main>
+
+    <!-- Rules / Findings / Export -->
+    <aside class="rail rail-right" id="railRight">
+      <div class="tabs" role="tablist">
+        <button class="tab is-active" data-tab="rules" role="tab">Rules</button>
+        <button class="tab" data-tab="hits" role="tab"><span>Findings</span><b class="tab-count" id="hitTabCount">0</b></button>
+        <button class="tab" data-tab="export" role="tab">Export</button>
+      </div>
+
+      <div class="panes">
+
+        <section class="pane is-active" data-pane="rules">
+          <div class="pane-head">
+            <h2>Detection rules</h2>
+            <p>Every rule runs locally. Toggling one re-checks existing pages instantly - no new OCR needed.</p>
+          </div>
+          <div class="rule-list" id="ruleList"></div>
+
+          <div class="pane-block">
+            <div class="block-head">
+              <span class="field-label">Custom terms</span>
+              <span class="block-hint">one term per line</span>
+            </div>
+            <textarea id="termInput" aria-label="Terms to redact, one per line" class="textarea" spellcheck="false" placeholder="e.g. Project Silvercrest&#10;Northwind Partners LLP&#10;Dr. Ellery"></textarea>
+            <p class="hint">Case-insensitive. Add a trailing colon (e.g. <code>Steuer-ID:</code>) to redact the value after that label on the same line; without a colon it redacts the keyword itself. Each hit is burned into the exported PDF.</p>
+          </div>
+
+          <div class="callout" id="exportHint" hidden>
+            <svg><use href="#i-arrow"/></svg>
+            <p><b>Ready to produce.</b> Redactions are burned in. Open the <b>Export</b> tab (right rail) to write the sanitized, non-reconstructable PDF.</p>
+          </div>
+        </section>
+
+        <section class="pane" data-pane="hits">
+          <div class="pane-head row">
+            <div>
+              <h2>Detected items</h2>
+              <p id="hitsMeta">No page has been scanned yet.</p>
+            </div>
+            <button class="ghost-btn sm" id="clearHits" type="button">Clear all</button>
+          </div>
+          <div class="hit-list" id="hitList">
+            <p class="empty-note">No findings yet. Once OCR runs, source positions appear here.</p>
+          </div>
+        </section>
+
+        <section class="pane" data-pane="export">
+          <div class="pane-head">
+            <h2>Export</h2>
+            <p>A brand-new PDF - no original text layer, no font objects, no metadata.</p>
+          </div>
+
+          <div class="form-row">
+            <label class="field-label">Raster resolution</label>
+            <div class="chips" id="dpiChips">
+              <button class="chip" data-dpi="150" type="button">150</button>
+              <button class="chip is-active" data-dpi="200" type="button">200</button>
+              <button class="chip" data-dpi="300" type="button">300</button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label class="field-label">Image format</label>
+            <div class="chips" id="formatChips">
+              <button class="chip is-active" data-format="png" type="button">PNG</button>
+              <button class="chip" data-format="jpeg" type="button">JPEG</button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label class="switch-row">
+              <input type="checkbox" id="optVectorRects" checked aria-label="Preserve vector rectangles">
+              <span class="switch"></span>
+              <span class="switch-text">
+                <strong>Burn vector redactions on top</strong>
+                <em>Crisp edges when printed, independent of image compression.</em>
+              </span>
+            </label>
+          </div>
+
+          <div class="callout">
+            <svg><use href="#i-lock"/></svg>
+            <p>Original pages are not edited - they are discarded. Each page is re-typeset as a high-resolution raster, so text layers and objects disappear. Redactions are therefore technically unrecoverable (no black-box overlay over still-readable text).</p>
+          </div>
+
+          <button class="btn btn-primary btn-wide" id="exportBtn" type="button" disabled>
+            <svg><use href="#i-arrow"/></svg><span>Export PDF</span>
+          </button>
+          <button class="btn btn-quiet btn-wide" id="reportBtn" type="button" disabled>Audit report (JSON, no content)</button>
+
+          <div class="audit-box">
+            <span class="field-label">Network audit</span>
+            <div class="audit-rows">
+              <div><span>External requests</span><b id="auditReq">0</b></div>
+              <div><span>Blocked</span><b id="auditBlocked">0</b></div>
+              <div><span>Policy</span><b id="auditPolicy">CSP connect-src 'self'</b></div>
+            </div>
+            <button class="ghost-btn sm" id="auditTest" type="button">Run connection test</button>
+          </div>
+        </section>
+
+      </div>
+    </aside>
+      <div class="rail-scrim" id="railScrim" hidden></div>
+  </section>
+
+  <footer class="statusbar">
+    <div class="status-left">
+      <i class="dot" id="statusDot"></i>
+      <span id="statusText">Ready</span>
+    </div>
+    <div class="status-progress" id="statusProgress" hidden>
+      <div class="bar"><span id="progressBar"></span></div>
+      <span id="progressText">0%</span>
+    </div>
+    <div class="status-right">
+      <span id="statPages">0 <span>pages</span></span>
+      <span class="sep"></span>
+      <span id="statHits">0 <span>redactions</span></span>
+      <span class="sep"></span>
+      <span class="mono" id="statEngine">OCR ready · deu+eng</span>
+    </div>
+  </footer>
+</div>
+
+<!-- Help -->
+<div class="modal" id="helpModal" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <div>
+        <span class="eyebrow">Architecture &amp; proof</span>
+        <h2>How this engine works</h2>
+      </div>
+      <button class="icon-btn" data-close aria-label="Close"><svg><use href="#i-close"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <ol class="steps">
+        <li>
+          <span class="step-no">01</span>
+          <div>
+            <strong>Load &amp; rasterize</strong>
+            <p>pdf.js renders PDF pages to canvas at 150 dpi; images are decoded directly. Nothing is uploaded.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step-no">02</span>
+          <div>
+            <strong>In-browser OCR</strong>
+            <p>Tesseract (WebAssembly) runs in a local worker with bundled German/English models and returns word coordinates.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step-no">03</span>
+          <div>
+            <strong>Rules &amp; review</strong>
+            <p>A regex catalogue (IBAN, VAT ID, tax ID, social-security number, contacts, addresses, case numbers …) plus a name heuristic. Every hit stays reviewable and removable.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step-no">04</span>
+          <div>
+            <strong>Destructive rebuild</strong>
+            <p>pdf-lib creates a new document: page = high-resolution raster + vector bars. Original text, fonts, annotations and XMP metadata are dropped.</p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="arch">
+        <span class="field-label">Module layout</span>
+        <div class="arch-grid">
+          <code>core/state.js</code><span>State &amp; events</span>
+          <code>core/offline-guard.js</code><span>Network blocker &amp; audit</span>
+          <code>ingest/sources.js</code><span>PDF/image intake</span>
+          <code>pdf/render.js</code><span>pdf.js rendering</span>
+          <code>ocr/engine.js</code><span>Tesseract worker</span>
+          <code>detect/rules.de.js</code><span>Rule catalogue</span>
+          <code>detect/lexicon.de.js</code><span>Names &amp; salutations</span>
+          <code>detect/scanner.js</code><span>Hits → coordinates</span>
+          <code>redact/geometry.js</code><span>Box geometry</span>
+          <code>view/page-view.js</code><span>Canvas &amp; interaction</span>
+          <code>export/pdf-builder.js</code><span>PDF rebuild</span>
+          <code>ui/*.js</code><span>Panels &amp; status</span>
+        </div>
+      </div>
+
+      <div class="audit-summary">
+        <div><span>External requests</span><b id="auditReq2">0</b></div>
+        <div><span>Blocked</span><b id="auditBlocked2">0</b></div>
+        <p>The counter measures every attempt from fetch, XHR, WebSocket and sendBeacon. Only same-origin resources of this folder are allowed.</p>
+      </div>
+
+      <div class="shortcuts">
+        <span class="field-label">Keyboard</span>
+        <div class="key-row"><kbd>1</kbd><span>Review mode</span></div>
+        <div class="key-row"><kbd>2</kbd><span>Mark mode</span></div>
+        <div class="key-row"><kbd>Del</kbd><span>delete selected redaction</span></div>
+        <div class="key-row"><kbd>Ctrl</kbd><span>+ scroll to zoom</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast-stack" id="toastStack"></div>
+
+<script src="./vendor/pdfjs/pdf.min.js"></script>
+<script src="./vendor/pdf-lib/pdf-lib.min.js"></script>
+<script src="./vendor/tesseract/tesseract.min.js"></script>
+<script type="module" src="./src/js/app.js"></script>
+<script type="module" src="./src/js/aegis-adapter.js"></script>
+  <div style="position: fixed; bottom: 8px; right: 12px; font-size: 10px; color: rgba(255,255,255,0.3); font-family: monospace; pointer-events: none; user-select: none; z-index: 9999;">
+    ENGINE BY JEROME YOUNG
+  </div>
+</body>
+</html>

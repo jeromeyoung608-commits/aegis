@@ -1,0 +1,205 @@
+<!-- Aegis - Copyright (c) 2026 Jerome Young (Yang Jie) -->
+<!-- SPDX-License-Identifier: BUSL-1.1 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aegis - Secure Edge Collaboration Workbench</title>
+  <link rel="stylesheet" href="./src/style.css?v=20261115b" />
+</head>
+<body class="cmd-center" data-stage="1">
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo"></span>
+      <div>
+        <h1>Aegis</h1>
+        <span class="sub">Secure Edge Collaboration Workbench</span>
+      </div>
+    </div>
+
+    <nav class="stepper" aria-label="Seven-step closed loop">
+      <div class="step" data-step="1" title="Aegis-Topology - WebGPU digital twin, select a node"><div class="n">1</div><div><div class="t">Topology</div><div class="d">Aegis-Topology</div></div></div>
+      <div class="step" data-step="2" title="Aegis-REDAKTOR - local destructive redaction"><div class="n">2</div><div><div class="t">Redact</div><div class="d">Aegis-REDAKTOR</div></div></div>
+      <div class="step" data-step="3" title="Aegis-Identity - SHA-256 hash and ECDSA signature"><div class="n">3</div><div><div class="t">Sign</div><div class="d">Aegis-Identity</div></div></div>
+      <div class="step" data-step="4" title="Aegis-Transport - AES-GCM encrypted WebRTC transfer"><div class="n">4</div><div><div class="t">P2P Send</div><div class="d">Aegis-Transport</div></div></div>
+      <div class="step" data-step="5" title="Aegis-Identity - verify the retained signed artifact"><div class="n">5</div><div><div class="t">Verify</div><div class="d">Aegis-Identity</div></div></div>
+      <div class="step" data-step="6" title="Aegis-Vault - seal the verified artifact in OPFS"><div class="n">6</div><div><div class="t">Archive</div><div class="d">Aegis-Vault</div></div></div>
+      <div class="step" data-step="7" title="Aegis-AuditTrail - tamper-evident SHA-256 hash chain"><div class="n">7</div><div><div class="t">Audit</div><div class="d">Aegis-AuditTrail</div></div></div>
+    </nav>
+
+    <span class="pill">Zero-Trust | Offline | Server-blind</span>
+    <a id="btnConsole" class="reveal-btn" href="/aegis-shell/console.html" rel="noopener" style="text-decoration:none;">Operator</a>
+    <label class="role-switch" title="Switch view by role">
+      <span class="role-switch-label">Role</span>
+      <select id="roleSwitch" aria-label="Role">
+        <option value="operator">Operator</option>
+        <option value="recipient">Recipient</option>
+        <option value="auditor">Auditor</option>
+        <option value="admin">Admin</option>
+        <option value="external">External</option>
+      </select>
+    </label>
+    <button id="btnRevealP2P" class="reveal-btn" type="button">Show transfer</button>
+  </header>
+
+  <div class="layout">
+    <!-- LEFT: functional area (the digital-twin topology) -->
+    <section class="stage" id="stage-topo">
+      <div class="pane-head">
+        <span class="tag">Aegis-Topology</span>
+        <span class="hint">WebGPU | 1M+ nodes | click a node to pull its contract</span>
+      </div>
+      <div class="frame-box">
+        <iframe id="f-topo" src="/modules/webgpu-topology/index.html" title="Topology"></iframe>
+      </div>
+    </section>
+
+    <!-- RIGHT: sidebar (redaction workbench + transfer) -->
+    <aside class="sidebar" id="sidebar">
+      <div class="pane-head" id="redactHead">
+        <span class="tag">Aegis-REDAKTOR</span>
+        <span class="hint">Local OCR | destructive PDF | nothing uploaded</span>
+        <button id="btnLoadDoc" class="mini-btn" type="button" title="Load a local file to redact">Load local file</button>
+      </div>
+
+      <!-- Shell-owned primary action. REDAKTOR's Export rail is a slide-out drawer
+           below 980px and this sidebar is only 460px wide, so the in-iframe
+           export button is unreachable. Keep this CTA outside the iframe. -->
+      <div class="redact-action" id="redactAction">
+        <div class="redact-action-meta">
+          <span class="scan-dot" id="scanDot"></span>
+          <span id="scanState">Waiting for a document</span>
+        </div>
+        <button id="btnSignSend" class="btn sign-send" type="button" disabled>
+          <span aria-hidden="true">&#9654;</span> Sign &amp; Send to Peer
+        </button>
+      </div>
+
+      <div class="redact-wrap frame-box">
+        <button id="btnExpandRedact" class="expand-btn" type="button" title="Fullscreen REDAKTOR" aria-label="Fullscreen REDAKTOR">&#9976;</button>
+        <iframe id="f-doc" src="/modules/doc-redactor/index.html" title="Redaction"></iframe>
+      </div>
+
+      <div class="transfer-card" id="transferCard">
+        <div class="pane-head">
+          <span class="tag">Aegis-SignedDelivery</span>
+          <span class="hint">WebRTC | AES-GCM</span>
+        </div>
+        <div class="peer-row"><span class="dot" id="dotA"></span> Peer A | sender <span id="peerA" class="peer-state">idle</span></div>
+        <div class="peer-row"><span class="dot" id="dotB"></span> Peer B | receiver <span id="peerB" class="peer-state">idle</span></div>
+
+        <div class="recv-decision" id="recvDecision" data-has-blob="0" hidden>
+          <div class="recv-name" id="recvName">received file</div>
+          <div class="recv-actions">
+            <button id="btnArchive" class="btn gold" hidden>Archive to Vault</button>
+            <button id="btnRedactAgain" class="btn">View redacted file</button>
+            <button id="btnDownload" class="btn ghost">Download</button>
+          </div>
+        </div>
+
+        <div class="log" id="log">&gt; Aegis command center ready.</div>
+      </div>
+
+      <div class="vault-card" id="vaultCard">
+        <div class="pane-head">
+          <span class="tag">Aegis-Vault</span>
+          <span class="hint">OPFS | AES-GCM-256</span>
+        </div>
+        <div class="vault-row">
+          <span id="vaultState">opening vault...</span>
+          <a id="vaultLink" href="/modules/encrypted-archive/index.html" target="_blank" rel="noopener">Open vault</a>
+        </div>
+        <div class="vault-row">
+          <span id="signedState">No verified artifact yet.</span>
+        </div>
+      </div>
+
+      <div class="audit-card" id="auditCard">
+        <div class="pane-head">
+          <span class="tag">Aegis-AuditTrail</span>
+          <span class="hint">SHA-256 hash chain</span>
+          <a class="audit-link" href="/modules/audit-timeline/index.html" target="_blank" rel="noopener">Review</a>
+        </div>
+        <div class="audit-meta">
+          <span id="auditState" class="audit-state idle">loading chain...</span>
+          <button id="btnAuditVerify" class="btn ghost small">Verify</button>
+          <button id="btnAuditExport" class="btn ghost small">Export</button>
+          <button id="btnAuditAnchor" class="btn ghost small" title="Anchor the chain head to a trusted timestamp (requires a configured TSA gateway)">Anchor TSA</button>
+          <button id="btnAuditClear" class="btn ghost small">Clear</button>
+        </div>
+        <ol class="timeline" id="auditTimeline"></ol>
+        <div class="audit-foot">
+          Tamper-Evident Hash-Chained Audit Trail: A visual timeline for compliance reviews.
+        </div>
+      </div>
+
+      <section class="admin-panel" id="adminPanel" hidden>
+        <div class="pane-head">
+          <span class="tag">Admin · Deploy Config</span>
+        </div>
+        <div class="admin-row">
+          <label for="adminRole">Default role view</label>
+          <select id="adminRole">
+            <option value="operator">Operator</option>
+            <option value="recipient">Recipient</option>
+            <option value="auditor">Auditor</option>
+            <option value="external">External</option>
+          </select>
+        </div>
+        <!-- The former "Signal token TTL (s)" input was removed: it had no listener
+             and no wiring, so it only pretended to configure anything. Token lifetime
+             is enforced server-side (server.js clamps /session ttl to 1 min–1 h). -->
+        <p class="admin-note">Deploy-only panel. Role views change the UI only — a presentation aid, not an access-control boundary. Token-gated signaling and real-document loading are ON by default. CA / key recovery / cloud bucket / desktop packaging / mobile remain external adapters (see delivery checklist).</p>
+      </section>
+    </aside>
+  </div>
+
+  <!-- P2P modules run hidden; the command center drives them programmatically.
+       Signing is performed in the shell by IdentityAdapter, so no hidden
+       signed-delivery iframe is needed and only one signaling room exists. -->
+  <iframe id="f-p2p-send" src="/modules/p2p-crypto-transfer/index.html" title="Peer A" hidden></iframe>
+  <iframe id="f-p2p-recv" src="/modules/p2p-crypto-transfer/index.html" title="Peer B" hidden></iframe>
+  <div class="p2p-peek-label" id="peekLabelA" hidden>Peer A · sender</div>
+  <div class="p2p-peek-label" id="peekLabelB" hidden>Peer B · receiver</div>
+
+  <dialog id="archiveDialog" class="dialog">
+    <form id="formArchive" autocomplete="off">
+      <h3>Archive to local vault</h3>
+      <p class="lede">
+        Seals <b id="archiveTarget">—</b> and its signature metadata with AES-GCM-256
+        inside this browser's OPFS vault. The passphrase is used once and never stored;
+        no bytes leave this device.
+      </p>
+      <label for="archivePass">Vault passphrase (min 8 characters)</label>
+      <input id="archivePass" type="password" minlength="8" autocomplete="new-password" />
+      <div class="row">
+        <button type="button" id="btnArchiveCancel" class="btn ghost">Cancel</button>
+        <button type="submit" id="btnArchiveGo" class="btn gold">Seal to vault</button>
+      </div>
+      <div class="msg" id="archiveMsg"></div>
+    </form>
+  </dialog>
+
+  <!-- In-page viewer for the received redacted file: shows the document right
+       on this page with the browser's native PDF renderer - no download, no
+       second window, nothing hidden inside a narrow side panel. -->
+  <div class="pdf-modal" id="pdfModal" hidden>
+    <div class="pdf-modal-backdrop" id="pdfModalBackdrop"></div>
+    <div class="pdf-modal-panel">
+      <div class="pdf-modal-head">
+        <span class="pdf-modal-name" id="pdfModalName">file</span>
+        <button id="pdfModalClose" class="btn ghost small" type="button">Close</button>
+      </div>
+      <iframe id="pdfModalFrame" title="Redacted file preview"></iframe>
+    </div>
+  </div>
+
+  <script type="module" src="./src/app.js"></script>
+  <script type="module" src="./src/windowing.js?v=20261115a"></script>
+
+  <div style="position: fixed; bottom: 8px; right: 12px; font-size: 10px; color: rgba(255,255,255,0.3); font-family: monospace; pointer-events: none; user-select: none; z-index: 9999;">
+    ENGINE BY JEROME YOUNG
+  </div>
+</body>
+</html>

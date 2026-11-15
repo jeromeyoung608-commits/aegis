@@ -1,0 +1,99 @@
+<!-- Aegis - Copyright (c) 2026 Jerome Young (Yang Jie) -->
+<!-- SPDX-License-Identifier: BUSL-1.1 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aegis-Topology - WebGPU 100k+ Node Renderer</title>
+  <style>
+    :root { --bg:#0a0d12; --panel:#11161f; --line:#222c3a; --text:#e6edf3; --muted:#8b949e; --accent:#3fb950; }
+    * { box-sizing: border-box; }
+    html, body { margin:0; height:100%; background:var(--bg); color:var(--text);
+      font-family:-apple-system,"Segoe UI","PingFang SC",system-ui,sans-serif; overflow:hidden; }
+    #gpu { position:fixed; inset:0; width:100vw; height:100vh; display:block; touch-action:none; }
+    .panel { position:fixed; background:rgba(17,22,31,.86); border:1px solid var(--line);
+      border-radius:12px; padding:14px 16px; backdrop-filter:blur(6px); font-size:13px; }
+    #controls { top:14px; left:14px; width:248px; }
+    #controls h2 { font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin:0 0 10px; }
+    #controls label { display:block; color:var(--muted); margin:10px 0 4px; font-size:12px; }
+    #controls input, #controls select { width:100%; padding:8px 10px; background:#0d1117; color:var(--text);
+      border:1px solid var(--line); border-radius:8px; font-size:13px; }
+    #controls input[type=range] { accent-color:var(--accent); padding:0; cursor:pointer; }
+    #controls .row { display:flex; gap:8px; margin-top:10px; }
+    #controls button { flex:1; cursor:pointer; background:#1b2230; color:var(--text); border:1px solid var(--line);
+      border-radius:8px; padding:9px; font-size:12px; }
+    #controls button:hover { border-color:var(--accent); }
+    #controls button.primary { background:var(--accent); color:#04130a; border-color:var(--accent); font-weight:600; }
+    #hud { top:14px; right:14px; min-width:170px; }
+    #hud h2 { font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin:0 0 8px; }
+    #hud .grid { display:grid; grid-template-columns:auto auto; gap:2px 12px; font-variant-numeric:tabular-nums; }
+    #hud .grid span:nth-child(odd){ color:var(--muted); }
+    /* Diagnostics are developer-only. Raw frame/worker timings are not a product
+       metric: the worker runs on its own clock, so a cold-start tick can read
+       thousands of ms while the render loop holds 60 FPS. Add ?diag=1 to inspect. */
+    body:not([data-diag="1"]) [data-diag] { display:none !important; }
+    #help { bottom:14px; left:14px; color:var(--muted); font-size:12px; max-width:320px; line-height:1.6; }
+    #error { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+      background:#2a0f12; border:1px solid #f85149; color:#ffb4b4; padding:18px 22px; border-radius:12px;
+      max-width:520px; line-height:1.5; }
+  </style>
+
+<style>
+:focus-visible { outline: 2px solid #C8A44D; outline-offset: 2px; }
+input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid #C8A44D; outline-offset: 2px; }
+</style>
+</head>
+<body>
+<h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">Aegis Topology — GPU node field</h1>
+  <canvas id="gpu"></canvas>
+
+  <div id="controls" class="panel">
+    <h2>Aegis-Topology</h2>
+    <label>Node count · <span id="nodeCountVal">100000</span></label>
+    <input id="nodeCount" aria-label="Node count" type="range" min="1000" max="100000" step="1000" value="100000" />
+    <label>Node radius (px)</label>
+    <input id="radius" aria-label="Node radius" type="range" min="1" max="10" step="0.5" value="2" />
+    <label>Color mode</label>
+    <select id="colorMode" aria-label="Color mode">
+      <option value="0">By status (health/warn/crit)</option>
+      <option value="1">By id (hue)</option>
+    </select>
+    <div class="row">
+      <button id="regenerate" class="primary">Regenerate</button>
+      <button id="play">Pause physics</button>
+    </div>
+    <div class="row">
+      <button id="resetView">Reset view</button>
+      <button id="clearFocus">Clear focus</button>
+    </div>
+  </div>
+
+  <div id="hud" class="panel">
+    <h2>Performance</h2>
+    <div class="grid">
+      <span>FPS</span><span id="hud-fps">–</span>
+      <span>Nodes</span><span id="hud-nodes">–</span>
+      <span>Edges</span><span id="hud-edges">–</span>
+      <span>Draw calls</span><span id="hud-draws">–</span>
+      <span data-diag title="Main-thread render time, smoothed">Frame ms</span><span id="hud-frame" data-diag>–</span>
+      <span data-diag title="Last physics Worker tick, smoothed; Worker clock, not frame time">Worker tick ms</span><span id="hud-physics" data-diag>–</span>
+    </div>
+  </div>
+
+  <div id="help" class="panel">
+    Drag to pan · wheel to zoom · click a node to focus its 1-hop neighborhood
+    (others dim). Physics runs in a Worker; positions are shared with the GPU via
+    SharedArrayBuffer (zero-copy).
+  </div>
+
+  <div id="error"></div>
+
+  <div id="pickdbg" data-diag class="panel" style="top:14px; left:50%; transform:translateX(-50%); width:430px; pointer-events:none; font-family:ui-monospace,Menlo,monospace; font-size:11px; line-height:1.55; white-space:pre-wrap; color:var(--muted);">pick-debug: waiting for pointer events…</div>
+
+  <script type="module" src="./src/main.js?v=12"></script>
+  <div style="position: fixed; bottom: 8px; right: 12px; font-size: 10px; color: rgba(255,255,255,0.3); font-family: monospace; pointer-events: none; user-select: none; z-index: 9999;">
+    ENGINE BY JEROME YOUNG
+  </div>
+</body>
+</html>

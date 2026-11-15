@@ -1,0 +1,11 @@
+{
+  "name": "detached-hash-signer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Detached hash signing — sign a SHA-256 document hash without ever exposing the raw document. Zero dependencies, runs in browser and Node.",
+  "scripts": {
+    "test": "node --test"
+  },
+  "license": "MIT"
+}
