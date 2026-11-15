@@ -107,7 +107,7 @@ const MAX_MSG_BYTES = 1_000_000;
 // Only assets the browser genuinely needs may leave this process. Keys, source,
 // docs, tests and scripts must never be reachable over HTTP.
 const DENY_DIRS = new Set([
-  'docs', 'scripts', 'adapters', 'tests', 'test', 'node_modules',
+  'docs', 'scripts', 'tests', 'test', 'node_modules',
   '.git', '.github', 'video-tool', 'tls', '_audit', 'vendor-src',
   'dist', // release archives are built here; they must never be downloadable
 ]);
@@ -116,7 +116,12 @@ const DENY_DIRS = new Set([
 // code, so adding `data` to DENY_DIRS (which matches any segment) would break it.
 // config/local.json holds the issuerSecret; data/ holds the SQLite DB; server/
 // holds source. Serving any of them = "whoever reaches the port is admin".
-const DENY_TOP_LEVEL = new Set(['config', 'data', 'server']);
+// 'adapters' is top-level only: the TSA adapter lives in adapters/ and must not
+// be servable, while modules/doc-redactor/src/js/adapters/ holds runtime code the
+// browser genuinely needs (pdf-lib, tessdata and pdf.js loaders). Matching that
+// segment at any depth shipped a blank REDAKTOR: every adapter request 404'd, so
+// window.REDAKTOR was never published and "Sign & Send" could never unlock.
+const DENY_TOP_LEVEL = new Set(['config', 'data', 'server', 'adapters']);
 const DENY_BASENAMES = new Set([
   'server.js', 'package.json', 'package-lock.json', 'LICENSE',
   'README.md', 'DELIVERY_REPORT.md', 'key.pem', 'cert.pem',

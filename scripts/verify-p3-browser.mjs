@@ -49,6 +49,22 @@ try {
     const r = await fetch(`${BASE}${p}`);
     check(r.status === 404 || r.status === 403, `denied ${p} (${r.status})`);
   }
+
+  // Regression (2026-11-15): 'adapters' used to be denied at ANY depth, which
+  // 404'd modules/doc-redactor/src/js/adapters/*.js — the REDAKTOR never
+  // published window.REDAKTOR and "Sign & Send" could never unlock.
+  for (const p of [
+    '/modules/doc-redactor/src/js/adapters/pdfjs.js',
+    '/modules/doc-redactor/src/js/adapters/pdf-lib.js',
+    '/modules/doc-redactor/src/js/adapters/tesseract.js',
+  ]) {
+    const r = await fetch(`${BASE}${p}`);
+    check(r.status === 200, `runtime adapter served ${p} (${r.status})`);
+  }
+  for (const p of ['/adapters/tsa-rfc3161/server.js', '/adapters/tsa-rfc3161/README.md']) {
+    const r = await fetch(`${BASE}${p}`);
+    check(r.status === 404 || r.status === 403, `denied top-level ${p} (${r.status})`);
+  }
   if (errors.length) console.log('CONSOLE ERRORS:\n' + errors.map((e) => '  - ' + e).join('\n'));
   check(errors.length === 0, `no console/page errors (${errors.length})`);
   await browser.close();
