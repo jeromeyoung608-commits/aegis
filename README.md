@@ -1,5 +1,7 @@
 # AEGIS - Secure Edge Collaboration Workbench
 
+**English** · [Deutsch](README.de.md) · [Français](README.fr.md) · [Español](README.es.md)
+
 > **Closed-loop, zero-trust, local-first collaboration for classified industrial
 > documents** — every computation stays on the operator's machine, the app never
 > contacts a third-party origin. (A hosted service / offline cache is out of scope.)
@@ -487,7 +489,7 @@ unreachable" banner instead of throwing.
 ### Enterprise auth: OIDC & SCIM
 
 - **OIDC** (`AEGIS_AUTH_MODE=oidc`, logic in `server.js`, tests in `modules/oidc/`):
-  unconfigured → `/auth/oidc/start` returns `503` (no silent降级). Configure an
+  unconfigured → `/auth/oidc/start` returns `503` (no silent fallback). Configure an
   IdP before enabling.
 - **SCIM 2.0 provisioning** (tests in `modules/scim/`): gated by `AEGIS_SCIM_TOKEN`;
   `rotate` immediately revokes the old token.
@@ -889,7 +891,7 @@ All gates green after the WebGL2 fix (run on clean, port-collision-free servers)
 | Security hardening | — | Audit trail is tamper-evident and append-only for operator/system subjects — `/audit/erase` refuses protected subjects (403); GDPR erasure still targets data subjects. Login throttled per-IP + per-(IP,user) (429 + lockout) **plus a per-IP enumeration guard** (distinct-username 429) that closes the account-existence side-channel; **a per-user lockout now spreads to the whole IP**, so probing non-existent usernames also returns 429 (v5 fix). **token-gate rejects non-canonical (tampered) signatures** — closes a forged-token acceptance flaw (~21% of trailing-char flips admitted before the fix). Console Audit CSV/JSON export fixed (`res.clone`); `GET /export/bundle` adds Art.20 portability (now includes account metadata). `npm run doctor` self-diagnostic. (B-04 + must-fix #5 + token-gate + M-01 + enum guard + lockout-spread) |
 | Static-surface lockdown (v7) | `server.js` | **B-01/B-01b/B-02/B-04 closed**: `config/`, `data/`, `server/` are denied as PRIVATE TOP-LEVEL dirs (depth-0 match, so `modules/webgpu-topology/src/data/` still serves), `.db*` extensions denied, encoded traversal (`%2e%2e`, double-encoded) rejected on the decoded path. `GET /config/local.json`, `/data/aegis.db`, `/server/store.js` now 403/404 — the issuer secret is no longer reachable from the port. `Referrer-Policy` / `Permissions-Policy` / `nosniff` / `HSTS` on every response; `/audit?limit=` requires a positive integer and clamps to 1000; DB startup failure prints an actionable message. |
 | Secret/DB never ship (v7) | `scripts/package-delivery.mjs` | **B-03 closed**: packer excludes `config/local.json` and top-level `data/*` regardless of `.gitignore`, with two hard assertions on both build and `--verify` (against actual tar entries). `scripts/setup.mjs` prints `rotating` and rotates any pre-existing `issuerSecret` instead of silently reusing it, and chmods the file to `0600` on both create and rotate. `Dockerfile` uses `node:22-alpine` (node:sqlite) and creates `config/` at build time instead of `COPY`-ing a secret. `npm run verify:zero-deps` / `npm run verify:p3` are now first-class gates. |
-| Compliance package | `docs/compliance/` | Privacy Policy (retention table, Art.12(3), cookie statement, DPO, DE), DPA (TOM Annex + 24h/72h breach + signature), ROPA (controller + transfer basis), SOC2 readiness, **SCIM 2.0 (implemented, `AEGIS_SCIM_TOKEN`)**, **OIDC SSO (implemented, `AEGIS_AUTH_MODE=oidc`)**, Incident Response / DR-Backup / Access-Review / Sub-processor inventory, VPAT 2.5 EU / WCAG 2.2 AA, SLA, Data-Residency; `GET /healthz` + `GET /health` probes; `GET /export/bundle` (Art.20); `scripts/cleanup.mjs` + `scripts/uninstall.mjs` + `Dockerfile`. (closes 欧美合规差距) |
+| Compliance package | `docs/compliance/` | Privacy Policy (retention table, Art.12(3), cookie statement, DPO, DE), DPA (TOM Annex + 24h/72h breach + signature), ROPA (controller + transfer basis), SOC2 readiness, **SCIM 2.0 (implemented, `AEGIS_SCIM_TOKEN`)**, **OIDC SSO (implemented, `AEGIS_AUTH_MODE=oidc`)**, Incident Response / DR-Backup / Access-Review / Sub-processor inventory, VPAT 2.5 EU / WCAG 2.2 AA, SLA, Data-Residency; `GET /healthz` + `GET /health` probes; `GET /export/bundle` (Art.20); `scripts/cleanup.mjs` + `scripts/uninstall.mjs` + `Dockerfile`. (closes the EU/US compliance gap) |
 | Identity / SSO | `server/oidc.js` | OIDC authorization-code flow with RS256 id_token verification via `node:crypto` (zero external dependency) and SCIM 2.0 provisioning (`/scim/v2/Users`, `AEGIS_SCIM_TOKEN` bearer). Both are opt-in feature flags — the zero-config local deployment is unchanged. SCIM deprovisioning disables login (immediate 401) without purging the tamper-evident audit trail. |
 
 > **E2E prerequisite for `verify:flows`:** the deep-flow gate needs a browser.
@@ -905,7 +907,7 @@ All gates green after the WebGL2 fix (run on clean, port-collision-free servers)
 The core zero-trust kernel + the P3 audit closure are done (§14). To be shippable
 to European/American industrial-compliance customers, the workbench must move from
 a **local-first demo** to a **production system**. This is a phased program, executed
-phase by phase; each phase is verified ("调通") before the next starts. Status table
+phase by phase; each phase is verified ("wired up") before the next starts. Status table
 at the end of this section.
 
 ### 14.1 One-click install (Phase 0 — DONE)
@@ -936,7 +938,9 @@ npm start         # node server.js
 | **P4** | Cross-site transport: token-gated `/relay` server-mediated data relay (server-blind fallback when no TURN) + STUN/TURN config surfaced via `/session` + server-side **key-escrow** policy (`/escrow` deposit/retrieve, operator break-glass) | ✅ done |
 | **P5** | Revocation: local CRL/OCSP-style deny-list of key fingerprints (`/admin/revoke`) + **admission-time check** in `/session` | ✅ done |
 | **P6** | Production-leaning UI foundation: unified **design system** + **Operator Console** (`/aegis-shell/console.html`) that makes P1–P5 server features usable (login, audit, revocation, escrow, TSA verify). Module product UIs are functional but not redesigned in this pass. | ✅ done (foundation) |
-| **P7** | Compliance shell: **i18n** (en/de) + **PWA** (manifest + offline service worker) + **SBOM** generation (CycloneDX) + **threat model** + **CRA/NIS2** + **SECURITY.md** self-assessment. Independent third-party penetration test remains required (cannot be performed by this project — explicitly out of scope). | ✅ done (pen-test external) |
+| **P7** | Compliance shell: **i18n** (en/de/fr/es) + **PWA** (manifest + offline service worker) + **SBOM** generation (CycloneDX) + **threat model** + **CRA/NIS2** + **SECURITY.md** self-assessment. Independent third-party penetration test remains required (cannot be performed by this project — explicitly out of scope). | ✅ done (pen-test external) |
+
+The operations console is available in English, German, French and Spanish. Module interfaces are in English. Support and correspondence are provided in English and German.
 
 ### 14.3 Honest scope note
 

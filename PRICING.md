@@ -3,6 +3,7 @@
 The software is free under Apache-2.0. These prices are for support and services only.
 
 List pricing for **Aegis support plans** (optional paid support and services).
+Binding terms are in COMMERCIAL-LICENSE.md and the signed Order Form; this page is informational.
 All prices net, exclusive of VAT. Custom engagements and public-sector terms on
 request. For enquiries contact **Jerome Young (Yang Jie)** at **jeromeyoung608@gmail.com**.
 
@@ -58,5 +59,6 @@ a visible anchor is what makes the introductory discount credible.
 
 ## Trial
 
+No trial agreement is needed for the software itself — it is free under Apache-2.0.
 The software can be evaluated freely and used in production under Apache-2.0 with
 no paid plan. The plans above are for optional support and services only.

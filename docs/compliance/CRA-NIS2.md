@@ -34,3 +34,16 @@ to concrete Aegis controls. ✅ = implemented, 🟡 = partial / design-ready,
 3. Accessibility conformance is *foundational*, not *certified*.
 4. The audit log proves the server *saw* an event; it does not by itself prove
    client-side correctness — pair with the in-browser hash chain.
+
+## Language of user information
+
+Security-relevant user information is provided through the product UI in
+English, German, French and Spanish. Formal notices to customers are issued in
+English and German.
+
+## Role
+
+Aegis is published as open-source software under Apache-2.0; the maintainer
+provides paid support services. Whether a given distribution makes the
+maintainer a "manufacturer" under the CRA depends on the commercial activity
+concerned and is assessed per engagement, not asserted here.

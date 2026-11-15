@@ -1,9 +1,12 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
 // SPDX-License-Identifier: Apache-2.0
-// 括号平衡测试：防止“追加到文件末尾的规则被未闭合块吞掉”。
-// 2026-11-15 实测：doc-redactor/app.css 的 `@media (max-width: 980px) {` 未闭合，
-// 导致末尾追加的品牌焦点环规则只在 ≤980px 生效，1280px 下仍是浏览器默认环。
-// 扫描全部页面 CSS，要求 { 数量 === } 数量。
+// Brace-balance test: prevents "rules appended at the end of the file are swallowed
+// by an unclosed block".
+// Measured 2026-11-15: the `@media (max-width: 980px) {` block in doc-redactor/app.css
+// was never closed,
+// so the brand focus-ring rule appended at the end only applied at ≤980px while
+// 1280px still showed the browser default ring.
+// Scans every page stylesheet and requires the { count to equal the } count.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';

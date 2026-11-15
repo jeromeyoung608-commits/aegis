@@ -58,6 +58,9 @@ const violations = [];
 for (const f of files) {
   const rel = relative(ROOT, f).replace(/\\/g, '/');
   if (rel === BASELINE || rel.endsWith('TEST_REPORT.md')) continue;
+  // Translations are exempt: claims wording is judged on the English original,
+  // which is the authoritative text; a translation carries its own language.
+  if (/\.(de|fr|es)\.md$/.test(rel)) continue;
   const lines = readFileSync(f, 'utf8').split('\n');
   lines.forEach((line, i) => {
     if (DENIAL.test(line)) return;

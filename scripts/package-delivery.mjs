@@ -109,6 +109,11 @@ const REQUIRED = [
   'docs/CLAIMS-WORDING.md',
   'scripts/setup.mjs',        // one-click install entrypoint — MUST ship (B-01)
   'aegis-shell/console.html', // operator console — MUST ship, never dropped (B-02)
+  // Legal document set (v4) — a customer must receive the full paper trail.
+  'docs/legal/LEGAL-INDEX.md',
+  'docs/legal/ORDER-FORM-TEMPLATE.md',
+  'docs/legal/DPA-STATEMENT.md',
+  'docs/LANGUAGES.md',
 ];
 const MAX_ARCHIVE_MB = 80;
 

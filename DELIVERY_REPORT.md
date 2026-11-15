@@ -550,10 +550,10 @@ Dockerfile was checked for real buildability:
 
 | # | Fix | Files |
 |---|---|---|
-| 1 (必做) | `compliance.ropa` was referenced by `console.html:187` (`<h3 data-i18n="compliance.ropa">`) but missing from all four i18n catalogs → the panel heading rendered the **raw key**. Added `'compliance.ropa'` to `en/de/fr/es`. Verified: static `console.html` contains the attribute exactly once and no `>compliance.ropa<` visible text. | `aegis-shell/src/i18n.js` |
-| 2 (必做) | `README.md` delivery-packer row hardcoded a stale `331 files / 16.1 MiB`. Replaced with the real `verify:delivery` tail line (then 382; now 383 after the new test file joined the package — kept in sync rather than re-hardcoded). | `README.md` |
-| 3 (建议) | Brand focus ring (`#C8A44D`) only existed in `console.html` via `design-system.css`; the other 12 pages used browser-default or border-only focus. Appended the ring rule to 6 module/console CSS files and injected a `<style>` into the 6 module pages that have **no** external stylesheet, so every page shows a 2px gold ring on keyboard focus. | 6× `.css` + 6× `index.html` |
-| 4 (必做·防复发) | Added `aegis-shell/src/i18n-keys.test.js`: a **reference→catalog cross-check** (every `data-i18n`/`t(...)` key in `console.html`/`index.html`/`console.js` must exist in all four catalogs) plus the catalog-parity check. This catches the exact failure mode that slipped past the old "four catalogs equal 74=74" self-check. | `aegis-shell/src/i18n-keys.test.js` |
+| 1 (required) | `compliance.ropa` was referenced by `console.html:187` (`<h3 data-i18n="compliance.ropa">`) but missing from all four i18n catalogs → the panel heading rendered the **raw key**. Added `'compliance.ropa'` to `en/de/fr/es`. Verified: static `console.html` contains the attribute exactly once and no `>compliance.ropa<` visible text. | `aegis-shell/src/i18n.js` |
+| 2 (required) | `README.md` delivery-packer row hardcoded a stale `331 files / 16.1 MiB`. Replaced with the real `verify:delivery` tail line (then 382; now 383 after the new test file joined the package — kept in sync rather than re-hardcoded). | `README.md` |
+| 3 (recommended) | Brand focus ring (`#C8A44D`) only existed in `console.html` via `design-system.css`; the other 12 pages used browser-default or border-only focus. Appended the ring rule to 6 module/console CSS files and injected a `<style>` into the 6 module pages that have **no** external stylesheet, so every page shows a 2px gold ring on keyboard focus. | 6× `.css` + 6× `index.html` |
+| 4 (required, recurrence prevention) | Added `aegis-shell/src/i18n-keys.test.js`: a **reference→catalog cross-check** (every `data-i18n`/`t(...)` key in `console.html`/`index.html`/`console.js` must exist in all four catalogs) plus the catalog-parity check. This catches the exact failure mode that slipped past the old "four catalogs equal 74=74" self-check. | `aegis-shell/src/i18n-keys.test.js` |
 
 Test suite **176/176** (174 + 2 new i18n-keys tests); `verify:claims` 257 files;
 delivery rebuilt → **383 files, 16.2 MiB**, `verify:delivery` PASS; `doctor` 9/0;
@@ -573,7 +573,7 @@ that media query and only applied at ≤980px width.
 | # | Fix | Files |
 |---|---|---|
 | 1 | Added the missing `}` to close `@media (max-width: 980px)` before the `/* Short viewports */` comment. Brace count now **270/270 balanced**; the focus-ring rule verifies at **brace-depth 0 (top-level)**, so it applies at all widths. The `@media (max-height: 520px)` short-viewport compression block is also restored to a top-level media query (was nested). | `modules/doc-redactor/src/css/app.css` |
-| 2 (防复发) | Added `aegis-shell/src/css-brace-balance.test.js`: scans **every page CSS** under `aegis-shell/` + `modules/` and asserts `{` count === `}` count. Catches the exact failure mode (appended EOF rules swallowed by an unclosed block) before it reaches a browser. | `aegis-shell/src/css-brace-balance.test.js` |
+| 2 (recurrence prevention) | Added `aegis-shell/src/css-brace-balance.test.js`: scans **every page CSS** under `aegis-shell/` + `modules/` and asserts `{` count === `}` count. Catches the exact failure mode (appended EOF rules swallowed by an unclosed block) before it reaches a browser. | `aegis-shell/src/css-brace-balance.test.js` |
 
 Test suite **177/177** (176 + 1 brace-balance test); `verify:claims` 258 files;
 delivery rebuilt → **384 files, 16.2 MiB**, `verify:delivery` PASS; `doctor` 9/0;
@@ -787,7 +787,7 @@ audit, admin), resize works (718×803 → 868×893), **0 console / page errors**
 re-run green: `npm test` 177/177, `verify:claims` 259, `verify:zero-deps` 13,
 `doctor` 9/0, `verify:delivery` 386.
 
-**Audit follow-up — last open code item closed (AEGIS 全量审计 v8, round 17).** The
+**Audit follow-up — last open code item closed (AEGIS full audit v8, round 17).** The
 windowing rule `.win { display: flex }` overrode the UA `[hidden] { display: none }`
 default, so role-gated panels that carry `.win` (notably `#adminPanel`, and the
 topology / redactor windows for recipient/auditor/external) were **visibly shown to

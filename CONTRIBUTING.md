@@ -38,6 +38,12 @@ npm run pack:delivery && npm run verify:delivery   # reproducible shipping archi
 
 ## License of your contribution
 
-By submitting a pull request you agree your contribution is licensed under the
-Apache License 2.0 (Apache-2.0), the same license as the project. You confirm you
-have the right to submit it under those terms. If you do not agree, do not submit.
+Aegis is licensed under Apache-2.0. By submitting a contribution you agree that
+it is licensed under Apache-2.0 (inbound = outbound). No copyright assignment
+and no CLA is required.
+
+Every commit must carry a Developer Certificate of Origin sign-off:
+
+    Signed-off-by: Your Name <you@example.com>
+
+Use `git commit -s`. Pull requests without sign-off are not merged.

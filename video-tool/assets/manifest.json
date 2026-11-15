@@ -1,50 +1,50 @@
 [
   {
     "file": "01-topology.png",
-    "title": "① 拓扑溯源 · Topologie",
-    "caption": "点击数字孪生网络中的任意节点，作为整个闭环的起点。产出物：被选中的源节点。",
+    "title": "1 - Topology tracing",
+    "caption": "Click any node in the digital-twin network as the starting point of the whole loop. Output: the selected source node.",
     "dur": 10
   },
   {
     "file": "02-redact.png",
-    "title": "② 本地脱敏 · Redaktion",
-    "caption": "合同在浏览器本地 OCR，身份证号与银行账户等敏感字段被黑框重栅格化覆盖，导出 PDF 不含文字层。产出物：脱敏后的 PDF。",
+    "title": "2 - Local redaction",
+    "caption": "The contract is OCR-ed locally in the browser; sensitive fields such as ID numbers and bank accounts are covered by black re-rasterised boxes, and the exported PDF has no text layer. Output: the redacted PDF.",
     "dur": 15
   },
   {
     "file": "03-sign-ready.png",
-    "title": "③ 就绪 · 可以签名",
-    "caption": "扫描完成，Sign and Send 按钮解锁，准备对文件签名并发送。",
+    "title": "3 - Ready to sign",
+    "caption": "Scanning is done; the Sign and Send buttons unlock, ready to sign and send the file.",
     "dur": 7
   },
   {
     "file": "04-sign-send.png",
-    "title": "④ 签名 + 点对点发送",
-    "caption": "对文件的 SHA-256 摘要做 ECDSA 签名，再通过 WebRTC 与 AES-GCM 分块直传；信令服务器只转发连接信息，看不到文件字节。产出物：已发送，Peer A sent。",
+    "title": "4 - Sign and send peer-to-peer",
+    "caption": "The SHA-256 digest of the file is signed with ECDSA and then transferred directly in AES-GCM chunks over WebRTC; the signalling server only forwards connection information and never sees the file bytes. Output: sent, Peer A sent.",
     "dur": 18
   },
   {
     "file": "05-receive-peek.png",
-    "title": "⑤ 接收 · 隐藏传输画面",
-    "caption": "接收端收到加密字节流；这里展示收发两端真实的 WebRTC 加密传输过程。产出物：接收决策卡片。",
+    "title": "5 - Receiving, transfer view hidden",
+    "caption": "The receiver gets the encrypted byte stream; this shows the real WebRTC encrypted transfer between both ends. Output: the receipt decision card.",
     "dur": 12
   },
   {
     "file": "06-verify.png",
-    "title": "⑥ 验签 · Verify",
-    "caption": "接收后重算哈希、核对每一个签名人，只有验签通过才解锁下一步。产出物：Verified 状态。",
+    "title": "6 - Verify the signature",
+    "caption": "After receipt the hash is recomputed and every signer is checked; only a valid signature unlocks the next step. Output: the Verified state.",
     "dur": 11
   },
   {
     "file": "07-archive-dialog.png",
-    "title": "⑦ 归档 · 输入口令",
-    "caption": "输入口令，至少八位。口令即用即弃，不会落盘。",
+    "title": "7 - Archive, enter the passphrase",
+    "caption": "Enter a passphrase of at least eight characters. It is used once and never written to disk.",
     "dur": 7
   },
   {
     "file": "08-audit.png",
-    "title": "⑧ 审计链 · Audit",
-    "caption": "文件与签名写进浏览器本地 OPFS 保险库；每一步都追加成 SHA-256 哈希链，不可篡改。产出物：闭环完成，顶部七步全部变绿。",
+    "title": "8 - Audit chain",
+    "caption": "The file and its signatures are written into the browser-local OPFS vault; every step is appended to a SHA-256 hash chain that cannot be altered. Output: the loop is complete and all seven steps at the top turn green.",
     "dur": 15
   }
 ]

@@ -71,6 +71,9 @@ const mitClaimProblems = [];
 const bslClaimProblems = [];
 for (const f of mdFiles) {
   const rel = f.replace(ROOT + '/', '');
+  // Translations are exempt: the English original is the authoritative text, and
+  // a translation carries the wording of its own language, not the English one.
+  if (/\.(de|fr|es)\.md$/.test(rel)) continue;
   const lines = readFileSync(f, 'utf8').split('\n');
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];

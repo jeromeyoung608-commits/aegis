@@ -6,7 +6,7 @@ the audit trail; never erases it), password-login disable, per-IP rate limit, an
 
 ## Entra ID
 1. Enterprise applications → Provisioning → Automatic.
-2. Tenant URL: `https://aegis.example/scim/v2`; Secret token: the Aegis SCIM token
+2. Tenant URL: `https://<your-tenant-host>/scim/v2`; Secret token: the Aegis SCIM token
    (`Token/rotate`).
 3. Attribute mappings: `externalId`/`userName` → operator username; `active` drives
    deprovisioning. On disable, Aegis sets the account `enabled=0` and keeps history.

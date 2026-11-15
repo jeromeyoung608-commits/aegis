@@ -20,3 +20,14 @@ without prior written permission.
 - "AEGIS" is a common term; registration status varies by jurisdiction. This
   notice records the author's claim of the mark in connection with this product.
   It is not a guarantee of registered status anywhere.
+
+## Forks and redistribution
+
+Apache-2.0 lets you fork and redistribute the code. If you distribute a
+modified build, rename it and remove the Aegis name and the
+"ENGINE BY JEROME YOUNG" mark from user-visible surfaces, unless you have
+written permission. Factual statements such as "based on Aegis" are permitted
+and must not imply endorsement.
+
+The mark is used as ™ only. No registered trademark symbol is used, because no
+registration has been obtained in any jurisdiction.

@@ -1,7 +1,7 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
 // SPDX-License-Identifier: Apache-2.0
 // Aegis flow capture — drives the REAL app in headless Chrome (WebGPU via SwiftShader)
-// and screenshots the deliverable ("产出物") of every stage of the 7-step loop.
+// and screenshots the deliverable output of every stage of the 7-step loop.
 import { chromium } from 'playwright';
 import { mkdirSync } from 'node:fs';
 import { writeFileSync } from 'node:fs';
@@ -118,14 +118,14 @@ const run = async () => {
   await browser.close();
 
   const manifest = [
-    { file: '01-topology.png', title: '① 拓扑溯源 · Topologie', caption: '点击数字孪生网络中的任意节点（#id），作为整个闭环的起点。产出物：被选中的源节点。', dur: 6 },
-    { file: '02-redact.png', title: '② 本地脱敏 · Redaktion', caption: '合同在浏览器本地 OCR，身份证号/银行账户等被黑框重栅格化覆盖，导出 PDF 无文字层。产出物：脱敏 PDF。', dur: 7 },
-    { file: '03-sign-ready.png', title: '③ 就绪 · 可签名', caption: '扫描完成，Sign & Send 解锁。', dur: 4 },
-    { file: '04-sign-send.png', title: '④ 签名 + 点对点发送', caption: 'SHA-256 摘要 ECDSA 签名；经 WebRTC+AES-GCM 直传，信令服务器只见 SDP/ICE。产出物：已发送（Peer A sent）。', dur: 6 },
-    { file: '05-receive-peek.png', title: '⑤ 接收 · 隐藏传输画面', caption: '接收端收到加密字节流；此处展示收发两端真实的 WebRTC 加密传输过程。产出物：recvDecision 卡片。', dur: 7 },
-    { file: '06-verify.png', title: '⑥ 验签 · Verify', caption: '重算哈希、核对每个签名人，只有验过才解锁下一步。产出物：Verified 状态。', dur: 6 },
-    { file: '07-archive-dialog.png', title: '⑦ 归档 · 输口令', caption: '输入口令（≥8 位），口令即用即弃、不落盘。', dur: 5 },
-    { file: '08-audit.png', title: '⑧ 审计链 · Audit', caption: '文件+签名写进浏览器 OPFS 本地保险库；每步追加成 SHA-256 哈希链，不可篡改。产出物：闭环完成，Stepper 全绿。', dur: 7 },
+    { file: '01-topology.png', title: '1 - Topology tracing', caption: 'Click any node (#id) in the digital-twin network as the starting point of the whole loop. Output: the selected source node.', dur: 6 },
+    { file: '02-redact.png', title: '2 - Local redaction', caption: 'The contract is OCR-ed locally in the browser; ID numbers, bank accounts and similar fields are covered by black re-rasterised boxes, and the exported PDF has no text layer. Output: the redacted PDF.', dur: 7 },
+    { file: '03-sign-ready.png', title: '3 - Ready to sign', caption: 'Scanning is done; Sign & Send unlock.', dur: 4 },
+    { file: '04-sign-send.png', title: '4 - Sign and send peer-to-peer', caption: 'The SHA-256 digest is signed with ECDSA and transferred directly over WebRTC+AES-GCM; the signalling server sees only SDP/ICE. Output: sent (Peer A sent).', dur: 6 },
+    { file: '05-receive-peek.png', title: '5 - Receiving, transfer view hidden', caption: 'The receiver gets the encrypted byte stream; this shows the real WebRTC encrypted transfer between both ends. Output: the recvDecision card.', dur: 7 },
+    { file: '06-verify.png', title: '6 - Verify the signature', caption: 'The hash is recomputed and every signer is checked; only a valid signature unlocks the next step. Output: the Verified state.', dur: 6 },
+    { file: '07-archive-dialog.png', title: '7 - Archive, enter the passphrase', caption: 'Enter a passphrase (>= 8 characters); it is used once and never written to disk.', dur: 5 },
+    { file: '08-audit.png', title: '8 - Audit chain', caption: 'The file and its signatures are written into the browser-local OPFS vault; every step is appended to a SHA-256 hash chain that cannot be altered. Output: the loop is complete and the Stepper is all green.', dur: 7 },
   ];
   writeFileSync(new URL('./assets/manifest.json', import.meta.url).pathname, JSON.stringify(manifest, null, 2));
   console.log('DONE; screenshots in ' + OUT);

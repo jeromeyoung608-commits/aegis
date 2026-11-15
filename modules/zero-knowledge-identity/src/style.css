@@ -239,6 +239,6 @@ dialog.dialog b { color: var(--gold); font-family: var(--mono); text-transform: 
 .check-label { color: #c3cdda; }
 .check.fail .check-label { color: #ffc4bf; }
 
-/* 品牌焦点环：键盘用户必须能看到当前控件 (patch 3) */
+/* Brand focus ring: keyboard users must be able to see the focused control (patch 3) */
 :focus-visible { outline: 2px solid #C8A44D; outline-offset: 2px; }
 input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid #C8A44D; outline-offset: 2px; }

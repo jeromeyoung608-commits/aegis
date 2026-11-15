@@ -1319,7 +1319,7 @@ async function handleScimRoute(req, res, url) {
     if (accountExists(username)) { json(res, 409, { error: 'user already exists' }); return; }
     const role = Array.isArray(body.roles) && body.roles.includes('admin') ? 'admin' : 'operator';
     // SCIM POST may carry `password` (RFC 7643 §4.1). Honour it when supplied so
-    // a locally-provisioned account can actually sign in (v7 合规 gap); when
+    // a locally-provisioned account can actually sign in (v7 compliance gap); when
     // absent, mint an unguessable random password for federated/SSO users.
     if (body.password !== undefined && (typeof body.password !== 'string' || body.password.length < 8)) {
       json(res, 400, { error: 'password must be a string of at least 8 characters' }); return;

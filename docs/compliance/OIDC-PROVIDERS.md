@@ -12,7 +12,7 @@ AEGIS_AUTH_MODE=oidc
 AEGIS_OIDC_ISSUER=https://<your-idp>/.well-known/openid-configuration   # or the issuer base
 AEGIS_OIDC_CLIENT_ID=<client-id>
 AEGIS_OIDC_CLIENT_SECRET=<client-secret>        # confidential client
-AEGIS_OIDC_REDIRECT_URI=https://aegis.example/auth/oidc/callback
+AEGIS_OIDC_REDIRECT_URI=https://<your-tenant-host>/auth/oidc/callback
 AEGIS_OIDC_DEFAULT_ROLE=operator                # role granted to new IdP users
 ```
 

@@ -76,3 +76,27 @@ This services agreement is governed by the laws of the Federal Republic of
 Germany, excluding its conflict-of-laws rules. The courts of the copyright
 holder's registered seat have exclusive jurisdiction, unless mandatory local
 consumer or data-protection law provides otherwise.
+
+## 8. Language and precedence
+
+These Terms are concluded in English. German, French and Spanish versions are
+translations provided for convenience only; in case of conflict the English
+text prevails.
+
+This document and the Order Form are individually negotiated. The Order Form
+prevails over these Terms; these Terms prevail over `PRICING.md`, which is
+informational and non-binding. The Apache License 2.0 (`LICENSE`) governs use
+of the software and is not modified by this document.
+
+## 9. Payment and late payment
+
+Unless the Order Form states otherwise, fees are invoiced annually in advance,
+net of VAT, payable within 30 days. Overdue amounts bear interest at 9
+percentage points above the base rate (§ 247 BGB). The Provider may suspend
+services after written notice if an invoice remains unpaid for 30 days.
+
+## 10. Publicity
+
+The Provider may list the Customer's name and logo as a customer only with the
+Customer's prior written consent. Nothing in this clause grants trademark
+rights.

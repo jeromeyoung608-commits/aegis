@@ -56,7 +56,7 @@ function makeWindow(id, win, handle) {
   const grip = document.createElement('div');
   grip.className = 'win-resize';
   grip.setAttribute('aria-hidden', 'true');
-  grip.title = '拖动以缩放';
+  grip.title = 'Drag to resize';
   win.appendChild(grip);
 
   let z = parseInt(win.style.zIndex || '10', 10);

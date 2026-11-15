@@ -1,6 +1,6 @@
 <!-- Issued — Voluntary Product Accessibility Template; verify against the deployed build before publication. -->
 
-# VPAT® 2.5 EU + WCAG 2.2 Level AA — Conformance Report
+# VPAT 2.5 EU + WCAG 2.2 Level AA — Conformance Report
 
 **Status:** Issued · **Version:** 1.0 · **Last updated:** 2026-11-14
 **Product:** Aegis — Privacy-First Local Data Cleansing Engine (operator console + 12 modules)
