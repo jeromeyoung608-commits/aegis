@@ -20,7 +20,7 @@
 | Liability cap | EUR __________ per contract year (see `COMMERCIAL-LICENSE.md` §5) |
 | Insurance held by Provider | Cyber/E&O, limit EUR __________ |
 | Governing law | Federal Republic of Germany |
-| Language | English is binding; translations are for convenience only |
+| Language | English only |
 
 ## Annex A — Scope of services
 

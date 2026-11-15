@@ -79,9 +79,9 @@ consumer or data-protection law provides otherwise.
 
 ## 8. Language and precedence
 
-These Terms are concluded in English. The German version (`COMMERCIAL-LICENSE.de.md`)
-is a translation provided for convenience only; in case of conflict the English
-text prevails.
+These Terms are concluded in English only. If a translation is provided at any
+time, it is for convenience only and the English text prevails in case of
+conflict.
 
 This document and the Order Form are individually negotiated. The Order Form
 prevails over these Terms; these Terms prevail over `PRICING.md`, which is

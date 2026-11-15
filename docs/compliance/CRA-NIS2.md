@@ -38,8 +38,8 @@ to concrete Aegis controls. ✅ = implemented, 🟡 = partial / design-ready,
 ## Language of user information
 
 Security-relevant user information is provided through the product UI in
-English and German. Formal notices to customers are issued in
-English and German.
+English and German. All written documentation and formal notices to customers
+are issued in English.
 
 ## Role
 

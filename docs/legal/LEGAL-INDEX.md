@@ -15,5 +15,5 @@
 
 **Order of precedence**: Order Form → `COMMERCIAL-LICENSE.md` → `PRICING.md` → other documents. The Apache-2.0 licence is never modified by any document in this list.
 
-**Language**: every legal document is concluded in English. A German version exists for
-readability and is a non-binding translation.
+**Language**: every legal document exists and is concluded in English only. No
+translations are maintained.

@@ -120,15 +120,5 @@ are not shared with any third party, and are cleared when the session ends.
 Because no tracking or non-essential cookies are used, no cookie-consent banner
 is required; this section documents the position transparently.
 
-## 13. Deutsche Fassung (Zusammenfassung)
-
-Diese Datenschutzerklärung gilt für die lokale Aegis-Software. Der betreibende
-Kunde ist in der Regel die verantwortliche Stelle (Controller); Aegis ist
-Auftragsverarbeiter. Es erfolgt **keine Datenübertragung ins Ausland** ohne
-ausdrückliche Option (z. B. optionaler RFC3161-TSA, nur Hash, kein Dokument).
-Betroffene haben die Rechte nach Art. 15–21 DSGVO. Eine vollständige
-deutschsprachige Fassung ist vor Veröffentlichung durch die zuständige Stelle
-bereitzustellen und rechtlich prüfen zu lassen.
-
 > This document is a template. Replace placeholders, confirm the controller/processor
 > posture for your deployment, and have it reviewed by qualified counsel before use.

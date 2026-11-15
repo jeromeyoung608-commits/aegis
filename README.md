@@ -1,6 +1,6 @@
 # AEGIS - Secure Edge Collaboration Workbench
 
-**English** · [Deutsch](README.de.md)
+**English**
 
 > **Closed-loop, zero-trust, local-first collaboration for classified industrial
 > documents** — every computation stays on the operator's machine, the app never
