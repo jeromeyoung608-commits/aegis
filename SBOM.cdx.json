@@ -2,7 +2,7 @@
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
   "metadata": {
-    "timestamp": "2026-11-15T12:01:59.948Z",
+    "timestamp": "2026-11-15T12:18:48.412Z",
     "component": {
       "type": "application",
       "name": "aegis",

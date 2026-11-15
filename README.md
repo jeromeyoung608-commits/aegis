@@ -794,8 +794,10 @@ npm run pack:delivery       # dist/aegis-delivery-<version>.tar.gz + dist/MANIFE
 npm run verify:delivery     # re-verify every file's SHA-256 against the manifest
 ```
 
-Measured: **845 MiB working tree → 16.0 MiB archive / 304 files**, byte-identical on
-a second build (fixed tar epoch, sorted names, zeroed gzip mtime). The archive
+The packer excludes build caches before archiving, so the archive is a small
+fraction of the working tree. A second build is byte-identical (fixed tar epoch,
+sorted names, zeroed gzip mtime). Run `npm run verify:delivery` for the current
+file count and size — every sha256 matches the manifest. The archive
 excludes `node_modules/`, build caches, rendered media and private-key material, but
 **keeps `vendor/`** (pdf.js, pdf-lib, tesseract, tessdata are runtime assets, including
 `*.traineddata.gz`). `dist/` is in `server.js`'s deny list and is never HTTP-reachable.
@@ -895,7 +897,7 @@ All gates green after the WebGL2 fix (run on clean, port-collision-free servers)
 |------|---------|--------|
 | Unit suite | `npm test` | 151 / 151 pass |
 | Claims wording (AEG-22) | `npm run verify:claims` | 216 files scanned, no forbidden claims |
-| Delivery packer (AEG-19) | `npm run verify:delivery` | 385 files, every sha256 matches, 16.2 MiB; source-vs-package freshness check (B-02) |
+| Delivery packer (AEG-19) | `npm run verify:delivery` | VERIFY PASS — every sha256 matches, no caches/media/keys; source-vs-package freshness check (B-02) |
 | CSP nonce (AEG-23) | `node video-tool/verify-csp.mjs` | ALL PASS |
 | P3 closure | `node video-tool/verify-p3.mjs` | ALL PASS (12 pages + AEG-21/24 + P0 PoCs + F-01 forged→DENY regression) |
 | WebGL2 fallback | `node video-tool/verify-webgl2.mjs` | 3 / 3 pass (was flaky) |

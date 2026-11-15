@@ -2,6 +2,9 @@
 
 **Project**: `Aegis` — Secure Edge Collaboration Workbench
 **Date**: 2026-11-09
+**Reading note**: file counts, archive sizes and test totals below are point-in-time
+snapshots from each verification round, not the current delivery state. For the
+authoritative current figures run `npm run verify:delivery` (every sha256 matches).
 **Composition**: three independently-shipped modules (`webgpu-topology`, `doc-redactor`,
 `p2p-crypto-transfer`) unified by `aegis-shell` behind one EventBus + `postMessage`
 bridge, served by one zero-dependency `server.js`.

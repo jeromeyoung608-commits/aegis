@@ -4,6 +4,9 @@
   "private": true,
   "type": "module",
   "description": "Aegis — Privacy-First Local Data Cleansing Engine. Root orchestrator: zero runtime dependencies; this package only wires `npm test` to run every module's test suite.",
+  "engines": {
+    "node": "26.0.0"
+  },
   "scripts": {
     "predev": "lsof -ti:8080 | xargs kill -9 2>/dev/null || true",
     "dev": "node server.js",

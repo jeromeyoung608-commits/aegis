@@ -25,7 +25,20 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
 
-const nodeVer = process.versions.node;
+// Node version must be reproducible: read the declared constant from package.json
+// (engines.node) rather than whoever happens to run the generator. Verify the
+// running runtime's MAJOR matches the declaration; refuse to emit otherwise.
+const declaredNode = pkg.engines && pkg.engines.node;
+if (!declaredNode || !/^\d+\.\d+\.\d+$/.test(declaredNode)) {
+  console.error('[sbom] FAIL — package.json engines.node must be an exact x.y.z version (got: ' + declaredNode + ')');
+  process.exit(1);
+}
+const actualNode = process.versions.node;
+if (declaredNode.split('.')[0] !== actualNode.split('.')[0]) {
+  console.error(`[sbom] FAIL — engines.node declares Node ${declaredNode} (major ${declaredNode.split('.')[0]}) but runtime is ${actualNode} (major ${actualNode.split('.')[0]}). Refusing to emit a non-reproducible SBOM.`);
+  process.exit(1);
+}
+const nodeVer = declaredNode;
 const outFile = process.argv.includes('--out') ? process.argv[process.argv.indexOf('--out') + 1] : null;
 
 const declaredDeps = Object.keys(pkg.dependencies || {});

@@ -84,8 +84,7 @@ permitted by law, the copyright holder is **not liable** for any indirect,
 incidental, special, or consequential damages.
 
 The Provider's aggregate liability under this license is limited to the cap
-stated in the Order Form / executed schedule **[liability cap: to be completed
-on execution]**.
+stated in the Order Form / executed schedule for the applicable engagement.
 
 Nothing in this clause limits liability that cannot be excluded by applicable
 law (intent, gross negligence, death/personal injury caused by negligence,
