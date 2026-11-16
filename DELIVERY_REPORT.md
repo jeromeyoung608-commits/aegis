@@ -338,7 +338,7 @@ injected `config/local.json` into the built tar is caught by `verify:delivery`.
 | Capability | Mechanism | Tests |
 |---|---|---|
 | OIDC (auth-code flow) | `server/oidc.js` — discovery, token exchange, JWKS fetch, RS256 `id_token` verification; rejects `HS256`, issuer/aud/exp/nonce mismatch, tampered signature | `modules/oidc/tests/oidc.test.mjs` **6/6** |
-| SCIM 2.0 provisioning | `modules/scim/` — CRUD + `active:false` deprovisioning (keeps audit), password-login, per-IP rate limit, `Token/{rotate,revoke}` | `modules/scim/tests/scim.test.mjs` **5/5** |
+| SCIM 2.0 provisioning | `server.js` (routes) + `server/store.js` (persistence) — CRUD + `active:false` deprovisioning (keeps audit), password-login, per-IP rate limit, `Token/{rotate,revoke}` | `modules/scim/tests/scim.test.mjs` **5/5** |
 | TOTP MFA | `server/totp.js` — RFC 6238 seeds sealed with AES-256-GCM; `/auth/mfa/{status,enroll,verify,disable}` | `server.js` MFA dispatch |
 | GDPR erasure | salted SHA-256 tombstone hash (no clear-text subject); `/audit/erase` returns `tombstone`, `/audit/tombstone` verifies | `server/store.js` |
 

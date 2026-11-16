@@ -47,7 +47,7 @@ JWKS. `HS256` and any tampered/timed-out token are rejected.
 
 ## SCIM 2.0 provisioning / deprovisioning
 
-`modules/scim/` implements CRUD + `active:false` deprovisioning (keeps the audit
+SCIM 2.0 (`server.js` routes, `server/store.js` persistence) implements CRUD + `active:false` deprovisioning (keeps the audit
 trail; never erases it), password-login disable, per-IP rate limit, and
 `Token/{rotate,revoke}`. Tested 5/5 (`modules/scim/tests/scim.test.mjs`). Connector
 guides for Entra/Okta are in `docs/compliance/SCIM-CONNECTORS.md`.

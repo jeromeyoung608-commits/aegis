@@ -28,7 +28,7 @@ Only used if `AEGIS_TLS_DIR` (`~/.aegis/tls`) holds `key.pem`/`cert.pem`.
   HTTP behind it.
 
 ## 4. SCIM provisioning token
-`modules/scim` issues tokens with `/Token/{rotate,revoke}`. Rotate via the console
+SCIM (`server.js`) issues tokens with `/Token/{rotate,revoke}`. Rotate via the console
 or API; revoke immediately on offboarding/compromise (revoked tokens cannot authenticate,
 but history is retained for the audit trail).
 

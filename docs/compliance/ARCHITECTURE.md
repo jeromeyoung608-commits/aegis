@@ -15,8 +15,9 @@ workbench/console (static) and the JSON API.
 - **Store** — embedded `node:sqlite` (`server/store.js`): accounts (TOTP sealed
   AES-256-GCM), sessions, audit trail (append-only, non-erasable for operators),
   revocations, escrow, SCIM tokens, MFA recovery codes.
-- **Modules** — `modules/oidc` (RS256 `id_token` verification via `node:crypto`),
-  `modules/scim` (SCIM 2.0 CRUD + deprovisioning).
+- **Modules** — `server/oidc.js` (RS256 `id_token` verification via `node:crypto`),
+  and SCIM 2.0 CRUD + deprovisioning in `server.js` + `server/store.js`.
+  Their test suites live in `modules/oidc/tests/` and `modules/scim/tests/`.
 - **Adapters** — `adapters/tsa-rfc3161` (RFC 3161 timestamp signing/verification).
 
 ## Trust boundaries

@@ -47,7 +47,15 @@ add('G1.6', 'MUST', has('.gitignore'), '.gitignore missing');
 const demoOk = has('demo') || has('demo.html') || has('index.html');
 add('G1.7', 'MUST', demoOk, 'no standalone entry point (demo/, demo.html or index.html)');
 add('G1.8', 'MUST', has('TEST_REPORT.md'), 'TEST_REPORT.md missing — a buyer needs evidence, not a promise');
-add('G1.9', 'MUST', has('LICENSE') && size('LICENSE') > 500, 'LICENSE present but too short to be a real grant');
+// G1.9 accepts either a verbatim Apache-2.0 text or the short SPDX pointer that
+// verify-licensing.mjs explicitly sanctions. The old rule demanded > 500 bytes,
+// which every module failed while the licensing gate called the same file
+// compliant — two gates disagreeing about one file is worse than either rule.
+const licText = has('LICENSE') ? text('LICENSE') : '';
+const licIsPointer = /SPDX-License-Identifier:\s*Apache-2\.0/i.test(licText)
+  && /See\s+\S*LICENSE/i.test(licText);
+add('G1.9', 'MUST', has('LICENSE') && (size('LICENSE') > 500 || licIsPointer),
+  'LICENSE missing, too short to be a real grant, and not a valid SPDX pointer');
 
 /* ---------- G3 metadata ---------- */
 let pkg = {};

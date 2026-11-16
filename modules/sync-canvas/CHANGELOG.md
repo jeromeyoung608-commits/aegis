@@ -8,6 +8,9 @@
 - README completed with the MDS-1 delivery contract (12 chapters: problem / buyer / 60-second start / integration contract / architecture / guarantees & threat model / known limits / verification / measured performance / dependencies / license / changelog)
 
 ### Changed
+- **2026-11-16** — licence aligned with the repository: `LICENSE` and `package.json`
+  now state Apache-2.0. The `1.0.0` line above records the MIT text that shipped
+  before `docs/LICENSING.md` was made authoritative; the current grant is Apache-2.0.
 - `package.json`: completed `license`, `engines`, `scripts.start`, `scripts.test`, `scripts.verify` (wired into the `verify-module.mjs` gate)
 
 ### Verification

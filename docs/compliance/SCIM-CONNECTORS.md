@@ -1,6 +1,6 @@
 # SCIM 2.0 connectors (provisioning)
 
-`modules/scim` implements SCIM 2.0: User CRUD, `active:false` deprovisioning (keeps
+SCIM 2.0 is implemented in `server.js` (routes) + `server/store.js` (persistence): User CRUD, `active:false` deprovisioning (keeps
 the audit trail; never erases it), password-login disable, per-IP rate limit, and
 `Token/{rotate,revoke}`. Tested 5/5 (`modules/scim/tests/scim.test.mjs`).
 
