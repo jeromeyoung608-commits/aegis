@@ -1,5 +1,5 @@
-// Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
+// Aegis - Copyright (c) 2026 Yang Jie (Jerome Young)
+// Watermark: AEGIS / ENGINE BY YANG JIE (JEROME YOUNG) - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 // Verify the LAN client actually consumes a signaling token (closes C3 end-to-end).
 // Spins a tiny mock relay: /session mints a token, /signal records the token it

@@ -1,5 +1,5 @@
-// Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
+// Aegis - Copyright (c) 2026 Yang Jie (Jerome Young)
+// Watermark: AEGIS / ENGINE BY YANG JIE (JEROME YOUNG) - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 // Generate one Chinese narration clip per flow step with edge-tts (Microsoft neural voice).
 import { execFileSync } from 'node:child_process';

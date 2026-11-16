@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
+// Aegis - Copyright (c) 2026 Yang Jie (Jerome Young)
+// Watermark: AEGIS / ENGINE BY YANG JIE (JEROME YOUNG) - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 // Upgrade rehearsal: simulate an OLD Aegis install (pre-enabled, pre-MFA,
 // pre-SCIM-token schema) and prove that the current server migrates it in place

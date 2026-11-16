@@ -1,5 +1,5 @@
-// Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
+// Aegis - Copyright (c) 2026 Yang Jie (Jerome Young)
+// Watermark: AEGIS / ENGINE BY YANG JIE (JEROME YOUNG) - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 // Aegis/server.js — unified, ZERO-dependency server for the whole Aegis workbench.
 //
@@ -1689,7 +1689,7 @@ function handler(req, res) {
       provenance: {
         product: 'Aegis',
         version: VERSION,
-        author: 'Jerome Young (Yang Jie)',
+        author: 'Yang Jie (Jerome Young)',
         license: 'Apache License 2.0 (Apache-2.0) — see LICENSE. Paid support is optional.',
         generatedBy: 'AEGIS v' + VERSION + ' (Jerome Young)',
       },

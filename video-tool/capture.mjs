@@ -1,5 +1,5 @@
-// Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
+// Aegis - Copyright (c) 2026 Yang Jie (Jerome Young)
+// Watermark: AEGIS / ENGINE BY YANG JIE (JEROME YOUNG) - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 // Aegis flow capture — drives the REAL app in headless Chrome (WebGPU via SwiftShader)
 // and screenshots the deliverable output of every stage of the 7-step loop.

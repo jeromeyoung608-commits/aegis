@@ -364,7 +364,7 @@ Signature stamps (Module 2) let two engineers drop attributed, locked marks on a
 ## License & attribution
 
 `sync-canvas` — Distributed State & Real-time Collaboration Engine
-Copyright (c) 2026 Jerome Young (Yang Jie)
+Copyright (c) 2026 Yang Jie (Jerome Young)
 Contact: jeromeyoung608@gmail.com
 
 **Open source, Apache-2.0** — see `LICENSE`.

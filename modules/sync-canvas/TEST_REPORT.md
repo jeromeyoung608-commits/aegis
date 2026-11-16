@@ -117,7 +117,7 @@ Four scenarios:
 | `node --check` (`src/main.js`, `src/engine/*`, `src/canvas/CanvasRenderer.js`) | All pass |
 | Copyright header (`Copyright (c) 2026 Jerome Young`) | Present in `OT.js`, `BoardOT.js`, `SyncEngine.js`, `SocketProvider.js` |
 | Console attribution | Prints the `sync-canvas` badge and licensing contact at startup |
-| Status bar attribution | `ENGINE BY JEROME YOUNG` visible |
+| Status bar attribution | `ENGINE BY YANG JIE (JEROME YOUNG)` visible |
 | Canvas attribution | Gold dot + `JEROME YOUNG` at the top-left of every note |
 | Unrelated third-party marks (`trae / marscode / doubao / bytedance / coze`) | 0 matches |
 | License file | `LICENSE` present (Apache-2.0 pointer) and referenced by every source header |

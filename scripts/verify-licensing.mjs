@@ -1,5 +1,5 @@
-// Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
+// Aegis - Copyright (c) 2026 Yang Jie (Jerome Young)
+// Watermark: AEGIS / ENGINE BY YANG JIE (JEROME YOUNG) - original implementation, Apache-2.0
 // scripts/verify-licensing.mjs
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -20,7 +20,7 @@
 import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, extname, basename, dirname } from 'node:path';
 
-const COPYRIGHT = 'Copyright (c) 2026 Jerome Young (Yang Jie)';
+const COPYRIGHT = 'Copyright (c) 2026 Yang Jie (Jerome Young)';
 const SPDX = 'Apache-2.0';
 const SPDX_LINE = `SPDX-License-Identifier: ${SPDX}`;
 const TARGET_EXT = new Set(['.js', '.mjs', '.cjs', '.ts', '.css', '.html']);

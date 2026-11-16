@@ -4,7 +4,7 @@
 > liability limitations — before signature. This document governs **paid support
 > and services only**.
 
-**Provider:** Jerome Young (Yang Jie), AEGIS maintainer.
+**Provider:** Yang Jie (Jerome Young), AEGIS maintainer.
 **Customer:** ⟨legal entity name⟩.
 **Effective date:** ⟨YYYY-MM-DD⟩.
 
@@ -142,7 +142,7 @@ extent they contain Provider material. The Provider may reuse general
 know-how, methods and non-Customer-specific components.
 
 8.3 The Provider retains all rights in the AEGIS name, logo and the
-"ENGINE BY JEROME YOUNG" attribution mark. The Apache-2.0 licence grants no
+"ENGINE BY YANG JIE (JEROME YOUNG)" attribution mark. The Apache-2.0 licence grants no
 trademark rights. The Customer may state factually that a deployment is "based
 on Aegis" or "powered by Aegis", provided the attribution notices required by
 Apache-2.0 are retained.
@@ -221,7 +221,7 @@ Customer's written approval of the wording, unless the Customer objects.
 
 | | Provider | Customer |
 |---|---|---|
-| Name | Jerome Young (Yang Jie) | ⟨name⟩ |
+| Name | Yang Jie (Jerome Young) | ⟨name⟩ |
 | Title | maintainer | ⟨title⟩ |
 | Signature | | |
 | Date | | |

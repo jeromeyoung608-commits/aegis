@@ -473,7 +473,7 @@ bearer) with tabs:
   key revocation, secret escrow, live session view, runtime config, first-run setup.
 - **Export & Erase** — download a filled `ROPA-filled.md`, and erase a data subject
   (GDPR erasure) under audit. The GDPR Art. 20 data-portability bundle
-  (`/export/bundle`) now carries a `provenance` block identifying AEGIS (Jerome Young)
+  (`/export/bundle`) now carries a `provenance` block identifying AEGIS (Yang Jie / Jerome Young)
   as the producer.
 
 The console is **role-gated**: the Admin panel is hidden from the `operator` role
@@ -491,7 +491,7 @@ unreachable" banner instead of throwing.
 - **Aegis-SignedDelivery** (`modules/e2e-signed-delivery`) — assembles a *signed
   artifact* = `[PDF document bytes] + [UTF-8 JSON signature trailer]`; two ECDSA-P256
   signers (A & B) co-sign the document hash; tamper-evident (one flipped byte fails
-  verify). The trailer carries a `producer: "AEGIS v1.0.0 (Jerome Young)"` watermark.
+  verify). The trailer carries a `producer: "AEGIS v1.0.0 (Yang Jie / Jerome Young)"` watermark.
 - **Aegis-Transport** (`modules/p2p-crypto-transfer`) — WebRTC + AES-GCM chunked
   transfer. The receiver streams each decrypted chunk straight to disk (memory-safe,
   no OOM on multi-GB files); LAN/P2P mode dropdown.
@@ -786,7 +786,7 @@ trademark rights. Do not use the name to endorse a modified build.
 
 **Authorship watermark.** Every first-party source file carries, in its first four
 lines, both the copyright line and the marker
-`Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0`.
+`Watermark: AEGIS / ENGINE BY YANG JIE (JEROME YOUNG) - original implementation, Apache-2.0`.
 The watermark is attribution, not an extra licence term: Apache-2.0 already requires
 the copyright and `NOTICE` attributions to travel with the code, and the marker adds
 no restriction on use, modification or redistribution. `scripts/verify-headers.mjs`

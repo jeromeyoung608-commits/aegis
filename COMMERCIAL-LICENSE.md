@@ -2,7 +2,7 @@
 
 > The Aegis software itself is licensed under Apache-2.0 (see `LICENSE`). This document covers paid support and services only.
 
-**Copyright (c) 2026 Jerome Young (Yang Jie).** These services terms are offered
+**Copyright (c) 2026 Yang Jie (Jerome Young).** These services terms are offered
 by the copyright holder; the software itself remains Apache-2.0 and this page
 does not restrict it.
 

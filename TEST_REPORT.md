@@ -1,5 +1,5 @@
-<!-- Aegis - Copyright (c) 2026 Jerome Young (Yang Jie) -->
-<!-- Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0 -->
+<!-- Aegis - Copyright (c) 2026 Yang Jie (Jerome Young) -->
+<!-- Watermark: AEGIS / ENGINE BY YANG JIE (JEROME YOUNG) - original implementation, Apache-2.0 -->
 # Aegis v1.0.0 — Verification Report
 
 **Release**: Aegis v1.0.0 (Apache-2.0)
@@ -253,7 +253,7 @@ token-gated relay and a licence contradiction.
 |---|---|---|
 | Licence | Apache-2.0 full text at `LICENSE` + `LICENSES/Apache-2.0.txt` |
 | Every first-party file declared | 217/217 carry copyright + Apache-2.0 + authorship watermark |
-| Watermark conflicts with licence | **No** — the marker `Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0` is attribution; Apache-2.0 §4 already requires notices to travel with the code and the marker adds no condition. Stated in `NOTICE`, `COMMERCIAL-LICENSE.md`, README. |
+| Watermark conflicts with licence | **No** — the marker `Watermark: AEGIS / ENGINE BY YANG JIE (JEROME YOUNG) - original implementation, Apache-2.0` is attribution; Apache-2.0 §4 already requires notices to travel with the code and the marker adds no condition. Stated in `NOTICE`, `COMMERCIAL-LICENSE.md`, README. |
 | "All rights reserved" anywhere | **0 occurrences** in first-party docs (gate-enforced) |
 | Third-party code relicensed | No — vendor licences untouched; NOTICE lists every vendored component |
 | Trademark | `TRADEMARK.md`, ™ only, explicitly unregistered, explicitly not granted by Apache-2.0 |

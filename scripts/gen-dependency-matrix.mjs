@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-// Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// Aegis - Copyright (c) 2026 Yang Jie (Jerome Young)
 // SPDX-License-Identifier: Apache-2.0
-// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
+// Watermark: AEGIS / ENGINE BY YANG JIE (JEROME YOUNG) - original implementation, Apache-2.0
 /**
  * Generates the dependency matrix that README §13 and docs/DEPENDENCY_AUDIT.md
  * quote. Everything is derived from the working tree, never typed by hand:

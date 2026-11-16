@@ -1,7 +1,7 @@
 # Aegis Shell — Seven-Stage Closed-Loop Command Console
 
 > Aegis workbench · `@aegis/shell`
-> ENGINE BY JEROME YOUNG
+> ENGINE BY YANG JIE (JEROME YOUNG)
 
 ## 1. What it solves
 

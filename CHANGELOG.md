@@ -44,7 +44,7 @@ semantic versioning (`MAJOR.MINOR.PATCH`).
 - **Request-body cap**: JSON endpoints reject bodies over 1 MB with `413` (upload
   endpoint exempt); closes an unauthenticated memory-amplification vector.
 - **Brand watermarking**: source copyright headers on 100% of shipped files
-  (`scripts/verify-headers.mjs` gate), `ENGINE BY JEROME YOUNG` page footers, and
+  (`scripts/verify-headers.mjs` gate), `ENGINE BY YANG JIE (JEROME YOUNG)` page footers, and
   generated `producer` / `provenance` fields on signed artifacts and the data-portability
   export.
 - **Source-available licensing**: Business Source License 1.1 (BSL-1.1, SPDX

@@ -1,5 +1,5 @@
 # Aegis security contact — RFC 9116 (security.txt)
-# Maintained by Jerome Young (Yang Jie)
+# Maintained by Yang Jie (Jerome Young)
 Contact: mailto:jeromeyoung608@gmail.com
 Expires: 2027-11-15T00:00:00.000Z
 Preferred-Languages: en, de

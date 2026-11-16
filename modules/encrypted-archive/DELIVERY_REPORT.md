@@ -123,6 +123,6 @@ Attribution layers present:
 
 1. Header comment in every source file (`Jerome Young`, Apache-2.0).
 2. Styled console signature on page load.
-3. `ENGINE BY JEROME YOUNG` fixed in the footer.
+3. `ENGINE BY YANG JIE (JEROME YOUNG)` fixed in the footer.
 
 Contact: **jeromeyoung608@gmail.com**

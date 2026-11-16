@@ -50,14 +50,14 @@ The shell exposes a thin SDK (`window.Aegis`) that modules may call to:
 3. Keep it **zero-runtime-dependency** unless you explicitly vendor code under
    `modules/<name>/vendor/` (and declare it in `docs/DEPENDENCY_AUDIT.md`).
 4. Communicate only through the `channel: 'aegis'` postMessage contract.
-5. Add an `ENGINE BY JEROME YOUNG` footer to your `index.html`.
+5. Add an `ENGINE BY YANG JIE (JEROME YOUNG)` footer to your `index.html`.
 
 ## Signing artifacts (example)
 
 ```js
 import { assembleArtifact, verifyArtifact } from '/modules/e2e-signed-delivery/src/sdk/pdf.js';
 const artifact = assembleArtifact(docBytes, {
-  alg: 'SHA-256', hash: hex, producer: 'AEGIS v1.0.0 (Jerome Young)', signers: [...],
+  alg: 'SHA-256', hash: hex, producer: 'AEGIS v1.0.0 (Yang Jie / Jerome Young)', signers: [...],
 });
 const res = await verifyArtifact(artifact); // { ok, hashMatch, signers, reason }
 ```

@@ -1,5 +1,5 @@
-// Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
+// Aegis - Copyright (c) 2026 Yang Jie (Jerome Young)
+// Watermark: AEGIS / ENGINE BY YANG JIE (JEROME YOUNG) - original implementation, Apache-2.0
 // scripts/verify-headers.mjs
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -15,11 +15,11 @@
 import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
 import { join, extname } from 'node:path';
 
-const COPYRIGHT = 'Copyright (c) 2026 Jerome Young (Yang Jie)';
+const COPYRIGHT = 'Copyright (c) 2026 Yang Jie (Jerome Young)';
 // Authorship watermark. It is an attribution marker, not a licence term: Apache-2.0
 // already requires the copyright and NOTICE attributions to travel with the code,
 // and nothing here adds a restriction on use, modification or redistribution.
-const WATERMARK = 'Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0';
+const WATERMARK = 'Watermark: AEGIS / ENGINE BY YANG JIE (JEROME YOUNG) - original implementation, Apache-2.0';
 const TARGET_EXT = new Set(['.js', '.mjs', '.cjs', '.ts', '.css', '.html']);
 const SKIP_DIRS = new Set(['node_modules', 'vendor', 'dist', 'build', '.git']);
 const ROOT = process.cwd();

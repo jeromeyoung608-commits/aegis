@@ -1,5 +1,5 @@
-// Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
+// Aegis - Copyright (c) 2026 Yang Jie (Jerome Young)
+// Watermark: AEGIS / ENGINE BY YANG JIE (JEROME YOUNG) - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 /**
  * ========================================================================
@@ -137,7 +137,7 @@ async function finalize() {
       hash: hex,
       // Generated-watermark: proves the artifact came from AEGIS (Jerome Young),
       // not a re-badged fork. Travels inside the signature trailer.
-      producer: 'AEGIS v1.0.0 (Jerome Young)',
+      producer: 'AEGIS v1.0.0 (Yang Jie / Jerome Young)',
       signers: [
         { id: 'A', pub: pubAb64, sig: sigA },
         { id: 'B', pub: pubBb64, sig: sigB },

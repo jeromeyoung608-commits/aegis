@@ -1,12 +1,12 @@
 Aegis
-Copyright (c) 2026 Jerome Young (Yang Jie)
+Copyright (c) 2026 Yang Jie (Jerome Young)
 
 Licensed under the Apache License, Version 2.0 (see LICENSE and LICENSES/).
 This NOTICE records the attribution required by section 4(d) of that license.
 It adds no restriction on use, modification or redistribution.
 
 Authorship watermark: the first-party source files carry the marker
-"Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0".
+"Watermark: AEGIS / ENGINE BY YANG JIE (JEROME YOUNG) - original implementation, Apache-2.0".
 That marker is attribution, not a licence term; it may travel with forks.
 
 Trademarks are not licensed by Apache-2.0; see TRADEMARK.md.

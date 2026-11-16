@@ -1,5 +1,5 @@
-// Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
-// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
+// Aegis - Copyright (c) 2026 Yang Jie (Jerome Young)
+// Watermark: AEGIS / ENGINE BY YANG JIE (JEROME YOUNG) - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 // Aegis/aegis-shell/src/i18n.js — minimal, dependency-free i18n (Phase 7+).
 //
@@ -861,7 +861,7 @@ export const PHRASE_CATALOG = {
 // Strings that must never be translated: the brand mark required by SDK.md,
 // the product names, the language codes and the protocol labels.
 export const PHRASE_KEEP_EN = new Set([
-  'ENGINE BY JEROME YOUNG', 'Aegis', 'EN', 'DE',
+  'ENGINE BY YANG JIE (JEROME YOUNG)', 'Aegis', 'EN', 'DE',
   'Aegis-Topology', 'Aegis-REDAKTOR', 'Aegis-Identity', 'Aegis-Transport',
   'Aegis-Vault', 'Aegis-AuditTrail', 'Aegis-SignedDelivery',
   'WebRTC | AES-GCM', 'OPFS | AES-GCM-256', 'SHA-256 hash chain',

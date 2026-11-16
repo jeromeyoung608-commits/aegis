@@ -14,7 +14,7 @@ The only obligations are those Apache-2.0 itself imposes:
 - state significant changes you make;
 - keep Apache-2.0's patent grant and NOTICE terms intact when redistributing.
 
-The `ENGINE BY JEROME YOUNG` footer is a **trademark**, not a licence notice.
+The `ENGINE BY YANG JIE (JEROME YOUNG)` footer is a **trademark**, not a licence notice.
 Apache-2.0 grants no trademark rights, so the footer is not one of the
 obligations listed above: you may rename a modified build and remove the mark
 from user-visible surfaces. See [`TRADEMARK.md`](../TRADEMARK.md) for what you

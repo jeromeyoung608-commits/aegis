@@ -88,7 +88,7 @@
 
 | | Provider | Customer |
 |---|---|---|
-| Name | Jerome Young (Yang Jie) | ⟨name⟩ |
+| Name | Yang Jie (Jerome Young) | ⟨name⟩ |
 | Role | maintainer | ⟨role⟩ |
 | Signature | | |
 | Date | | |

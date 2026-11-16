@@ -1,5 +1,5 @@
-<!-- Aegis - Copyright (c) 2026 Jerome Young (Yang Jie) -->
-<!-- Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0 -->
+<!-- Aegis - Copyright (c) 2026 Yang Jie (Jerome Young) -->
+<!-- Watermark: AEGIS / ENGINE BY YANG JIE (JEROME YOUNG) - original implementation, Apache-2.0 -->
 # token-gate — CHANGELOG
 
 ## 1.0.0 — 2026-11-16

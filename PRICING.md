@@ -5,7 +5,7 @@ The software is free under Apache-2.0. These prices are for support and services
 List pricing for **Aegis support plans** (optional paid support and services).
 Binding terms are in COMMERCIAL-LICENSE.md and the signed Order Form; this page is informational.
 All prices net, exclusive of VAT. Custom engagements and public-sector terms on
-request. For enquiries contact **Jerome Young (Yang Jie)** at **jeromeyoung608@gmail.com**.
+request. For enquiries contact **Yang Jie (Jerome Young)** at **jeromeyoung608@gmail.com**.
 
 > Indicative structure — confirm with counsel and your own finance before selling.
 

@@ -31,7 +31,7 @@ npm run pack:delivery && npm run verify:delivery   # reproducible shipping archi
   (pdf-lib) vendor third-party code. See `docs/DEPENDENCY_AUDIT.md`.
 - **Watermarks are enforced by gates.** Every shipped `.js/.mjs/.ts/.css/.html` file
   must carry the copyright header (`scripts/verify-headers.mjs`, wired into
-  `npm test`). Do not remove `ENGINE BY JEROME YOUNG` footers or generated
+  `npm test`). Do not remove `ENGINE BY YANG JIE (JEROME YOUNG)` footers or generated
   `producer`/`provenance` fields.
 - **No private paths, no secrets in the tree.** `scripts/package-delivery.mjs` will
   refuse to build if `data/`, `config/local.json`, or key material would ship.
