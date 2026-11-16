@@ -5,30 +5,21 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
-import { spawn } from 'node:child_process';
 import { rmSync } from 'node:fs';
+import { startServer as startAegisServer } from '../../../server/test-server.mjs';
 
 const ROOT = new URL('../../../', import.meta.url).pathname;
 
+// (2026-11-16) Uses the shared helper: the old inline copy resolved on ANY
+// HTTP response from /healthz and gave up after 6 seconds, so a squatter on
+// the port looked like a passing server and a loaded machine looked like a
+// failure.
 function startServer(env) {
-  return new Promise((resolve, reject) => {
-    const port = env.PORT || '8138';
-    const dbFile = env.AEGIS_DB || ('/tmp/aegis-scim-' + port + '.db');
-    try { rmSync(dbFile); } catch {}
-    const proc = spawn(process.execPath, ['server.js'], {
-      cwd: ROOT,
-      env: { ...process.env, AEGIS_DB: dbFile, AEGIS_ISSUER_SECRET: 'test-secret', ...env, PORT: port },
-      stdio: 'ignore',
-    });
-    const t0 = Date.now();
-    const tick = () => {
-      const req = http.get(`http://127.0.0.1:${port}/healthz`, (res) => { res.resume(); resolve({ proc, port: Number(port) }); });
-      req.on('error', () => {
-        if (Date.now() - t0 > 6000) reject(new Error('server start timeout'));
-        else setTimeout(tick, 150);
-      });
-    };
-    tick();
+  return startAegisServer({
+    cwd: ROOT,
+    port: env.PORT || '8138',
+    dbFile: env.AEGIS_DB || ('/tmp/aegis-scim-' + (env.PORT || '8138') + '.db'),
+    env,
   });
 }
 function stopServer(s) { try { s.proc.kill('SIGKILL'); } catch {} }

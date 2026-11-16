@@ -5,10 +5,10 @@
 // compliance API (A2) and the B-01~B-04 static-exposure gate (A3). These run in
 // `npm test` (the aggregator scans aegis-shell/). Kept dependency-free.
 import { test, before, after } from 'node:test';
-import { spawn } from 'node:child_process';
 import { existsSync, rmSync } from 'node:fs';
 import process from 'node:process';
 import assert from 'node:assert/strict';
+import { startServer as startAegisServer } from '../../server/test-server.mjs';
 
 const ROOT = process.cwd();
 const PORT = 8137;
@@ -19,27 +19,23 @@ const AUTH = `Bearer ${SECRET}`;
 let srv;
 let dataExisted;
 
-function startServer() {
+// (2026-11-16) The old inline helper resolved on ANY HTTP response from
+// /healthz, gave up after 9 seconds and spawned with stdio:'ignore'. Under a
+// loaded machine the boot exceeded 9s and the suite failed with a bare
+// "server not ready"; with a squatter on 8137 it would have asserted against
+// a stranger. The shared helper refuses an occupied port, requires a real 200
+// and surfaces the server's stderr.
+before(async () => {
   dataExisted = existsSync(`${ROOT}/data`);
-  const child = spawn(process.execPath, ['server.js'], {
+  srv = await startAegisServer({
     cwd: ROOT,
-    env: { ...process.env, AEGIS_ISSUER_SECRET: SECRET, AEGIS_METRICS_TOKEN: SECRET, PORT: String(PORT), AEGIS_DB: '/tmp/aegis-itest.db' },
-    stdio: 'ignore',
+    port: PORT,
+    dbFile: '/tmp/aegis-itest.db',
+    env: { AEGIS_ISSUER_SECRET: SECRET, AEGIS_METRICS_TOKEN: SECRET },
   });
-  return child;
-}
-
-async function waitReady() {
-  for (let i = 0; i < 60; i++) {
-    try { const r = await fetch(`${BASE}/healthz`); if (r.ok) return; } catch {}
-    await new Promise((r) => setTimeout(r, 150));
-  }
-  throw new Error('server not ready');
-}
-
-before(async () => { srv = startServer(); await waitReady(); });
+});
 after(() => {
-  try { srv.kill('SIGKILL'); } catch {}
+  try { srv.stop(); } catch { /* already gone */ }
   rmSync('/tmp/aegis-itest.db', { force: true });
   if (!dataExisted) rmSync(`${ROOT}/data`, { recursive: true, force: true });
 });
