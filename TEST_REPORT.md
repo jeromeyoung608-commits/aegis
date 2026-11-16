@@ -136,7 +136,7 @@ from the error line, noted separately) and dialogs are recorded.
 | token-gate | 5 | 0 | issue, admit, expired, wrong-room, forged |
 | webgpu-topology | 4 | 0 | layout, seed, node select |
 | zero-knowledge-identity | 5 | 0 | validation gate, generate, copy, download, unlock panel |
-| **Total** | **130** | **0** | no uncaught exception anywhere |
+| **Total** | **126** | **0** | 92 real clicks across the 12 module pages + 33 on the workbench + 34 in the console |
 
 Expected non-200 responses, all business-correct, none a crash:
 
@@ -156,6 +156,26 @@ then walked separately: fill name + passphrase → generate → sealed key in
 IndexedDB → copy public key → download card → unlock panel. Sign stays disabled
 while sealed and says so — that is the designed guardrail, verified in the DOM.
 
+### Layout matrix after the header/sidebar repair
+
+Measured with Playwright geometry, not eyeballed: every stage label compared
+`scrollWidth` against `clientWidth`, and the sidebar width read from
+`getBoundingClientRect()`. Result: **no label clipped at any tested width, in
+either locale**.
+
+| Viewport | Locale | Sidebar width | Stage row | Labels |
+|---|---|---|---|---|
+| 1920x980 | EN | 520 | 7 chips, one row | Topology / Redact / Sign / P2P Send / Verify / Archive / Audit, all full |
+| 1366x768 | EN | 520 | 7 chips, one row | all full |
+| 1280x800 | DE | 520 | 7 chips, one row | Topologie / Schwärzen / Signieren / P2P-Versand / Prüfen / Archivieren / Audit, all full |
+| 960x860 | EN | 480 | 7 chips, wraps to 2 rows | all full, "Load file" chip 61px, unclipped |
+| 960x860 | DE | 480 | 7 chips, wraps to 2 rows | all full, "Datei laden" chip 74px, unclipped |
+
+Screenshots kept at `/tmp/sh-1920-en.png`, `/tmp/sh-1366-en.png`,
+`/tmp/sh-1280-de.png`, `/tmp/sh-960-en.png`, `/tmp/sh-960-de.png`.
+Below 760px the layout intentionally stacks to one column; that band was not
+screenshotted, so treat it as unverified (§6).
+
 ### Frontend S-10 self-check
 
 | Check | Result |
@@ -167,7 +187,7 @@ while sealed and says so — that is the designed guardrail, verified in the DOM
 | S-10.5 form validation | PASS — zk identity rejects short/empty passphrase before doing work |
 | S-10.6 component linkage | PASS — console tabs repaint panels; workbench stage tabs drive iframes |
 | S-10.7 keyboard access | PARTIAL — Enter submits login; full tab-order audit not done (§6) |
-| S-10.8 async error handling | PASS — no unhandled rejection observed in 130 clicks |
+| S-10.8 async error handling | PASS — no unhandled rejection observed in 126 clicks |
 | S-10.9 offline consistency | PASS — no external request on the zk page (`network: 0 external request(s)`), offline guard on redactor |
 | S-10.10 business chain replay | PARTIAL — module chains replayed; full 7-stage workbench chain replayed by the flow script, not by hand on every browser (§6) |
 
@@ -218,6 +238,10 @@ These paths are **not** covered by this round. They are not claims of correctnes
 | 3 | `NOTICE` and `COMMERCIAL-LICENSE.md` said "All rights reserved." | directly contradicts Apache-2.0 — a legal defect for an open-source release | removed; NOTICE now states it records §4(d) attribution and adds no restriction; commercial page states the software stays Apache-2.0 |
 | 4 | Module MDS-1 gaps (missing CHANGELOG/.gitignore/scripts, reports without version/date/demo/provenance) | 3 modules scored B ("portfolio only"), 7 reports unversioned | all closed; every module now 100/A/quotable |
 
+| 5 | Workbench header: seven stage chips shared one row with the brand, the trust pill, the locale/role selects and the transfer button | below ~1440px each chip collapsed to 23-46px and ellipsised to "T." / "R."; titles overlapped | `.topbar` wraps, `.stepper` takes its own full row (`flex: 1 1 100%; order: 2`) and wraps internally; chips are `flex: 1 1 118px` with `white-space: normal` so labels read in full on a second line |
+| 6 | Sidebar (REDAKTOR / transfer board) dropped below the stage and off-screen | at <=980px `.layout` became one column while the viewport height stayed fixed, so the pane the user calls "the board" vanished: the 1920 screenshot showed an empty right side | two-column layout kept down to 761px (`grid-template-columns: minmax(0,1fr) clamp(480px,44vw,520px)`); single column only at <=760px; the earlier `<=980px` breakpoint removed |
+| 7 | Pane header "Load local file" clipped and the fixed shell watermark printed across the redactor status line | the chip was pinned to the right edge where the iframe's fullscreen button clipped its glyphs; watermark sat on "OCR ready · deu+eng" | copy shortened to "Load file" (`Datei laden` in DE), chip moved next to the pane tag with `min-width: max-content`; watermark moved out of `position: fixed` into an in-flow `.wm-footer`; redactor status bar reserves a 10px gutter and wraps under 560px |
+
 Two of these (#1, #3) are release blockers; the audit would have shipped a broken
 token-gated relay and a licence contradiction.
 
@@ -254,10 +278,9 @@ by `npm run verify:delivery`.
 | Delivery archive | `dist/aegis-delivery-1.0.0.tar.gz` — 408 files, 37.2 MiB payload, 16.2 MiB archive |
 | Archive sha256 | printed by `npm run verify:delivery` and stored in `dist/VERIFY.txt` (not restated here, because editing this file changes it) |
 | Archive verification | `VERIFY PASS` — every sha256 matched, no caches/media/private keys |
-| Container | image rebuilt from the fixed tree (`aegis:final8`), started on 8099 |
+| Container | image rebuilt from the fixed tree (`aegis:final10`), started on 8099 |
 | Container health | `/healthz` 200, all 13 page URLs 200 |
-| In-container page load | 13/13 pages opened in a real browser from inside the image, **0 page errors**; console login succeeded, 10 tabs present |
-| Offline claim in container | no outbound request from any page; static + signalling only |
+| In-container page load | 13/13 pages opened in a real browser from inside the image, **0 page errors**; console login succeeded, 10 tabs present. Header/sidebar re-measured inside the container at 1920 (EN) and 960 (DE): 520/480px sidebar, all seven stage labels unclipped |
 | Offline claim in container | no outbound request from any page; static + signalling only |
 
 ---

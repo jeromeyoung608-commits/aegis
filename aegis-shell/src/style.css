@@ -35,7 +35,7 @@ body.cmd-center {
 
 /* ── Top bar ─────────────────────────────────────────────── */
 .topbar {
-  display: flex; align-items: center; gap: 24px;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 24px;
   padding: 12px 20px;
   background: linear-gradient(180deg, #0e1622, #0b111b);
   border-bottom: 1px solid var(--line);
@@ -49,11 +49,15 @@ body.cmd-center {
 .brand h1 { margin: 0; font-size: 20px; letter-spacing: 3px; }
 .brand .sub { font-size: 11px; color: var(--txt-dim); letter-spacing: .5px; }
 
-.stepper { display: flex; gap: 6px; flex: 1; min-width: 0; }
+/* The seven stages own a full-width row of their own. Sharing the first row
+   squeezed each chip to ~23px on a 1280px laptop, so every label was clipped to
+   its first letter ("1 T."). Full row + wrapping labels keeps the text readable
+   at any width without hiding the names. */
+.stepper { display: flex; flex-wrap: wrap; gap: 6px; flex: 1 1 100%; order: 2; min-width: 0; }
 .step {
-  display: flex; align-items: center; gap: 6px;
-  padding: 6px 8px; border: 1px solid var(--line); border-radius: 10px;
-  background: var(--panel); flex: 1 1 0; min-width: 0; transition: .25s;
+  display: flex; align-items: center; gap: 7px;
+  padding: 6px 9px; border: 1px solid var(--line); border-radius: 10px;
+  background: var(--panel); flex: 1 1 118px; min-width: 108px; transition: .25s;
 }
 .step .n {
   width: 22px; height: 22px; flex: 0 0 22px; border-radius: 50%;
@@ -61,13 +65,15 @@ body.cmd-center {
   background: #0c1320; color: var(--txt-dim); border: 1px solid var(--line);
 }
 .step > div:last-child { min-width: 0; }
+.step > div:last-child { min-width: 0; }
 .step .t {
-  font-size: 11px; font-weight: 600;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-size: 11.5px; font-weight: 600; line-height: 1.25;
+  /* Wrap instead of ellipsis: a clipped "Topology" is useless. */
+  white-space: normal; overflow-wrap: anywhere;
 }
 .step .d {
-  font-size: 11px; color: var(--txt-dim);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-size: 10.5px; color: var(--txt-dim); line-height: 1.25;
+  white-space: normal; overflow-wrap: anywhere;
 }
 .step.active { border-color: var(--accent-2); box-shadow: 0 0 0 1px var(--accent-2) inset, 0 0 18px #38bdf833; }
 .step.active .n { background: var(--accent-2); color: #04263a; }
@@ -80,6 +86,13 @@ body.cmd-center {
   padding: 6px 12px; border-radius: 999px; letter-spacing: .5px;
 }
 
+.wm-footer {
+  display: flex; justify-content: flex-end;
+  padding: 2px 14px 6px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: .5px;
+  color: rgba(255, 255, 255, .28); user-select: none; pointer-events: none;
+}
+
 /* ── Layout: left stage + right sidebar ──────────────────── */
 .layout {
   flex: 1; display: grid; grid-template-columns: 1fr 520px; gap: 14px;
@@ -87,12 +100,17 @@ body.cmd-center {
 }
 .stage, .sidebar { display: flex; flex-direction: column; min-height: 0; gap: 10px; }
 
-.pane-head { display: flex; align-items: baseline; gap: 10px; padding: 0 2px; }
+.pane-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; padding: 0 2px; }
 .pane-head .tag {
   font-size: 12px; font-weight: 700; letter-spacing: .6px;
   color: var(--accent-2); text-transform: uppercase;
 }
-.pane-head .hint { font-size: 11px; color: var(--txt-dim); }
+.pane-head .hint { font-size: 11px; color: var(--txt-dim); flex: 0 1 auto; min-width: 0; white-space: normal; }
+/* The "Load local file" chip sits on the header's own line, right-aligned; it must
+   never wrap onto a second row and overlap the iframe beneath. */
+/* Keep the chip next to the pane tag instead of pinned to the right edge, where
+   the fullscreen ⛶ button of the iframe below visually clips its last glyphs. */
+.pane-head .mini-btn { flex: 0 0 auto; min-width: max-content; margin-left: 0; order: 2; }
 
 .frame-box {
   flex: 1; min-height: 0; border: 1px solid var(--line); border-radius: 12px;
@@ -124,9 +142,9 @@ body.redact-expanded .expand-btn { top: 14px; right: 14px; font-size: 0; }
 body.redact-expanded .expand-btn::before { content: '\2715'; font-size: 18px; }
 
 .mini-btn {
-  margin-left: auto; padding: 5px 10px; border-radius: 8px; cursor: pointer;
+  margin-left: auto; white-space: nowrap; padding: 4px 8px; border-radius: 8px; cursor: pointer;
   border: 1px solid var(--line); background: var(--panel); color: var(--txt);
-  font: inherit; font-size: 11px;
+  font: inherit; font-size: 10.5px;
 }
 .mini-btn:hover { border-color: var(--accent-2); color: var(--accent-2); }
 
@@ -398,15 +416,31 @@ dialog.dialog .msg.ok { color: var(--accent); }
   padding: 8px 10px; min-height: 34px; word-break: break-word;
 }
 
-@media (max-width: 980px) {
+/* Keep the right-hand board visible on laptop widths: the sidebar only stacks
+   below the stage under 760px, where a 340px column would leave no stage at all. */
+@media (max-width: 1180px) and (min-width: 761px) {
+  /* 330px cut the REDAKTOR iframe's own right edge; 400px is its usable floor. */
+  /* REDAKTOR's own three-column toolbar needs ~470px before its right edge (help
+     icon, status meters) starts to be cut inside the iframe. */
+  .layout { grid-template-columns: minmax(0, 1fr) clamp(480px, 44vw, 520px); }
+  .topbar { gap: 8px 14px; }
+  /* The tagline pill duplicates the brand subtitle; drop it before the burger
+     row starts wrapping into a second line of loose controls. */
+  .pill { display: none; }
+  /* The REDAKTOR header hint repeats what the embedded page itself says, and its
+     width pushes the "Load local file" chip onto a second row that visually
+     collides with the action card. Drop the hint before that happens. */
+  #redactHead .hint { display: none; }
+}
+
+@media (max-width: 760px) {
   /* Natural stacking + page scroll. The previous `grid-template-rows: 1fr 1fr`
      forced the sidebar into half the viewport: the REDAKTOR iframe was crushed
      to ~2px and the transfer card (fixed intrinsic height) overflowed the
      layout bottom — the "overlapping" look on narrow viewports. */
   body.cmd-center { height: auto; min-height: 100%; }
-  .topbar { flex-wrap: wrap; gap: 10px 16px; }
-  .stepper { flex-wrap: wrap; }
-  .step { min-width: 0; flex: 1 1 46%; }
+  .topbar { gap: 10px 16px; }
+  .step { min-width: 100px; flex: 1 1 30%; }
   .layout {
     grid-template-columns: 1fr;
     grid-template-rows: none;

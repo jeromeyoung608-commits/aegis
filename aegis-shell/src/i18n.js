@@ -358,6 +358,7 @@ export const PHRASE_CATALOG = {
     'WebGPU | 1M+ nodes | click a node to pull its contract': 'WebGPU | 1 Mio.+ Knoten | Knoten anklicken, um seinen Vertrag zu laden',
     'Local OCR | destructive PDF | nothing uploaded': 'Lokales OCR | destruktives PDF | nichts hochgeladen',
     'Load local file': 'Lokale Datei laden',
+    'Load file': 'Datei laden',
     'Waiting for a document': 'Warten auf ein Dokument',
     'Sign & Send to Peer': 'Signieren & an Peer senden',
     'Peer A | sender': 'Peer A | Absender',

@@ -7,7 +7,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aegis - Secure Edge Collaboration Workbench</title>
-  <link rel="stylesheet" href="./src/style.css?v=20261115b" />
+  <link rel="stylesheet" href="./src/style.css?v=20261116a" />
 </head>
 <body class="cmd-center" data-stage="1">
   <header class="topbar">
@@ -68,7 +68,7 @@
       <div class="pane-head" id="redactHead">
         <span class="tag">Aegis-REDAKTOR</span>
         <span class="hint">Local OCR | destructive PDF | nothing uploaded</span>
-        <button id="btnLoadDoc" class="mini-btn" type="button" title="Load a local file to redact">Load local file</button>
+        <button id="btnLoadDoc" class="mini-btn" type="button" title="Load a local file to redact">Load file</button>
       </div>
 
       <!-- Shell-owned primary action. REDAKTOR's Export rail is a slide-out drawer
@@ -206,8 +206,8 @@
   <script type="module" src="./src/app.js"></script>
   <script type="module" src="./src/windowing.js?v=20261115a"></script>
 
-  <div style="position: fixed; bottom: 8px; right: 12px; font-size: 10px; color: rgba(255,255,255,0.3); font-family: monospace; pointer-events: none; user-select: none; z-index: 9999;">
-    ENGINE BY JEROME YOUNG
-  </div>
+  <!-- Authorship watermark in normal flow: a fixed overlay sat on top of the
+       sidebar cards and hid the last status row. -->
+  <footer class="wm-footer">ENGINE BY JEROME YOUNG</footer>
 </body>
 </html>

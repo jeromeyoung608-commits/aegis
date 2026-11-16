@@ -753,7 +753,9 @@ svg use { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: r
 
 .statusbar {
   display: flex; align-items: center; gap: 16px;
-  padding: 0 18px;
+  /* 10px bottom gutter so the fixed authorship watermark sits under the meters
+     instead of printing across the last line. */
+  padding: 0 18px 10px;
   border-top: 1px solid var(--line);
   background: var(--panel);
   font-size: 11px;
@@ -985,3 +987,17 @@ kbd {
 /* Brand focus ring: keyboard users must be able to see the focused control (patch 3) */
 :focus-visible { outline: 2px solid #C8A44D; outline-offset: 2px; }
 input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid #C8A44D; outline-offset: 2px; }
+
+
+/* ── Embedded / narrow sidebar ────────────────────────────
+   The workbench mounts this engine inside a 480px sidebar. Below 560px the
+   fixed 210px status-left plus the right-hand meters overflowed the card and the
+   last digits ("OCR ready / deut…") were cut. Let the status row breathe instead
+   of clipping: it wraps, and the engine name loses its second line. */
+@media (max-width: 560px) {
+  .statusbar { flex-wrap: wrap; row-gap: 4px; }
+  .status-left { min-width: 0; }
+  .status-right { margin-left: 0; flex-wrap: wrap; }
+  .status-right .sep { display: none; }
+}
+/* aegis-embedded-narrow */
