@@ -723,6 +723,18 @@ export const PHRASE_CATALOG = {
     '▶ Send to Aegis Peer': '▶ An Aegis-Peer senden',
     'SELF-TEST: not ready': 'SELBSTTEST: nicht bereit',
     'Scan complete': 'Scan abgeschlossen',
+    'No document - click a topology node': 'Kein Dokument — Knoten in der Topologie anklicken',
+    'Waiting for the new document...': 'Warte auf das neue Dokument …',
+    '▶ Run: authenticated blind co-signing': '▶ Starten: authentifizierte blinde Mit-Signatur',
+    'This drawing has been desensitized. Each engineer signs with a stamp.':
+      'Diese Zeichnung wurde entschärft. Jeder Ingenieur signiert mit einem Stempel.',
+    'Pick the stamp tool (S) and click to drop your signature — it locks instantly.':
+      'Stempel-Werkzeug (S) wählen und klicken, um die Signatur zu setzen — sie sperrt sofort.',
+    'A locked stamp cannot be moved or deleted by the other engineer.':
+      'Ein gesperrter Stempel kann vom anderen Ingenieur weder verschoben noch gelöscht werden.',
+    'Open a second tab. That stamp replicates over BroadcastChannel in real time.':
+      'Zweiten Tab öffnen. Der Stempel wird in Echtzeit über BroadcastChannel repliziert.',
+
     'Scanning…': 'Scannen …',
     'Scan failed': 'Scan fehlgeschlagen',
     '1 external request': '1 externe Anfrage',
@@ -885,6 +897,7 @@ const PHRASE_SUFFIXES = [[' done', ' erledigt']];
 // Counter-bearing strings can never be exact-matched: the number changes every
 // run. These rules rebuild the German sentence around the captured numbers.
 export const PHRASE_TEMPLATES = [
+  [/^Scan complete - (\d+) redactions?$/i, (m) => `Scan abgeschlossen — ${m[1]} Schwärzungen`],
   [/^Scan complete — (\d+) redactions?$/i, (m) => `Scan abgeschlossen — ${m[1]} Schwärzungen`],
   [/^(\d+) redactions?$/i, (m) => `${m[1]} Schwärzung${m[1] === '1' ? '' : 'en'}`],
   [/^(\d+) findings?$/i, (m) => `${m[1]} ${m[1] === '1' ? 'Fund' : 'Funde'}`],

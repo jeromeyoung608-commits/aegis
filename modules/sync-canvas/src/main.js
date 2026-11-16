@@ -29,6 +29,12 @@ import { makeSite, makeRoom } from './utils/id.js';
 import { SocketProvider } from './engine/SocketProvider.js';
 import { SyncEngine } from './engine/SyncEngine.js';
 import { Viewport } from './canvas/viewport.js';
+import { detectLocale, translateString } from '../../../aegis-shell/src/i18n.js';
+
+/** Seed notes are sample content the operator reads on the canvas; they follow
+ *  the shell locale like every other visible string. Falls back to English when
+ *  the shared catalogue has no entry (standalone copy of the module). */
+const localize = (text) => translateString(text, detectLocale()) || text;
 import { CanvasRenderer } from './canvas/CanvasRenderer.js';
 import { Interaction } from './canvas/Interaction.js';
 import { Presence } from './ui/Presence.js';
@@ -156,10 +162,10 @@ async function boot() {
 function seed(engine, viewport, toolbar, canvas) {
   const site = engine.site;
   const notes = [
-    [96, 132, 'butter', 'This drawing has been desensitized. Each engineer signs with a stamp.'],
-    [360, 92, 'mint', 'Pick the stamp tool (S) and click to drop your signature — it locks instantly.'],
-    [648, 196, 'sky', 'A locked stamp cannot be moved or deleted by the other engineer.'],
-    [246, 372, 'blush', 'Open a second tab. That stamp replicates over BroadcastChannel in real time.'],
+    [96, 132, 'butter', localize('This drawing has been desensitized. Each engineer signs with a stamp.')],
+    [360, 92, 'mint', localize('Pick the stamp tool (S) and click to drop your signature — it locks instantly.')],
+    [648, 196, 'sky', localize('A locked stamp cannot be moved or deleted by the other engineer.')],
+    [246, 372, 'blush', localize('Open a second tab. That stamp replicates over BroadcastChannel in real time.')],
   ];
 
   const ids = notes.map((_, i) => `${site}-s${i}`);

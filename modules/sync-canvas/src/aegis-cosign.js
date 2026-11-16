@@ -25,6 +25,7 @@
 import * as TokenGate from '../../token-gate/src/token-gate.js';
 import * as Signer from '../../detached-hash-signer/src/detached-hash-signer.js';
 import { makeSymKey, encryptEnvelope, decryptEnvelope } from '../../blind-relay/src/client.js';
+import { detectLocale, translateString } from '../../../aegis-shell/src/i18n.js';
 
 const wc = globalThis.crypto;
 
@@ -39,7 +40,10 @@ export async function runCosignDemo(mount) {
   mount.innerHTML = '';
   const log = el('pre', { className: 'sig' });
   const out = el('div');
-  const btn = el('button', { textContent: '▶ Run: authenticated blind co-signing' });
+  const btn = el('button', {
+    textContent: (translateString('▶ Run: authenticated blind co-signing', detectLocale())
+      || '▶ Run: authenticated blind co-signing'),
+  });
   mount.append(btn, log, out);
 
   const step = (m) => (log.textContent += m + '\n');

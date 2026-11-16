@@ -16,7 +16,7 @@ console.log(
   'background: #1a2028; color: #b3bcc8; padding: 4px 8px; border-radius: 0 4px 4px 0;'
 );
 
-import { detectLocale, setLocale, translatePhrases, observePhrases } from './i18n.js';
+import { detectLocale, setLocale, translatePhrases, observePhrases, translateString } from './i18n.js';
 
 // aegis-shell/src/app.js - orchestration for the Aegis command-center workbench.
 //
@@ -345,17 +345,23 @@ function scanSnapshot() {
   }
 }
 
+/** Translate a status label at paint time: the poller repaints faster than the
+ *  observer sweeps, so an untranslated literal would keep flashing back. */
+function localizePhrase(text) {
+  return translateString(text, WORKBENCH_LOCALE) || text;
+}
+
 function paintSignSend() {
   if (signSendBusy) return;
   if (signSendConsumed) {
-    scanStateEl.textContent = 'Signed & sent - archive below';
+    scanStateEl.textContent = localizePhrase('Signed & sent - archive below');
     scanDotEl.className = 'scan-dot ready';
     btnSignSend.disabled = true;
     btnSignSend.classList.remove('is-ready');
     return;
   }
   const s = scanSnapshot();
-  scanStateEl.textContent = s.label;
+  scanStateEl.textContent = localizePhrase(s.label);
   scanDotEl.className = 'scan-dot' + (s.ready ? ' ready' : (s.pages ? ' busy' : ''));
   const enabled = s.ready;
   btnSignSend.disabled = !enabled;
