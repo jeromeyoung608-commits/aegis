@@ -6,8 +6,9 @@
  * sync-canvas — Distributed State & Real-time Collaboration Engine
  * Copyright (c) 2026 Jerome Young
  *
- * Licensed under the MIT License. Any use is permitted, commercial included,
- * with no fee and no permission needed. Attribution is welcome, not required.
+ * Licensed under the Apache License, Version 2.0 (SPDX: Apache-2.0). You may
+ * not use this file except in compliance with the License. A copy ships as
+ * LICENSE at the repository root; see http://www.apache.org/licenses/LICENSE-2.0
  * ========================================================================
  */
 

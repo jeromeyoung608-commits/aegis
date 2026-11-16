@@ -39,6 +39,11 @@ const MIT_CLAIM_PATTERNS = [
   /MIT — kommerzielle/,
   /free for any use/i,
   /Any use is permitted, commercial included/i,
+  // (2026-11-16) 36 first-party source files carried this header while the repo
+  // was already Apache-2.0. The markdown-only sweep never saw them, so the same
+  // words are now matched in code headers too.
+  /Licensed under the MIT License/i,
+  /MIT License.*commercial included/i,
   // A LICENSE link whose immediate label names a non-Apache license.
   /\[LICENSE[^\]]*\]\([^)]*\)\s*[—–-]?\s*\**\s*(MIT|ISC|BSD|GPL|AGPL)\b/i,
   // "<non-Apache token>, covering all first-party code" (token precedes the claim).
@@ -108,6 +113,32 @@ const EXEMPT = new Set([
   // e.g. 'modules/x/test/fixtures/sample.js',
 ]);
 const scoped = files.filter((f) => !EXEMPT.has(f.replace(ROOT + '/', '')));
+
+// (2026-11-16) Source headers are scanned with the same patterns as the docs:
+// a stray "Licensed under the MIT License" in a module header is exactly as
+// misleading to a customer as a stray sentence in DELIVERY_REPORT.md.
+// Narrower than the doc patterns: "free for any use" is a true statement under
+// Apache-2.0 and appears legitimately in the release-note generator, so code
+// matching keys off an actual MIT grant instead.
+const CODE_CLAIM_PATTERNS = [
+  /Licensed under the MIT License/i,
+  /SPDX-License-Identifier:\s*(MIT|ISC|BSD-2-Clause|BSD-3-Clause)\b/i,
+  /Permission is hereby granted, free of charge/i,
+  /(MIT|ISC) License[.,]?\s*Any use/i,
+];
+// The gate file names those strings in its own pattern list; it is not a claim.
+const CODE_CLAIM_EXEMPT = new Set(['scripts/verify-licensing.mjs']);
+const codeClaimProblems = [];
+for (const f of files) {
+  const rel = f.replace(ROOT + '/', '');
+  if (EXEMPT.has(rel) || CODE_CLAIM_EXEMPT.has(rel)) continue;
+  const lines = readFileSync(f, 'utf8').split('\n');
+  for (let i = 0; i < lines.length; i++) {
+    const mitHit = CODE_CLAIM_PATTERNS.find((re) => re.test(lines[i]));
+    if (mitHit) codeClaimProblems.push({ f: rel, line: i + 1, pattern: String(mitHit) });
+  }
+}
+
 
 // ── LICENSE-file gate ────────────────────────────────────────────────────────
 // Every first-party LICENSE must be Apache-2.0: either the verbatim full text
@@ -195,6 +226,10 @@ function printFailures() {
     console.log(`[licensing] FAIL — ${bslClaimProblems.length} customer doc BSL/source-available claim(s) (Apache relicensing incomplete):`);
     for (const { f, line, pattern } of bslClaimProblems) console.log(`  - ${f}:${line} (${pattern})`);
   }
+  if (codeClaimProblems.length) {
+    console.log(`[licensing] FAIL — ${codeClaimProblems.length} first-party source MIT claim(s):`);
+    for (const { f, line, pattern } of codeClaimProblems) console.log(`  - ${f}:${line} (${pattern})`);
+  }
   if (mitClaimProblems.length) {
     console.log(`[licensing] FAIL — ${mitClaimProblems.length} first-party doc MIT claim(s):`);
     for (const { f, line, pattern } of mitClaimProblems) console.log(`  - ${f}:${line} (${pattern})`);
@@ -223,7 +258,7 @@ function printFailures() {
     }
   }
 }
-const allOk = () => problems.length === 0 && licenseProblems.length === 0 && mitClaimProblems.length === 0 && bslClaimProblems.length === 0 && manifestProblems.length === 0;
+const allOk = () => problems.length === 0 && licenseProblems.length === 0 && mitClaimProblems.length === 0 && codeClaimProblems.length === 0 && bslClaimProblems.length === 0 && manifestProblems.length === 0;
 
 const fix = process.argv.includes('--fix');
 if (fix) {

@@ -42,11 +42,16 @@ if (catalogs.join(',') !== 'en,de') {
   problems.push(`aegis-shell/src/i18n.js: catalogs must be exactly en,de — found ${catalogs.join(',') || 'none'}`);
 }
 
-const consoleHtml = readFileSync(join(ROOT, 'aegis-shell/console.html'), 'utf8');
-const options = [...consoleHtml.matchAll(/<option value="([a-z]{2})"/g)].map((m) => m[1]);
-const langOptions = [...new Set(options.filter((o) => o.length === 2 && /^(en|de|fr|es|it|nl|pl)$/.test(o)))];
-if (langOptions.length && langOptions.join(',') !== 'en,de') {
-  problems.push(`aegis-shell/console.html: language selector must offer en,de — found ${langOptions.join(',')}`);
+// Both shells expose the selector (the workbench got one on 2026-11-16, when
+// its interface turned out to be English-only while the console was bilingual),
+// and both must offer exactly EN and DE.
+for (const page of ['aegis-shell/console.html', 'aegis-shell/index.html']) {
+  const html = readFileSync(join(ROOT, page), 'utf8');
+  const options = [...html.matchAll(/<option value="([a-z]{2})"/g)].map((m) => m[1]);
+  const langOptions = [...new Set(options.filter((o) => o.length === 2 && /^(en|de|fr|es|it|nl|pl)$/.test(o)))];
+  if (langOptions.join(',') !== 'en,de') {
+    problems.push(`${page}: language selector must offer en,de — found ${langOptions.join(',') || 'none'}`);
+  }
 }
 
 if (problems.length) {
@@ -54,4 +59,4 @@ if (problems.length) {
   for (const p of problems) console.error('  - ' + p);
   process.exit(1);
 }
-console.log('[translations] PASS — documentation English only (0 translated files); UI catalogs en,de; selector EN/DE');
+console.log('[translations] PASS — documentation English only (0 translated files); UI catalogs en,de; both selectors EN/DE; phrase catalogue covers every visible string');

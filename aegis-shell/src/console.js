@@ -4,7 +4,7 @@
 // Talks to the server's operator endpoints (auth, audit, revocation, escrow, TSA
 // verify). The session token is held in memory + sessionStorage; no secret leaves
 // the browser except as a Bearer header to this same origin.
-import { detectLocale, setLocale, getT } from './i18n.js';
+import { detectLocale, setLocale, getT, translatePhrases, observePhrases } from './i18n.js';
 
 const TOKEN_KEY = 'aegis_console_token';
 
@@ -223,10 +223,10 @@ async function loadComplianceStatus() {
   if (!r.ok) { el.className = 'banner-ds warn'; el.textContent = t('status.unavailable'); return; }
   if (r.data.ready) {
     el.className = 'banner-ds ok';
-    el.textContent = t('compStatusOk');
+    el.textContent = t('compliance.statusOk');
   } else {
     el.className = 'banner-ds warn';
-    el.innerHTML = t('compStatusWarn') + ' <b>' + (r.data.missing || []).map((k) => COMPLIANCE_LABELS[k] || k).join(', ') + '</b>.';
+    el.innerHTML = t('compliance.statusWarn') + ' <b>' + (r.data.missing || []).map((k) => COMPLIANCE_LABELS[k] || k).join(', ') + '</b>.';
   }
 }
 
@@ -592,6 +592,11 @@ function retranslate() {
   if (brandH1) brandH1.textContent = t('console.title');
   if (brandSub) brandSub.textContent = t('console.sub');
   applyI18n();
+  // Everything the key catalogue does not cover (tabs, panel headings, buttons,
+  // hints, region presets, table headers) is translated by its English source
+  // string. This is what makes the DE switch change the whole console rather
+  // than just the header.
+  translatePhrases(AEGIS_LOCALE);
 }
 
 // Language switcher (chrome + compliance panel).
@@ -601,6 +606,9 @@ if (langSel) {
   langSel.addEventListener('change', () => { AEGIS_LOCALE = setLocale(langSel.value); retranslate(); });
 }
 retranslate();
+// Rows, toasts and uploads rendered later must be translated as they appear,
+// otherwise a refresh would drop back to English mid-session.
+observePhrases(() => AEGIS_LOCALE);
 
 // boot: restore session if a token is present
 (async () => { getToken() ? showConsole() : showLogin(); })();

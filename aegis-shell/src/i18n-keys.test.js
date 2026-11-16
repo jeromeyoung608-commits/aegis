@@ -16,8 +16,11 @@ const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..');
 
 const i18nSrc = readFileSync(join(root, 'src/i18n.js'), 'utf8');
+// Only dotted keys belong to the en/de catalogues. The phrase catalogue
+// (PHRASE_CATALOG) is keyed by plain English sentences — "Language", "Workbench"
+// and so on — and must not be mistaken for a translation key.
 const catalogKeys = new Set(
-  [...i18nSrc.matchAll(/'([a-zA-Z0-9_.]+)':\s/g)].map((m) => m[1])
+  [...i18nSrc.matchAll(/'([a-zA-Z0-9_]+\.[a-zA-Z0-9_.]+)':\s/g)].map((m) => m[1])
 );
 
 function refs(file) {
@@ -37,25 +40,21 @@ test('every referenced i18n key exists in the catalog', () => {
 });
 
 test('both catalogs expose exactly the same key set', () => {
+  // Slice the CATALOGS object only: i18n.js also carries PHRASE_CATALOG
+  // (English sentence -> German sentence), whose keys are not translation keys.
+  const objStart = i18nSrc.indexOf('const CATALOGS = {');
+  const objEnd = i18nSrc.indexOf('\n};', objStart);
+  assert.ok(objStart > -1 && objEnd > objStart, 'CATALOGS object not found');
+  const objSrc = i18nSrc.slice(objStart, objEnd);
   const perLang = {};
   for (const lang of ['en', 'de']) {
-    const start = i18nSrc.indexOf('\n  ' + lang + ': {');
+    const start = objSrc.indexOf('\n  ' + lang + ': {');
     assert.ok(start > -1, 'catalog block missing for ' + lang);
-    const body = i18nSrc.slice(start);
-    const end = body.slice(1).search(/\n  [a-z]{2}: \{|\n  \};/);
-    perLang[lang] = [...body.slice(0, end + 1).matchAll(/'([a-zA-Z0-9_.]+)':\s/g)].map((m) => m[1]);
+    const rest = objSrc.slice(start + 1);
+    const end = rest.search(/\n  [a-z]{2}: \{|\n\};/);
+    const body = end > -1 ? rest.slice(0, end) : rest;
+    perLang[lang] = [...body.matchAll(/'([a-zA-Z0-9_]+\.[a-zA-Z0-9_.]+)':\s/g)].map((m) => m[1]);
   }
-  const en = perLang.en;
-  for (const lang of ['de']) {
-    assert.deepEqual(
-      en.filter((k) => !perLang[lang].includes(k)),
-      [],
-      lang + ' missing keys'
-    );
-    assert.deepEqual(
-      perLang[lang].filter((k) => !en.includes(k)),
-      [],
-      lang + ' has keys not in en'
-    );
-  }
+  assert.deepEqual(perLang.en.filter((k) => !perLang.de.includes(k)), [], 'de missing keys');
+  assert.deepEqual(perLang.de.filter((k) => !perLang.en.includes(k)), [], 'de has keys not in en');
 });

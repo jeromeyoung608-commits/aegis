@@ -4,8 +4,9 @@
  * ========================================================================
  * Aegis — Privacy-First Local Data Cleansing Engine
  *
- * Licensed under the MIT License. Any use is permitted, commercial included,
- * with no fee and no permission needed. Attribution is welcome, not required.
+ * Licensed under the Apache License, Version 2.0 (SPDX: Apache-2.0). You may
+ * not use this file except in compliance with the License. A copy ships as
+ * LICENSE at the repository root; see http://www.apache.org/licenses/LICENSE-2.0
  * ========================================================================
  */
 
@@ -14,6 +15,8 @@ console.log(
   'background: #3fb950; color: #000; font-weight: bold; padding: 4px 8px; border-radius: 4px 0 0 4px;',
   'background: #1a2028; color: #b3bcc8; padding: 4px 8px; border-radius: 0 4px 4px 0;'
 );
+
+import { detectLocale, setLocale, translatePhrases, observePhrases } from './i18n.js';
 
 // aegis-shell/src/app.js - orchestration for the Aegis command-center workbench.
 //
@@ -976,3 +979,19 @@ document.getElementById('btnAuditClear').addEventListener('click', () => {
 resetStepper();
 advanceTo(FLOW_STAGES.TOPOLOGY);
 log('Aegis command center ready. Click a topology node to start the seven-step closed loop.');
+
+// ── Interface language ───────────────────────────────────────────────────────
+// Shares the console's setting (localStorage 'aegis_locale'): switch to German
+// once and both surfaces stay German. The phrase translator covers the static
+// markup; the observer covers everything the module scripts paint after load.
+let WORKBENCH_LOCALE = setLocale(detectLocale());
+const langSel = document.getElementById('langSel');
+if (langSel) {
+  langSel.value = WORKBENCH_LOCALE;
+  langSel.addEventListener('change', () => {
+    WORKBENCH_LOCALE = setLocale(langSel.value);
+    translatePhrases(WORKBENCH_LOCALE);
+  });
+}
+translatePhrases(WORKBENCH_LOCALE);
+observePhrases(() => WORKBENCH_LOCALE);
