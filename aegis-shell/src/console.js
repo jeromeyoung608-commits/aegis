@@ -603,9 +603,21 @@ function retranslate() {
 const langSel = document.getElementById('langSel');
 if (langSel) {
   langSel.value = AEGIS_LOCALE;
-  langSel.addEventListener('change', () => { AEGIS_LOCALE = setLocale(langSel.value); retranslate(); });
+  langSel.addEventListener('change', () => {
+    AEGIS_LOCALE = setLocale(langSel.value);
+    retranslate();
+    sweep();
+  });
 }
 retranslate();
+// The console redraws on login, on every audit refresh and on every panel
+// switch. A single pass at switch time is not enough: rows that land mid-render
+// come back English. Sweeping twice after the switch is cheap and makes the
+// result deterministic.
+function sweep() {
+  for (const ms of [120, 600, 1800]) setTimeout(() => translatePhrases(AEGIS_LOCALE), ms);
+}
+sweep();
 // Rows, toasts and uploads rendered later must be translated as they appear,
 // otherwise a refresh would drop back to English mid-session.
 observePhrases(() => AEGIS_LOCALE);

@@ -991,6 +991,9 @@ if (langSel) {
   langSel.addEventListener('change', () => {
     WORKBENCH_LOCALE = setLocale(langSel.value);
     translatePhrases(WORKBENCH_LOCALE);
+    // The stepper, the fixes panel and the module frames repaint after the
+    // switch; sweeping twice keeps them from landing back in English.
+    for (const ms of [120, 600, 1800]) setTimeout(() => translatePhrases(WORKBENCH_LOCALE), ms);
   });
 }
 translatePhrases(WORKBENCH_LOCALE);

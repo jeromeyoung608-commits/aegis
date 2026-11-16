@@ -109,3 +109,22 @@ test('no catalogue entry is empty or whitespace', () => {
     .map(([k]) => k);
   assert.deepEqual(empty, [], 'empty translations: ' + empty.join(', '));
 });
+
+// Two owners of the same translator must never run at once. The shells drive
+// the translator themselves (they own the selector); i18n-dom.js is for the
+// module pages, which have no selector. Loading i18n-dom.js into a shell
+// re-applies the boot locale every few seconds and silently undoes a DE switch
+// — that bug shipped once and is pinned here.
+test('the shells do not load the self-starting runtime', () => {
+  for (const page of ['console.html', 'index.html']) {
+    const html = readFileSync(join(root, page), 'utf8');
+    assert.ok(!html.includes('i18n-dom.js'), `${page} must not include i18n-dom.js`);
+  }
+});
+
+test('every module page loads the self-starting runtime', () => {
+  for (const page of PAGES.filter((p) => p.startsWith('../modules/'))) {
+    const html = readFileSync(join(root, page), 'utf8');
+    assert.ok(html.includes('i18n-dom.js'), `${page} must include i18n-dom.js`);
+  }
+});
