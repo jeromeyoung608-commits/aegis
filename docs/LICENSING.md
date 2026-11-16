@@ -9,10 +9,16 @@ commercially, without paying anything and without asking permission.
 
 The only obligations are those Apache-2.0 itself imposes:
 
-- retain the license and attribution notices (copyright headers, `ENGINE BY
-  JEROME YOUNG` footers, and the `NOTICE` file);
+- retain the copyright and attribution notices (the copyright headers in each
+  source file and the `NOTICE` file);
 - state significant changes you make;
 - keep Apache-2.0's patent grant and NOTICE terms intact when redistributing.
+
+The `ENGINE BY JEROME YOUNG` footer is a **trademark**, not a licence notice.
+Apache-2.0 grants no trademark rights, so the footer is not one of the
+obligations listed above: you may rename a modified build and remove the mark
+from user-visible surfaces. See [`TRADEMARK.md`](../TRADEMARK.md) for what you
+may and may not do with the name.
 
 The software is free in every sense — no paid tier, no seat limit, no revenue
 threshold, and no "contact sales" gate. Paid support and services are optional

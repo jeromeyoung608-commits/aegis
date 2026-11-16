@@ -44,7 +44,15 @@ function findTests(dir) {
   return out;
 }
 
-const roots = [join(root, 'aegis-shell'), join(root, 'modules')].filter(existsSync);
+// 'adapters' is a root too: adapters/tsa-rfc3161/tests/rfc3161.test.mjs is a
+// real suite (9 tests: DER encoding, TSTInfo parsing, fail-safe on an
+// unreachable TSA, mock-TSA round trip). It sat outside the old roots, so
+// `npm test` never ran it — the adapter was shipped with untested code.
+const roots = [
+  join(root, 'aegis-shell'),
+  join(root, 'modules'),
+  join(root, 'adapters'),
+].filter(existsSync);
 let files = [];
 for (const r of roots) files.push(...findTests(r));
 

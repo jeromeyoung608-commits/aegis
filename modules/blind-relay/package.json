@@ -8,5 +8,5 @@
     "test": "node --test",
     "start": "node src/relay.js --port 8081"
   },
-  "license": "MIT"
+  "license": "Apache-2.0"
 }

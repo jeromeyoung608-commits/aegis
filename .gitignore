@@ -17,3 +17,15 @@ dist/
 # and is needed by the module's test — a clean clone could not run npm test.
 /data/
 config/local.json
+
+# IDE-generated share packages (Trae "HTML share packages"). A 15 MB zip of a
+# stale copy of the module source, including .DS_Store files. It is a build
+# artifact of someone's editor, not source — it must never enter the history.
+/modules/*/.trae-html-share-packages/
+
+# Outputs of the REDAKTOR browser e2e, not fixtures. They are rewritten on every
+# run (the in-browser pdf-lib stamps the current time), so tracking them made
+# the working tree dirty after a test run. The input fixture
+# (tests/artifacts/sample-pii.pdf) IS tracked and is byte-reproducible.
+modules/doc-redactor/tests/artifacts/sample-pii-redacted.pdf
+modules/doc-redactor/tests/artifacts/ui.png

@@ -17,7 +17,7 @@
 // Wire into `npm test` so licensing coverage can never silently regress.
 
 import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from 'node:fs';
-import { join, extname, basename } from 'node:path';
+import { join, extname, basename, dirname } from 'node:path';
 
 const COPYRIGHT = 'Copyright (c) 2026 Jerome Young (Yang Jie)';
 const SPDX = 'Apache-2.0';
@@ -28,11 +28,21 @@ const ROOT = process.cwd();
 
 // First-party docs must not claim Aegis itself is MIT. Third-party MIT facts
 // (NOTICE, DEPENDENCY_AUDIT, vendor) don't use these phrases and are excluded.
+//
+// (2026-11-16) The original patterns only matched the literal string
+// "**MIT License**". A real MIT claim survived in the tree for weeks in the
+// shape "Repository [LICENSE](../LICENSE) — **MIT**, covering all first-party
+// code." The two patterns below match the license *next to a first-party
+// statement* instead, in either word order, so that shape cannot come back.
 const MIT_CLAIM_PATTERNS = [
   /\*\*MIT License\*\*/,
   /MIT — kommerzielle/,
   /free for any use/i,
   /Any use is permitted, commercial included/i,
+  // A LICENSE link whose immediate label names a non-Apache license.
+  /\[LICENSE[^\]]*\]\([^)]*\)\s*[—–-]?\s*\**\s*(MIT|ISC|BSD|GPL|AGPL)\b/i,
+  // "<non-Apache token>, covering all first-party code" (token precedes the claim).
+  /\b(MIT|ISC|BSD|GPL|AGPL)\b\**[,\s—–-]{1,3}\s*(all\s+|the\s+)?(first-party|customer-facing|own)\s+(code|source|files?|work)\b/i,
 ];
 
 // Customer-facing docs must not describe the old BSL / source-available model.
@@ -107,6 +117,8 @@ function firstPartyLicenseFiles() {
   const out = [join(ROOT, 'LICENSE')];
   const shell = join(ROOT, 'aegis-shell', 'LICENSE');
   if (existsSync(shell)) out.push(shell);
+  const vt = join(ROOT, 'video-tool', 'LICENSE');
+  if (existsSync(vt)) out.push(vt);
   const modsDir = join(ROOT, 'modules');
   if (existsSync(modsDir)) {
     for (const e of readdirSync(modsDir, { withFileTypes: true })) {
@@ -116,6 +128,48 @@ function firstPartyLicenseFiles() {
     }
   }
   return out;
+}
+
+// ── package.json license-metadata gate ───────────────────────────────────────
+// (2026-11-16) The license gate above only inspected LICENSE *files*. Every
+// first-party package.json could still declare a different license — 11
+// modules said "MIT" and video-tool said "ISC" while the root LICENSE, the
+// NOTICE and docs/LICENSING.md all said Apache-2.0. The published metadata is
+// what npm and scanners read, so it is now gated too. A manifest must also
+// ship a LICENSE file beside it: a package that is lifted out on its own
+// cannot rely on a pointer to ../../LICENSE.
+function firstPartyManifests() {
+  const out = [join(ROOT, 'package.json')];
+  for (const sub of ['aegis-shell', 'video-tool']) {
+    const p = join(ROOT, sub, 'package.json');
+    if (existsSync(p)) out.push(p);
+  }
+  const modsDir = join(ROOT, 'modules');
+  if (existsSync(modsDir)) {
+    for (const e of readdirSync(modsDir, { withFileTypes: true })) {
+      if (!e.isDirectory()) continue;
+      const p = join(modsDir, e.name, 'package.json');
+      if (existsSync(p)) out.push(p);
+    }
+  }
+  return out;
+}
+const manifestProblems = [];
+for (const mf of firstPartyManifests()) {
+  const rel = mf.replace(ROOT + '/', '');
+  let pkg = null;
+  try { pkg = JSON.parse(readFileSync(mf, 'utf8')); } catch {
+    manifestProblems.push({ f: rel, why: 'package.json is not valid JSON' });
+    continue;
+  }
+  if (pkg.license !== SPDX) {
+    manifestProblems.push({ f: rel, why: `license field is "${pkg.license ?? 'MISSING'}", expected "${SPDX}"` });
+  }
+  // A first-party package must carry its own LICENSE file, not just point at
+  // one three directories up.
+  if (!existsSync(join(dirname(mf), 'LICENSE'))) {
+    manifestProblems.push({ f: rel, why: 'no LICENSE file next to the manifest' });
+  }
 }
 const licenseFiles = firstPartyLicenseFiles();
 const licenseProblems = [];
@@ -155,6 +209,10 @@ function printFailures() {
       console.log('  -', f.replace(ROOT + '/', ''), `(${why.join(' + ')})`);
     }
   }
+  if (manifestProblems.length) {
+    console.log(`[licensing] FAIL — ${manifestProblems.length} first-party manifest(s) with wrong license metadata:`);
+    for (const { f, why } of manifestProblems) console.log('  -', f, `(${why})`);
+  }
   if (problems.length) {
     console.log(`[licensing] FAIL — ${problems.length} of ${scoped.length} first-party files missing required licensing metadata:`);
     for (const { f, hasCopy, hasSpdx } of problems) {
@@ -165,7 +223,7 @@ function printFailures() {
     }
   }
 }
-const allOk = () => problems.length === 0 && licenseProblems.length === 0 && mitClaimProblems.length === 0 && bslClaimProblems.length === 0;
+const allOk = () => problems.length === 0 && licenseProblems.length === 0 && mitClaimProblems.length === 0 && bslClaimProblems.length === 0 && manifestProblems.length === 0;
 
 const fix = process.argv.includes('--fix');
 if (fix) {
@@ -198,7 +256,7 @@ if (fix) {
 }
 
 if (allOk()) {
-  console.log(`[licensing] PASS — ${scoped.length} first-party source files carry copyright + ${SPDX}; ${licenseFiles.length} first-party LICENSE files are Apache-2.0; ${mdFiles.length} docs free of MIT/BSL claims (third-party vendor LICENSEs untouched).`);
+  console.log(`[licensing] PASS — ${scoped.length} first-party source files carry copyright + ${SPDX}; ${licenseFiles.length} first-party LICENSE files are Apache-2.0; ${firstPartyManifests().length} first-party manifests declare ${SPDX}; ${mdFiles.length} docs free of MIT/BSL claims (third-party vendor LICENSEs untouched).`);
   process.exit(0);
 }
 printFailures();

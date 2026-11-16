@@ -35,7 +35,7 @@ Suite < 2 s; redaction ops are sub-frame in the browser.
 **A · Pure Zero** first-party code: 0 npm deps. Vendored `pdf-lib` via import map (kept inside the module, not a runtime dependency).
 
 ## 11. License
-Repository [LICENSE](../LICENSE) — **MIT**, covering all first-party code. Vendored components keep their own upstream licences (see README §11 and `vendor/THIRD_PARTY_NOTICES.md`).
+Repository [LICENSE](../../LICENSE) — **Apache-2.0**, covering all first-party code. Vendored components keep their own upstream licences (see README §11 and `vendor/THIRD_PARTY_NOTICES.md`).
 
 ## 12. Changelog
 - 2026-11-11 — verified 62/62 green; README delivered (English).

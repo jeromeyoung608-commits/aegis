@@ -6,6 +6,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import http from 'node:http';
+import net from 'node:net';
 import { spawn } from 'node:child_process';
 import { rmSync } from 'node:fs';
 import { discover, exchangeCode, fetchJwks, verifyIdToken } from '../../../server/oidc.js';
@@ -20,21 +21,58 @@ function makeToken(privKey, payload, headerExtra = {}) {
   return `${input}.${sig}`;
 }
 
-function startServer(env) {
+// (2026-11-16) Two orphans — `python3 -m http.server` squatting on 8141 — made
+// this suite report a bogus "404 !== 503" failure: the old startServer() resolved
+// on ANY HTTP response, so the health poll was answered by the squatter while
+// our own server had died on EADDRINUSE (server.js exits FATAL, and stdio was
+// 'ignore' so nobody saw it). The test then asserted against a foreign server.
+//
+// The helper now refuses to start on an occupied port, requires a real 200 from
+// /healthz, and surfaces the child's stderr if it dies.
+function portInUse(port) {
+  return new Promise((resolve) => {
+    const probe = net.connect({ host: '127.0.0.1', port: Number(port) });
+    probe.on('connect', () => { probe.destroy(); resolve(true); });
+    probe.on('error', () => resolve(false));
+  });
+}
+
+async function startServer(env) {
+  const port = env.PORT || '8137';
+  if (await portInUse(port)) {
+    throw new Error(
+      `port ${port} is already in use — another process is squatting on it. ` +
+      `Find it with: lsof -nP -iTCP:${port} -sTCP:LISTEN  (then kill it) ` +
+      `or run this suite on a free port.`
+    );
+  }
+  const dbFile = env.AEGIS_DB || ('/tmp/aegis-oidc-' + port + '.db');
+  try { rmSync(dbFile); } catch {}
+  let stderr = '';
+  const proc = spawn(process.execPath, ['server.js'], {
+    cwd: ROOT,
+    env: { ...process.env, AEGIS_DB: dbFile, AEGIS_ISSUER_SECRET: 'test-secret', ...env, PORT: port },
+    stdio: ['ignore', 'ignore', 'pipe'],
+  });
+  proc.stderr.on('data', (d) => { stderr += d.toString(); });
   return new Promise((resolve, reject) => {
-    const port = env.PORT || '8137';
-    const dbFile = env.AEGIS_DB || ('/tmp/aegis-oidc-' + port + '.db');
-    try { rmSync(dbFile); } catch {}
-    const proc = spawn(process.execPath, ['server.js'], {
-      cwd: ROOT,
-      env: { ...process.env, AEGIS_DB: dbFile, AEGIS_ISSUER_SECRET: 'test-secret', ...env, PORT: port },
-      stdio: 'ignore',
-    });
     const t0 = Date.now();
     const tick = () => {
-      const req = http.get(`http://127.0.0.1:${port}/healthz`, (res) => { res.resume(); resolve({ proc, port: Number(port) }); });
+      if (proc.exitCode !== null) {
+        reject(new Error(`server.js exited with code ${proc.exitCode} before becoming ready:\n${stderr.trim()}`));
+        return;
+      }
+      const req = http.get(`http://127.0.0.1:${port}/healthz`, (res) => {
+        res.resume();
+        if (res.statusCode === 200) { resolve({ proc, port: Number(port) }); return; }
+        // A non-200 means something answered that is not our server. Keep
+        // polling briefly, then fail loudly instead of testing a stranger.
+        if (Date.now() - t0 > 6000) {
+          reject(new Error(`port ${port} answered /healthz with ${res.statusCode} — it is not the Aegis server`));
+        } else setTimeout(tick, 150);
+      });
       req.on('error', () => {
-        if (Date.now() - t0 > 6000) reject(new Error('server start timeout'));
+        if (Date.now() - t0 > 6000) reject(new Error(`server start timeout on port ${port}\n${stderr.trim()}`));
         else setTimeout(tick, 150);
       });
     };

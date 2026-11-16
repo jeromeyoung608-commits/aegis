@@ -2,7 +2,7 @@
   "name": "@aegis/shell",
   "version": "1.0.0",
   "type": "module",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "description": "Aegis seven-step closed-loop command center",
   "engines": {
     "node": ">=18"

@@ -9,7 +9,7 @@
     "fps:smoke": "node tests/fps-smoke.mjs",
     "verify": "node ../../scripts/verify-module.mjs . --tests"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "devDependencies": {
     "playwright-core": "1.55.0"
   },
