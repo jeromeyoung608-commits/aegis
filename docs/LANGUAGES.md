@@ -58,7 +58,7 @@ creeps into a document.
 2026-11-16 (evening): the module demo pages were still English-only — the
 workbench footer, the topology panel, the redactor toolbar and the P2P status
 line all stayed English after the selector was set to DE. The shared runtime
-`i18n-dom.js` was added to every module page, the catalogue grew to 612 entries
+`i18n-dom.js` was added to every module page, the catalogue grew to 670 entries
 plus 13 counter templates, and the coverage gate now reads every page in the
 repository.
 

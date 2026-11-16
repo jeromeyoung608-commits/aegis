@@ -7,7 +7,7 @@
   of ~180 console strings and the workbench had no language selector at all, so
   switching to DE left tabs, panel headings, buttons and hints in English. A
   phrase catalogue plus a DOM translator now covers every visible string on all
-  13 pages (612 entries, 13 counter templates), including content rendered after
+  13 pages (670 entries, 15 counter templates), including content rendered after
   boot and labels a module rewrites on an existing text node; switching back to
   EN restores the original text.
 - Two compliance banner strings referenced missing keys (`compStatusOk`,

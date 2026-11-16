@@ -723,6 +723,8 @@ export const PHRASE_CATALOG = {
     '▶ Send to Aegis Peer': '▶ An Aegis-Peer senden',
     'SELF-TEST: not ready': 'SELBSTTEST: nicht bereit',
     'Scan complete': 'Scan abgeschlossen',
+    'Joined room — waiting for peer… (have the other side join the same room)':
+      'Raum beigetreten — warte auf Peer … (die Gegenseite muss demselben Raum beitreten)',
     'No document - click a topology node': 'Kein Dokument — Knoten in der Topologie anklicken',
     'Waiting for the new document...': 'Warte auf das neue Dokument …',
     '▶ Run: authenticated blind co-signing': '▶ Starten: authentifizierte blinde Mit-Signatur',

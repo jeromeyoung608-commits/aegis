@@ -348,7 +348,12 @@ function scanSnapshot() {
 /** Translate a status label at paint time: the poller repaints faster than the
  *  observer sweeps, so an untranslated literal would keep flashing back. */
 function localizePhrase(text) {
-  return translateString(text, WORKBENCH_LOCALE) || text;
+  // Runs from the status poller, which can fire during module init before the
+  // locale binding is initialised; fall back to the stored locale rather than
+  // tripping the temporal dead zone.
+  let locale = 'en';
+  try { locale = WORKBENCH_LOCALE; } catch { locale = detectLocale(); }
+  return translateString(text, locale) || text;
 }
 
 function paintSignSend() {
