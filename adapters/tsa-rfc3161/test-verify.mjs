@@ -1,4 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 // Aegis - adapters/tsa-rfc3161/test-verify.mjs
 // OFFLINE proof that the RFC 3161 verifier works: synthesize a CA + TSA signer,

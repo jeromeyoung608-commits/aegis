@@ -1,4 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 /**
  * aegis-shell/src/identity.js — shell-owned identity adapter for the seven-step

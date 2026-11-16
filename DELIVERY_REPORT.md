@@ -5,9 +5,14 @@
 **Reading note**: file counts, archive sizes and test totals below are point-in-time
 snapshots from each verification round, not the current delivery state. For the
 authoritative current figures run `npm run verify:delivery` (every sha256 matches).
-**Composition**: three independently-shipped modules (`webgpu-topology`, `doc-redactor`,
-`p2p-crypto-transfer`) unified by `aegis-shell` behind one EventBus + `postMessage`
-bridge, served by one zero-dependency `server.js`.
+**Composition**: eleven independently-shipped modules under `modules/`, unified by
+`aegis-shell` behind one EventBus + `postMessage` bridge, served by one zero-dependency
+`server.js`. Some modules reuse a sibling's pure functions by relative import (see
+`docs/DEPENDENCY_AUDIT.md`); every page still runs standalone.
+
+**Status of this document**: historical narrative from 2026-11-09. The authoritative
+current measurements (gates, 191 tests, browser sweep, container) are in
+[`TEST_REPORT.md`](TEST_REPORT.md). Where they disagree, `TEST_REPORT.md` wins.
 
 ---
 
@@ -27,9 +32,10 @@ existing test suites remain intact; only thin, isolated **integration seams** we
 | Shell orchestration | `aegis-shell/src/{app.js, bus.js, context.js}` | namespaced EventBus bridge + shared `AegisContext` + dark command-center SPA (left topology / right redaction sidebar) with unified router & 3-stage state machine. |
 | Server | `Aegis/server.js` | COOP/COEP (for SAB) + static hosting of all modules + P2P long-poll signaling. |
 
-No module imports another; every cross-module call travels the `aegis` `postMessage`
-channel and is routed through the shell's `EventBus`. That is the architectural constant
-requested ("one EventBus / state machine to rule them all").
+At runtime every cross-module call travels the `aegis` `postMessage` channel and is
+routed through the shell's `EventBus`. A few modules additionally import a sibling
+module's *pure functions* by relative path (never an npm package) — the exact edges
+are generated in `docs/DEPENDENCY_AUDIT.md`.
 
 ---
 

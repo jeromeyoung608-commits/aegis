@@ -53,3 +53,10 @@ Consistent with repository LICENSE.
 
 ### 12. Changelog
 - v1.0.0 — 8/8 cases pass, covering the full detached-sign path and the detached-property proof.
+
+---
+
+**Release**: Aegis v1.0.0
+**Report date**: 2026-11-16
+**Runtime measured**: Node v22.23.2 on macOS (Apple silicon); browser: Chromium/Chrome 113+ for the demo pages
+**Standalone demo**: `modules/detached-hash-signer/index.html` (open it through the repository `server.js`, or run `npm start` in this module)

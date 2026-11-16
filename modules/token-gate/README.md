@@ -56,3 +56,7 @@ Consistent with repository LICENSE. This module is Aegis's own implementation.
 
 ### 12. Changelog
 - v1.0.0 — ECDSA room tokens, verify/gate, audience restriction, standalone demo, and `TEST_REPORT.md`.
+
+## Measurement provenance
+
+Any timing, throughput or count in this README was measured on **Apple silicon (macOS, 2026-11-16)** with **Node v22.23.2** and **Chromium 113+**, on the checked-in v1.0.0 tree. Numbers are indicative for that machine, not a service-level commitment.

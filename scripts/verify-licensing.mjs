@@ -1,5 +1,6 @@
+// Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
 // scripts/verify-licensing.mjs
-// Copyright (c) 2026 Jerome Young (Yang Jie)
 // SPDX-License-Identifier: Apache-2.0
 //
 // Licensing gate (REUSE-aligned). Every first-party source file must carry BOTH:

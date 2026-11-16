@@ -1,4 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 // aegis-shell/src/bus.js — minimal EventBus used for the shell's internal flow
 // state machine and UI events. The cross-iframe postMessage bridge is wired in

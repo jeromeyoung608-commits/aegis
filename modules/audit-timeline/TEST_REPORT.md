@@ -164,3 +164,11 @@ node server.js
 # command center:   http://localhost:8080/aegis-shell/index.html
 # review page:      http://localhost:8080/modules/audit-timeline/index.html
 ```
+
+---
+
+**Release**: Aegis v1.0.0
+**Report date**: 2026-11-16
+**Runtime measured**: Node v22.23.2 on macOS (Apple silicon); browser: Chromium/Chrome 113+ for the demo pages
+**Standalone demo**: `modules/audit-timeline/index.html` (open it through the repository `server.js`, or run `npm start` in this module)
+

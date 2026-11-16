@@ -1,4 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 // Runtime smoke test for CI: boots checks that only a real browser + the served
 // app can prove — WebGPU canvas mounts, the command-center surfaces render, the

@@ -1,4 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 // Aegis/zero-knowledge-identity/tests/crypto.test.mjs
 // Headless assertions over the real Web Crypto path (Node 18+ ships the same

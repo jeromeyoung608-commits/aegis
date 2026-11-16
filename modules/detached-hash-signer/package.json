@@ -5,7 +5,9 @@
   "type": "module",
   "description": "Detached hash signing — sign a SHA-256 document hash without ever exposing the raw document. Zero dependencies, runs in browser and Node.",
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "start": "node test-detached.mjs",
+    "verify": "node ../../scripts/verify-module.mjs ."
   },
   "license": "Apache-2.0"
 }

@@ -1,4 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 // tests/e2e.browser.mjs — real-browser end-to-end check of the signed-delivery
 // flow. Drives the actual page UI (seal A & B -> finalize -> boss verdict) in

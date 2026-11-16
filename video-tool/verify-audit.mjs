@@ -1,4 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 // Verify the audit-trail concurrency fix (cross-tab write lease) and the
 // optional RFC 3161 TSA anchor interface. Pure Node — uses a shared in-memory

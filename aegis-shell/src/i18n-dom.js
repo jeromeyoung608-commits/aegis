@@ -1,4 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 // Aegis/aegis-shell/src/i18n-dom.js — self-starting German/English layer.
 //
@@ -9,7 +10,7 @@
 //
 // Nothing here writes a translation when the locale is English: the phrase
 // layer treats EN as "show the source bytes".
-import { detectLocale, setLocale, translatePhrases, observePhrases } from './i18n.js';
+import { detectLocale, setLocale, translatePhrases, observePhrases, translateString } from './i18n.js';
 
 function boot() {
   const locale = setLocale(detectLocale());
@@ -19,6 +20,14 @@ function boot() {
   // handshake, scan summary). Two cheap sweeps cover anything rendered before
   // the observer settled.
   for (const ms of [400, 1200, 3000]) setTimeout(() => translatePhrases(locale), ms);
+  // Bridge for module code that paints strings itself (canvas labels, buttons
+  // built in JS). Modules stay zero-dependency: they read this global when the
+  // shared runtime happens to be present and fall back to their English literals
+  // when the module is copied out standalone.
+  window.AEGIS_MODULE_I18N = {
+    locale,
+    translate: (text) => translateString(text, locale) || text,
+  };
 }
 
 if (typeof document !== 'undefined') {

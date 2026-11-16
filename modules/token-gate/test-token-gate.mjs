@@ -1,4 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 // Regression tests for token-gate — room-token issue/verify, with a focus on the
 // forged-token acceptance bug (base64url padding-bit tampering, 2026-11-14 fix).

@@ -205,3 +205,11 @@ The module meets the stated acceptance criterion — an identity created in the 
 readable, unlockable and usable for signatures after a full page reload — and the
 cryptographic layer holds under wrong-passphrase and tampering tests. The remaining gaps
 are architectural (recovery, revocation, attestation) rather than implementation defects.
+
+---
+
+**Release**: Aegis v1.0.0
+**Report date**: 2026-11-16
+**Runtime measured**: Node v22.23.2 on macOS (Apple silicon); browser: Chromium/Chrome 113+ for the demo pages
+**Standalone demo**: `modules/zero-knowledge-identity/index.html` (open it through the repository `server.js`, or run `npm start` in this module)
+

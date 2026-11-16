@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 // Offline Node.js security-line gate. Zero dependencies, no network calls.
 // Checks the running Node against a maintainable, reviewable baseline and tells

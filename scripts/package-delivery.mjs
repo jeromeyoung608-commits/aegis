@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 // scripts/package-delivery.mjs — Aegis release packer (AEG-19).
 //
@@ -89,7 +90,8 @@ function isNeverShip(rel) {
 // Files a customer MUST receive. Their absence is a broken delivery, not a
 // warning. vendor/MANIFEST.json is the third-party attribution index.
 const REQUIRED = [
-  'server.js', 'package.json', 'README.md', 'DELIVERY_REPORT.md', 'LICENSE',
+  'server.js', 'package.json', 'README.md', 'DELIVERY_REPORT.md', 'TEST_REPORT.md',
+  'NOTICE', 'TRADEMARK.md', 'docs/DEPENDENCY_AUDIT.md', 'LICENSE',
   'LICENSES/Apache-2.0.txt',
   'SBOM.cdx.json', 'SECURITY.md', '.well-known/security.txt',
   'COMMERCIAL-LICENSE.md', 'EULA.md', 'PRICING.md', 'CHANGELOG.md',

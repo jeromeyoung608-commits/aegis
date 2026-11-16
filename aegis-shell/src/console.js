@@ -1,4 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 // Aegis/aegis-shell/src/console.js — Operator Console logic (Phase 6).
 // Talks to the server's operator endpoints (auth, audit, revocation, escrow, TSA

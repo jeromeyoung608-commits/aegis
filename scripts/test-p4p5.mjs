@@ -1,4 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 // Aegis/scripts/test-p4p5.mjs — end-to-end regression for Phase 4 (relay + escrow)
 // and Phase 5 (revocation). Boots server.js on a throwaway port, exercises the

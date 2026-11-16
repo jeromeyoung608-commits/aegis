@@ -1,4 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 /**
  * ========================================================================
@@ -25,7 +26,6 @@
 import * as TokenGate from '../../token-gate/src/token-gate.js';
 import * as Signer from '../../detached-hash-signer/src/detached-hash-signer.js';
 import { makeSymKey, encryptEnvelope, decryptEnvelope } from '../../blind-relay/src/client.js';
-import { detectLocale, translateString } from '../../../aegis-shell/src/i18n.js';
 
 const wc = globalThis.crypto;
 
@@ -41,8 +41,8 @@ export async function runCosignDemo(mount) {
   const log = el('pre', { className: 'sig' });
   const out = el('div');
   const btn = el('button', {
-    textContent: (translateString('▶ Run: authenticated blind co-signing', detectLocale())
-      || '▶ Run: authenticated blind co-signing'),
+    textContent: (globalThis.AEGIS_MODULE_I18N?.translate('▶ Run: authenticated blind co-signing')
+      ?? '▶ Run: authenticated blind co-signing'),
   });
   mount.append(btn, log, out);
 

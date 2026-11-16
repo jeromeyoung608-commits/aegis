@@ -115,8 +115,14 @@ limit of disk-streamed receivers instead of forcing a full Blob into RAM.
 ## 3 - Architecture and integration seams
 
 Eleven independent, reusable modules live under `modules/` and are composed - **like
-building blocks** - by `aegis-shell/` through an `EventBus` + `postMessage` bridge. No
-module imports another; they communicate only on the `aegis` message channel. The shell
+building blocks** - by `aegis-shell/` through an `EventBus` + `postMessage` bridge.
+At runtime every page talks over the `aegis` message channel only. Three modules also
+**reuse a sibling module's pure functions by relative import** (audit-timeline →
+sync-canvas hash chain, sync-canvas → blind-relay / detached-hash-signer / token-gate,
+e2e-signed-delivery → p2p-crypto-transfer transport, blind-relay → token-gate for CLI
+admission). Those imports are first-party code, never an npm package, and each module
+page still runs standalone; the exact edge list is generated in
+[`docs/DEPENDENCY_AUDIT.md`](docs/DEPENDENCY_AUDIT.md). The shell
 is also the only place that imports submodule **pure functions** (crypto, vault, audit
 chain); their internal business logic is never modified.
 
@@ -284,9 +290,14 @@ Open `http://localhost:8080` in **Chrome or Edge 113+**. Then:
 Aegis is **not** "zero dependencies" as a whole product, and we do not claim it is.
 Concretely:
 
-- **9 of 11 modules, plus the shell (`aegis-shell/`) and the server (`server.js`),
-  ship with zero third-party runtime dependencies.** They use only Web Crypto and
-  other built-in browser / Node primitives.
+- **The core is zero-dependency.** `aegis-shell/` (the orchestrating SPA, 11 source
+  files), `server.js` (static + COOP/COEP + signalling relay) and every kernel helper
+  (Web Crypto, hash chain, vault, audit, transport, signing) import **no npm package
+  and no vendor file** — only platform built-ins and first-party relative modules.
+  `npm ls --prod` on the root package is empty.
+- **9 of 11 modules ship with zero third-party runtime code** (`audit-timeline`,
+  `blind-relay`, `detached-hash-signer`, `encrypted-archive`, `p2p-crypto-transfer`,
+  `sync-canvas`, `token-gate`, `webgpu-topology`, `zero-knowledge-identity`).
 - **Two modules vendor third-party code:**
   - `doc-redactor` vendors **pdf.js, pdf-lib, tesseract.js, tesseract-core, tessdata**
     (~35 MB, all Apache-2.0 / MIT) for local OCR and PDF rendering.
@@ -296,7 +307,11 @@ Concretely:
   locally from the image. The `video-tool/` directory ships only its browser
   verification scripts (they need Playwright as a dev dependency); the promo-video
   pipeline (Remotion, TTS, capture) is **not** part of the delivery package.
-- The full attribution and license matrix is in `docs/DEPENDENCY_AUDIT.md`.
+- **Per-component proof, not a slogan:** the table in
+  [`docs/DEPENDENCY_AUDIT.md`](docs/DEPENDENCY_AUDIT.md) is generated from the working
+  tree by `scripts/gen-dependency-matrix.mjs` and lists, for every component, its own
+  `.js` count, vendored libraries (with size and licence), every cross-module import,
+  and every dev-only dependency. `--check` fails if the checked-in copy drifts.
 
 ## 6 - Project map
 
@@ -351,6 +366,11 @@ Aegis/
 Aegis mixes **headless, repeatable checks** (run here / in CI) with a **manual browser
 pass** (needs a real GPU + OCR + WebRTC). Both are documented so the closed loop is
 reproducible, not mystic.
+
+The current measured result of both halves — every gate, 191/191 tests, a 130-click
+browser sweep across all 13 pages, the delivery archive hash and the container
+check — is in [`TEST_REPORT.md`](TEST_REPORT.md), including an explicit list of
+paths that were **not** tested and the residual risks.
 
 ### A - Headless checks (no browser) - what CI can assert today
 
@@ -685,11 +705,19 @@ keeps its own upstream licence, unmodified.
 | tesseract.js-core | 5.1.1 | Apache-2.0 | doc-redactor | `naptha/tesseract.js-core` |
 | tessdata (`deu`, `eng`) | 4.0.0 best_int | Apache-2.0 | doc-redactor | `tesseract-ocr/tessdata` |
 
-Two modules vendor third-party code — `doc-redactor` (five assets) and
-`e2e-signed-delivery` (pdf-lib only, byte-identical to the copy in `doc-redactor`,
-same SHA-256). The other ten modules — `aegis-shell`, `audit-timeline`, `blind-relay`,
-`detached-hash-signer`, `encrypted-archive`, `p2p-crypto-transfer`, `sync-canvas`,
-`token-gate`, `webgpu-topology`, `zero-knowledge-identity` — contain **no third-party code**.
+Two modules vendor third-party code — `doc-redactor` (five assets, 35 MB) and
+`e2e-signed-delivery` (pdf-lib only, 515 KB, byte-identical to the copy in
+`doc-redactor`, same SHA-256). The other **nine of eleven modules**, plus
+`aegis-shell` and `server.js`, contain **no third-party code at all**.
+
+All eleven modules, plus the shell, the server and the adapters, are listed in the
+generated matrix in [`docs/DEPENDENCY_AUDIT.md`](docs/DEPENDENCY_AUDIT.md). What it
+records per row: own file count, third-party runtime code (vendored library name,
+size, licence-manifest check), every first-party cross-module import, and dev-only
+packages used by that module's tests. Rows marked **zero third-party** are exactly
+that — no vendor directory, no npm import, platform APIs and relative first-party
+modules only. The matrix is regenerated by `npm run deps:matrix` and validated by
+`npm run verify:deps` inside `npm test`, so the README cannot drift from the tree.
 
 ### External integrations (isolated adapters, not in the kernel)
 
@@ -755,6 +783,14 @@ and each `vendor/<component>/LICENSE`. Apache-2.0 does not relicense them.
 
 Aegis™ is a trademark of the copyright holder; the licence grants no
 trademark rights. Do not use the name to endorse a modified build.
+
+**Authorship watermark.** Every first-party source file carries, in its first four
+lines, both the copyright line and the marker
+`Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0`.
+The watermark is attribution, not an extra licence term: Apache-2.0 already requires
+the copyright and `NOTICE` attributions to travel with the code, and the marker adds
+no restriction on use, modification or redistribution. `scripts/verify-headers.mjs`
+fails the build if either line is missing from any of the 217 shipped source files.
 
 ---
 
@@ -878,7 +914,7 @@ All gates green after the WebGL2 fix (run on clean, port-collision-free servers)
 | Gate | Command | Result |
 |------|---------|--------|
 | Unit suite | `npm test` | 151 / 151 pass |
-| Claims wording (AEG-22) | `npm run verify:claims` | 216 files scanned, no forbidden claims |
+| Claims wording (AEG-22) | `npm run verify:claims` | 276 files scanned, no forbidden claims |
 | Delivery packer (AEG-19) | `npm run verify:delivery` | VERIFY PASS — every sha256 matches, no caches/media/keys; source-vs-package freshness check (B-02) |
 | CSP nonce (AEG-23) | `node video-tool/verify-csp.mjs` | ALL PASS |
 | P3 closure | `node video-tool/verify-p3.mjs` | ALL PASS (12 pages + AEG-21/24 + P0 PoCs + F-01 forged→DENY regression) |

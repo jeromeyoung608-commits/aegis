@@ -1,4 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 /**
  * ========================================================================
@@ -188,7 +189,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const relay = createRelay({
     verifyToken: rootPubB64
       ? async (token, room) => {
-          const { importPublicKey, verifyToken: vt } = await import('../token-gate/src/token-gate.js');
+          const { importPublicKey, verifyToken: vt } = await import('../../token-gate/src/token-gate.js');
           return vt(await importPublicKey(rootPubB64), token, { room });
         }
       : undefined,

@@ -49,3 +49,11 @@ Repository LICENSE. Vendored pdf-lib keeps its own MIT license.
 
 ### 12. Changelog
 - 2026-11-11 — verified 14/14 green; TEST_REPORT delivered.
+
+---
+
+**Release**: Aegis v1.0.0
+**Report date**: 2026-11-16
+**Runtime measured**: Node v22.23.2 on macOS (Apple silicon); browser: Chromium/Chrome 113+ for the demo pages
+**Standalone demo**: `modules/e2e-signed-delivery/index.html` (open it through the repository `server.js`, or run `npm start` in this module)
+

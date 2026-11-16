@@ -65,3 +65,7 @@ Consistent with the repository LICENSE. This module is Aegis's own implementatio
 
 ### 12. Changelog
 - v1.0.0 — detached-sign API, detached bundle, detached-property check, standalone `index.html` demo, and `TEST_REPORT.md`.
+
+## Measurement provenance
+
+Any timing, throughput or count in this README was measured on **Apple silicon (macOS, 2026-11-16)** with **Node v22.23.2** and **Chromium 113+**, on the checked-in v1.0.0 tree. Numbers are indicative for that machine, not a service-level commitment.

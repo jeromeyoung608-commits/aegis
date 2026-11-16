@@ -1,4 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 /**
  * ========================================================================
@@ -29,12 +30,11 @@ import { makeSite, makeRoom } from './utils/id.js';
 import { SocketProvider } from './engine/SocketProvider.js';
 import { SyncEngine } from './engine/SyncEngine.js';
 import { Viewport } from './canvas/viewport.js';
-import { detectLocale, translateString } from '../../../aegis-shell/src/i18n.js';
-
-/** Seed notes are sample content the operator reads on the canvas; they follow
- *  the shell locale like every other visible string. Falls back to English when
- *  the shared catalogue has no entry (standalone copy of the module). */
-const localize = (text) => translateString(text, detectLocale()) || text;
+/** Seed notes are sample content the operator reads on the canvas. They use the
+ *  bridge the shared i18n runtime publishes when the module is opened inside
+ *  the suite; a standalone copy has no bridge and keeps its English literals.
+ *  No import: the module stays zero-dependency. */
+const localize = (text) => globalThis.AEGIS_MODULE_I18N?.translate(text) ?? text;
 import { CanvasRenderer } from './canvas/CanvasRenderer.js';
 import { Interaction } from './canvas/Interaction.js';
 import { Presence } from './ui/Presence.js';

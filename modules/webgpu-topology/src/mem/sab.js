@@ -1,4 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 // src/mem/sab.js — SharedArrayBuffer layout: the zero-copy bridge between the
 // physics Worker and the main-thread GPU renderer.

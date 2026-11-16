@@ -1,4 +1,5 @@
 // Aegis - Copyright (c) 2026 Jerome Young (Yang Jie)
+// Watermark: AEGIS / ENGINE BY JEROME YOUNG - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 // Aegis - adapters/tsa-rfc3161/verify.js
 // RFC 3161 Time-Stamp Token verification WITHOUT a third-party ASN.1 library.

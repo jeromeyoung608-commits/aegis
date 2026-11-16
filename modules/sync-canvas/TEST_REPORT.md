@@ -314,3 +314,7 @@ The command exits 0 on PASS and 1 on FAIL. The report path defaults to `chaos/ch
 | Delivery compliance | Pass (four attribution layers present, license present, no unrelated marks) |
 
 **Signed off: tests pass, this report stands as the acceptance basis for 1.0.0.**
+
+---
+
+**Standalone demo**: `modules/sync-canvas/index.html` — open it through the repository `server.js` (or `npm test` at the repository root), and the demo page runs against the same first-party modules this report certifies.
