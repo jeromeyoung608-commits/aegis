@@ -592,7 +592,7 @@ doc deliverable-standard, and README feature coverage. Findings fixed:
 | 2 | README brand-name inconsistency: the module tree called `detached-hash-signer` `Aegis-BlindSign`, while the table correctly says `Aegis-DetachedSign` and the module is explicitly **not** a blind-signature scheme. | Tree label → `Aegis-DetachedSign`. |
 | 3 | README duplicate `## 11` (Module-03 deep-dive AND Third-party components). | Renumbered trailing sections to a contiguous **13/14/15** (Third-party=13, Post-audit P3 closure=14, Deployment=15) and fixed the one internal `§13`→`§14` reference. |
 | 4 | README P2P test count said `10/10` while the module ships `11/11` (its own TEST_REPORT already corrected this). | README → `11/11`. |
-| 5 | README did not mention the two server-side enterprise-auth capabilities (OIDC `modules/oidc/`, SCIM `modules/scim/`) nor list the common `npm` scripts. | Added a short note (OIDC/SCIM off-by-default, covered in `SECURITY.md` / `CONFIGURE-BEFORE-DEPLOY.md`) + a "Common commands" pointer to `package.json`. |
+| 5 | README did not mention the two server-side enterprise-auth capabilities (OIDC, SCIM — implemented in `server/oidc.js` and `server.js`/`server/store.js`, tested under `modules/oidc/tests/` and `modules/scim/tests/`) nor list the common `npm` scripts. | Added a short note (OIDC/SCIM off-by-default, covered in `SECURITY.md` / `CONFIGURE-BEFORE-DEPLOY.md`) + a "Common commands" pointer to `package.json`. |
 
 **Watermark / backdoor scan (clean):** production `server.js` makes **zero outbound network
 calls** (no `fetch` / `http.request` / `net.connect`), spawns **no child processes**, and holds
