@@ -4,6 +4,30 @@ All notable changes to Aegis are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/); this project adheres to
 semantic versioning (`MAJOR.MINOR.PATCH`).
 
+## [1.0.1] — 2026-11-16
+
+### Fixed
+- **German interface only covered the console header.** Switching the language
+  selector to DE translated the header label and left the 10 tabs, every panel
+  heading, all buttons and hints, and the entire workbench in English: just 54
+  of ~180 console strings were wired through `[data-i18n]`, and the workbench
+  had no selector. A 283-entry phrase catalogue keyed by the English source
+  string, a DOM translator (text nodes plus `placeholder` / `title` /
+  `aria-label` / `alt`, prefix+suffix rules for label-value strings,
+  `MutationObserver` for post-boot content) now covers both pages and restores
+  the English text when switching back. The workbench has its own EN/DE selector
+  and shares the console's saved choice.
+- **36 first-party source files still declared the project MIT-licensed**
+  while the repository has been Apache-2.0 since `bdd49e3`. The headers were
+  never scanned because `verify-licensing.mjs` only swept markdown. Headers
+  rewritten; the gate now checks source headers as well.
+- Two console strings referenced keys that did not exist
+  (`compStatusOk` / `compStatusWarn`) and would have rendered as raw key names.
+
+### Added
+- `aegis-shell/src/i18n-coverage.test.js` — fails the build when a visible
+  string in either shell page has no German translation.
+
 ## [1.0.0] — 2026-11-15
 
 ### Changed
