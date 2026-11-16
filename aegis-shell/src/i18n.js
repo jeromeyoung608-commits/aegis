@@ -296,7 +296,7 @@ export const PHRASE_CATALOG = {
     'Detail': 'Details',
     'Record request': 'Antrag erfassen',
     'Email': 'E-Mail',
-    'Type': 'Typ',
+    'Type': 'Eingeben',
     'Status': 'Status',
     'Created': 'Erstellt',
     'DPIA trigger check (GDPR Art. 35)': 'Prüfung der DSFA-Pflicht (DSGVO Art. 35)',
@@ -461,6 +461,385 @@ export const PHRASE_CATALOG = {
     'Image pushed to your own registry; secrets via env/secret, not baked in': 'Image in eigene Registry geladen; Secrets über Env/Secret, nicht eingebacken',
     'Operator accounts created (npm run setup)': 'Betreiberkonten angelegt (npm run setup)',
     'TLS / reverse proxy configured': 'TLS / Reverse-Proxy konfiguriert',
+    'Aegis-AuditTrail - Tamper-Evident Audit Trail': 'Aegis-AuditTrail — manipulationssichere Audit-Spur',
+    'Aegis-AuditTrail | Compliance Review | Tamper-Evident Audit Trail': 'Aegis-AuditTrail | Compliance-Prüfung | manipulationssichere Audit-Spur',
+    'Local only · SHA-256 - append-only': 'Nur lokal · SHA-256 — nur anhängend',
+    'Tamper-evident hash-chained audit trail': 'Manipulationssichere, hashverkettete Audit-Spur',
+    'Who did what, and when.': 'Wer was getan hat — und wann.',
+    'Every workbench action is appended to a SHA-256 hash chain stored on this device. Each link folds in the previous one, so an edited, deleted or reordered entry breaks the chain and is called out below.': 'Jede Aktion der Werkbank wird an eine SHA-256-Hashkette auf diesem Gerät angehängt. Jedes Glied faltet das vorherige ein, daher bricht ein geänderter, gelöschter oder umsortierter Eintrag die Kette und wird unten ausgewiesen.',
+    'Links': 'Glieder',
+    'Head': 'Kopf',
+    'Storage': 'Speicher',
+    'Timeline': 'Zeitleiste',
+    'loading chain…': 'Kette wird geladen …',
+    'Verify chain': 'Kette prüfen',
+    'Export JSON': 'JSON exportieren',
+    'Genesis 000…000 - hash[i] = SHA-256(hash[i-1] | canonical(entry)) · no document content is stored in this log': 'Genesis 000…000 — hash[i] = SHA-256(hash[i-1] | kanonisch(Eintrag)) · in diesem Protokoll wird kein Dokumentinhalt gespeichert',
+    'Zero-Knowledge WebSocket Relay — Server-Blind Demo': 'Zero-Knowledge-WebSocket-Relay — serverblinde Demo',
+    'Zero-Knowledge WebSocket Relay · Server-Blind Demo': 'Zero-Knowledge-WebSocket-Relay · serverblinde Demo',
+    'The relay only forwards': 'Das Relay leitet ausschließlich',
+    'encrypted envelopes': 'verschlüsselte Umschläge',
+    'and never sees the canvas state or document. The in-browser simulated relay below proves the "server blind spot".': 'weiter und sieht weder Canvas-Zustand noch Dokument. Das unten im Browser simulierte Relay belegt den „serverblinden Fleck“.',
+    'Device A (executive)': 'Gerät A (Führungskraft)',
+    'Encrypt end-to-end & send': 'Ende-zu-Ende verschlüsseln & senden',
+    'Device B (executive)': 'Gerät B (Führungskraft)',
+    'Real deployment: run': 'Echter Betrieb: ausführen von',
+    'in another terminal; the browser uses client.js\'s connectRelay(). The relay source (src/relay.js) is zero-dependency and forwards ciphertext only.': 'in einem zweiten Terminal; der Browser nutzt connectRelay() aus client.js. Die Relay-Quelle (src/relay.js) hat keine Abhängigkeiten und leitet nur Chiffrat weiter.',
+    '🛡 Relay / server view (all it ever sees)': '🛡 Relay- / Server-Sicht (mehr sieht er nie)',
+    '(pending)': '(ausstehend)',
+    '(waiting to receive & decrypt)': '(wartet auf Empfang & Entschlüsselung)',
+    '(empty)': '(leer)',
+    'Detached Hash Signer — Blind (Detached) Signing Demo': 'Detached-Hash-Signer — Demo für blinde (abgetrennte) Signaturen',
+    'Detached Hash Signing · Blind (Detached) Signature Demo': 'Detached-Hash-Signatur · Demo für blinde (abgetrennte) Signaturen',
+    'A signer never sees the original document — they sign only a 64-character SHA-256 hash. The document bytes never leave the browser and never enter the signature bundle.': 'Wer signiert, sieht das Original nie — signiert wird nur ein 64-stelliger SHA-256-Hash. Die Dokumentbytes verlassen den Browser nie und gelangen nie in das Signaturpaket.',
+    '① Confidential document': '① Vertrauliches Dokument',
+    '② Three executives each sign the hash (blind)': '② Drei Führungskräfte signieren jeweils den Hash (blind)',
+    '③ Detached signature bundle': '③ Abgetrenntes Signaturpaket',
+    'Compute document hash': 'Dokument-Hash berechnen',
+    '(click above → you get a hash only; the original never leaves)': '(oben klicken → Sie erhalten nur einen Hash; das Original verlässt das Gerät nie)',
+    'Assemble detached signature bundle': 'Abtrennendes Signaturpaket zusammenstellen',
+    '(not generated yet)': '(noch nicht erzeugt)',
+    'TOP SECRET: Unicorn Project FY2026 financial model (executives only)': 'STRENG GEHEIM: Finanzmodell Unicorn-Projekt FY2026 (nur Führungskräfte)',
+    'Aegis-REDAKTOR - Local PDF & Image Redaction': 'Aegis-REDAKTOR — lokale PDF- und Bild-Schwärzung',
+    'Local redaction engine · 100% in-browser': 'Lokale Schwärzungs-Engine · 100 % im Browser',
+    'external requests': 'externe Anfragen',
+    'Documents': 'Dokumente',
+    'Clear all': 'Alle entfernen',
+    'Drop files here': 'Dateien hier ablegen',
+    'PDF · JPG · PNG · WEBP - never leaves this device': 'PDF · JPG · PNG · WEBP — verlässt dieses Gerät nie',
+    'Choose files': 'Dateien wählen',
+    'Zero-upload guarantee': 'Garantie: kein Upload',
+    'A strict CSP blocks every cross-origin connection. OCR, rendering and export run only inside this tab.': 'Eine strikte CSP blockiert jede Cross-Origin-Verbindung. OCR, Rendering und Export laufen nur in diesem Tab.',
+    'Mark': 'Markieren',
+    'Docs': 'Dokumentation',
+    'Fields': 'Felder',
+    'No page': 'Keine Seite',
+    'Fit': 'Einpassen',
+    'Nothing leaves this machine.': 'Nichts verlässt diesen Rechner.',
+    'Drop a PDF or a scan - detection starts automatically. Every page is rebuilt as a raster, so redacted areas cannot be reconstructed.': 'PDF oder Scan ablegen — die Erkennung startet automatisch. Jede Seite wird als Raster neu aufgebaut, geschwärzte Bereiche sind daher nicht rekonstruierbar.',
+    '0 redactions': '0 Schwärzungen',
+    'Click a redaction to select it · Delete removes it · Drag in “Mark” mode to add areas': 'Schwärzung anklicken, um sie zu wählen · Entf löscht sie · im Modus „Markieren“ ziehen, um Bereiche hinzuzufügen',
+    'Rules': 'Regeln',
+    'Findings': 'Funde',
+    'Detection rules': 'Erkennungsregeln',
+    'Every rule runs locally. Toggling one re-checks existing pages instantly - no new OCR needed.': 'Jede Regel läuft lokal. Das Umschalten prüft vorhandene Seiten sofort neu — kein erneutes OCR nötig.',
+    'Custom terms': 'Eigene Begriffe',
+    'one term per line': 'ein Begriff pro Zeile',
+    'Case-insensitive. Add a trailing colon (e.g.': 'Groß-/Kleinschreibung egal. Doppelpunkt am Ende anhängen (z. B.',
+    ') to redact the value after that label on the same line; without a colon it redacts the keyword itself. Each hit is burned into the exported PDF.': ') , um den Wert nach diesem Label in derselben Zeile zu schwärzen; ohne Doppelpunkt wird der Begriff selbst geschwärzt. Jeder Treffer wird ins exportierte PDF eingebrannt.',
+    'Ready to produce.': 'Bereit zur Ausgabe.',
+    'Redactions are burned in. Open the': 'Schwärzungen sind eingebrannt. Öffnen Sie den',
+    'tab (right rail) to write the sanitized, non-reconstructable PDF.': 'Tab (rechte Leiste), um das bereinigte, nicht rekonstruierbare PDF zu schreiben.',
+    'Detected items': 'Erkannte Elemente',
+    'No page has been scanned yet.': 'Noch keine Seite gescannt.',
+    'No findings yet. Once OCR runs, source positions appear here.': 'Noch keine Funde. Sobald OCR läuft, erscheinen hier die Quellpositionen.',
+    'A brand-new PDF - no original text layer, no font objects, no metadata.': 'Ein völlig neues PDF — keine Textebene, keine Font-Objekte, keine Metadaten.',
+    'Raster resolution': 'Rasterauflösung',
+    'Image format': 'Bildformat',
+    'Burn vector redactions on top': 'Vektor-Schwärzungen darüber einbrennen',
+    'Crisp edges when printed, independent of image compression.': 'Scharfe Kanten im Druck, unabhängig von der Bildkompression.',
+    'Original pages are not edited - they are discarded. Each page is re-typeset as a high-resolution raster, so text layers and objects disappear. Redactions are therefore technically unrecoverable (no black-box overlay over still-readable text).': 'Originalseiten werden nicht bearbeitet — sie werden verworfen. Jede Seite wird als hochauflösendes Raster neu gesetzt, Textebenen und Objekte verschwinden. Schwärzungen sind damit technisch nicht rückführbar (kein schwarzes Overlay über weiter lesbarem Text).',
+    'Export PDF': 'PDF exportieren',
+    'Audit report (JSON, no content)': 'Audit-Bericht (JSON, ohne Inhalt)',
+    'Network audit': 'Netzwerk-Audit',
+    'External requests': 'Externe Anfragen',
+    'Blocked': 'Blockiert',
+    'Policy': 'Richtlinie',
+    'Run connection test': 'Verbindungstest starten',
+    'Ready': 'Bereit',
+    'pages': 'Seiten',
+    'redactions': 'Schwärzungen',
+    'OCR ready · deu+eng': 'OCR bereit · deu+eng',
+    'Architecture & proof': 'Architektur & Nachweis',
+    'How this engine works': 'So arbeitet diese Engine',
+    'Load & rasterize': 'Laden & rastern',
+    'pdf.js renders PDF pages to canvas at 150 dpi; images are decoded directly. Nothing is uploaded.': 'pdf.js rendert PDF-Seiten mit 150 dpi auf Canvas; Bilder werden direkt dekodiert. Nichts wird hochgeladen.',
+    'In-browser OCR': 'OCR im Browser',
+    'Tesseract (WebAssembly) runs in a local worker with bundled German/English models and returns word coordinates.': 'Tesseract (WebAssembly) läuft in einem lokalen Worker mit gebündelten deutschen/englischen Modellen und liefert Wortkoordinaten.',
+    'Rules & review': 'Regeln & Prüfung',
+    'A regex catalogue (IBAN, VAT ID, tax ID, social-security number, contacts, addresses, case numbers …) plus a name heuristic. Every hit stays reviewable and removable.': 'Ein Regex-Katalog (IBAN, USt-IdNr., Steuer-ID, Sozialversicherungsnummer, Kontakte, Adressen, Aktenzeichen …) plus eine Namens-Heuristik. Jeder Treffer bleibt prüf- und entfernbar.',
+    'Destructive rebuild': 'Destruktiver Neuaufbau',
+    'pdf-lib creates a new document: page = high-resolution raster + vector bars. Original text, fonts, annotations and XMP metadata are dropped.': 'pdf-lib erzeugt ein neues Dokument: Seite = hochauflösendes Raster + Vektorbalken. Originaltext, Fonts, Anmerkungen und XMP-Metadaten entfallen.',
+    'Module layout': 'Modulaufbau',
+    'State & events': 'Zustand & Ereignisse',
+    'Network blocker & audit': 'Netzwerkblocker & Audit',
+    'PDF/image intake': 'PDF-/Bild-Eingang',
+    'pdf.js rendering': 'pdf.js-Rendering',
+    'Tesseract worker': 'Tesseract-Worker',
+    'Rule catalogue': 'Regelkatalog',
+    'Names & salutations': 'Namen & Anreden',
+    'Hits → coordinates': 'Treffer → Koordinaten',
+    'Box geometry': 'Box-Geometrie',
+    'Canvas & interaction': 'Canvas & Interaktion',
+    'PDF rebuild': 'PDF-Neuaufbau',
+    'Panels & status': 'Panels & Status',
+    'The counter measures every attempt from fetch, XHR, WebSocket and sendBeacon. Only same-origin resources of this folder are allowed.': 'Der Zähler erfasst jeden Versuch über fetch, XHR, WebSocket und sendBeacon. Erlaubt sind nur Same-Origin-Ressourcen dieses Ordners.',
+    'Keyboard': 'Tastatur',
+    'Review mode': 'Prüfmodus',
+    'Mark mode': 'Markiermodus',
+    'delete selected redaction': 'gewählte Schwärzung löschen',
+    '+ scroll to zoom': '+ Scrollen zum Zoomen',
+    'Aegis-SignedDelivery - E2E Signed Delivery': 'Aegis-SignedDelivery — signierte Ende-zu-Ende-Lieferung',
+    'Both parties seal the document, it is finalized into a signed PDF, then delivered peer-to-peer to the boss who verifies the signatures.': 'Beide Parteien versiegeln das Dokument, es wird zu einem signierten PDF finalisiert und dann Peer-zu-Peer an die Leitung geliefert, die die Signaturen prüft.',
+    '1 - Signer: finalize the contract': '1 — Unterzeichner: Vertrag finalisieren',
+    '🖋 Party A - seal': '🖋 Partei A — versiegeln',
+    '🖋 Party B - seal': '🖋 Partei B — versiegeln',
+    '0 / 2 sealed': '0 / 2 versiegelt',
+    '📦 Finalize & send to boss': '📦 Finalisieren & an die Leitung senden',
+    'Simulate tampering (flip 1 byte)': 'Manipulation simulieren (1 Byte kippen)',
+    'A key: -': 'Schlüssel A: —',
+    'B key: -': 'Schlüssel B: —',
+    '2 - Boss: receive & verify': '2 — Leitung: empfangen & prüfen',
+    'Waiting for delivery…': 'Warte auf Lieferung …',
+    'No signatures received yet.': 'Noch keine Signaturen empfangen.',
+    'AWAITING': 'WARTET',
+    'Aegis-Vault - Local Encrypted Vault': 'Aegis-Vault — lokaler verschlüsselter Tresor',
+    'Zero-cloud archiving of signed documents': 'Cloud-freie Archivierung signierter Dokumente',
+    'OPFS · checking': 'OPFS · wird geprüft',
+    '0 records': '0 Einträge',
+    'checking network…': 'Netzwerk wird geprüft …',
+    '1 - Seal a signed artifact': '1 — Signiertes Artefakt versiegeln',
+    'The file and its signature metadata are encrypted together with AES-GCM-256 and written into this browser\'s private OPFS vault. Nothing is uploaded.': 'Datei und Signatur-Metadaten werden gemeinsam mit AES-GCM-256 verschlüsselt und in den privaten OPFS-Tresor dieses Browsers geschrieben. Nichts wird hochgeladen.',
+    'Choose a file or drop it here': 'Datei wählen oder hier ablegen',
+    'No file selected': 'Keine Datei gewählt',
+    'Signature / verification metadata (JSON)': 'Signatur- / Prüf-Metadaten (JSON)',
+    'Stored as one opaque': 'Gespeichert als ein undurchsichtiger',
+    'container': 'Container',
+    '2 - Vault contents': '2 — Tresorinhalt',
+    'The index exposes only record ids and container sizes. File names, hashes and signer details stay inside the encrypted payload until you unlock a record.': 'Der Index zeigt nur Eintrags-IDs und Containergrößen. Dateinamen, Hashes und Unterzeichnerdaten bleiben im verschlüsselten Inhalt, bis ein Eintrag entsperrt wird.',
+    'Opening OPFS vault…': 'OPFS-Tresor wird geöffnet …',
+    'Passphrase for unlock': 'Passphrase zum Entsperren',
+    'Decrypt & download': 'Entschlüsseln & herunterladen',
+    'Aegis-Transport - P2P Encrypted Transfer': 'Aegis-Transport — verschlüsselter P2P-Transfer',
+    'WebRTC DataChannel + Web Crypto AES-GCM · Zero dependency · The server never sees any file content': 'WebRTC DataChannel + Web Crypto AES-GCM · keine Abhängigkeiten · der Server sieht nie Dateiinhalte',
+    '1 - Connect': '1 — Verbinden',
+    'Transport mode': 'Transportmodus',
+    'LAN (signaling server)': 'LAN (Signalisierungsserver)',
+    'Same-machine demo (BroadcastChannel)': 'Demo auf einem Rechner (BroadcastChannel)',
+    'Room (same on both sides)': 'Raum (auf beiden Seiten gleich)',
+    'Shared key (same on both sides, never sent)': 'Gemeinsamer Schlüssel (beidseitig gleich, nie gesendet)',
+    'Create room (initiator)': 'Raum erstellen (Initiator)',
+    'Join room (receiver)': 'Raum beitreten (Empfänger)',
+    'Not connected': 'Nicht verbunden',
+    'Same-machine demo: open two tabs, pick "Same-machine demo", use the same room + key, then one clicks "Create" and the other "Join".': 'Demo auf einem Rechner: zwei Tabs öffnen, „Demo auf einem Rechner“ wählen, gleichen Raum + Schlüssel nutzen, dann klickt einer „Erstellen“ und der andere „Beitreten“.',
+    '2 - Send file': '2 — Datei senden',
+    'Choose file': 'Datei wählen',
+    'Encrypt & send': 'Verschlüsseln & senden',
+    'Send progress': 'Sendefortschritt',
+    '3 - Receive': '3 — Empfangen',
+    'Choose save location': 'Speicherort wählen',
+    'Click this (a gesture) to lock a disk file before your peer sends - then any size streams straight to disk. Without it, browsers without disk-streaming cap memory at 1 GB.': 'Hier klicken (eine Geste), um vor dem Senden des Peers eine Datei auf der Platte zu reservieren — dann streamt jede Größe direkt auf die Platte. Ohne das begrenzen Browser ohne Disk-Streaming den Arbeitsspeicher auf 1 GB.',
+    'Receive progress': 'Empfangsforschritt',
+    'Log': 'Protokoll',
+    'Aegis-Canvas - Realtime Collaborative Board': 'Aegis-Canvas — kollaboratives Echtzeit-Board',
+    'Aegis Sync Canvas — real-time collaborative state board': 'Aegis Sync Canvas — kollaboratives Echtzeit-Zustandsboard',
+    'New tab': 'Neuer Tab',
+    'Disconnect': 'Trennen',
+    'fit': 'einpassen',
+    'Session': 'Sitzung',
+    'Operation stream': 'Operationsstrom',
+    'Audit chain': 'Audit-Kette',
+    'connecting…': 'verbinde …',
+    'stamp tool (S) to sign · drag to move · space to pan': 'Stempel-Werkzeug (S) zum Signieren · ziehen zum Bewegen · Leertaste zum Verschieben',
+    'Token-Gated Rooms — Trusted Admission Demo': 'Token-geschützte Räume — Demo für vertrauenswürdige Zulassung',
+    'Token-Gated Rooms · Trusted Admission': 'Token-geschützte Räume · vertrauenswürdige Zulassung',
+    'Rooms are admitted by an ECDSA-signed, time-bound token. The relay/server validates only the token signature and never learns who you are.': 'Räume werden über ein ECDSA-signiertes, zeitgebundenes Token zugelassen. Relay/Server prüfen nur die Token-Signatur und erfahren nie, wer Sie sind.',
+    '① Issuer root key + issue a room token': '① Issuer-Rootschlüssel + Raum-Token ausstellen',
+    'Generate root key & issue R1 token (10 min)': 'Rootschlüssel erzeugen & R1-Token ausstellen (10 Min.)',
+    '(click above)': '(oben klicken)',
+    '② Relay-side admission (gate)': '② Zulassung auf Relay-Seite (Gate)',
+    'These scenarios simulate the relay checking the token with the root public key:': 'Diese Szenarien simulieren, wie das Relay das Token mit dem öffentlichen Rootschlüssel prüft:',
+    'Valid token → admit': 'Gültiges Token → zulassen',
+    'Expired token → deny': 'Abgelaufenes Token → abweisen',
+    'Wrong-room token → deny': 'Token für falschen Raum → abweisen',
+    'Forged signature → deny': 'Gefälschte Signatur → abweisen',
+    'Aegis-Topology - WebGPU 100k+ Node Renderer': 'Aegis-Topology — WebGPU-Renderer für 100k+ Knoten',
+    'Aegis Topology — GPU node field': 'Aegis-Topologie — GPU-Knotenfeld',
+    'Node count ·': 'Knotenzahl ·',
+    'Node radius (px)': 'Knotenradius (px)',
+    'Color mode': 'Farbmodus',
+    'By status (health/warn/crit)': 'Nach Status (ok/Warnung/kritisch)',
+    'By id (hue)': 'Nach ID (Farbton)',
+    'Regenerate': 'Neu erzeugen',
+    'Pause physics': 'Physik anhalten',
+    'Resume physics': 'Physik fortsetzen',
+    'Reset view': 'Ansicht zurücksetzen',
+    'Clear focus': 'Fokus aufheben',
+    'Performance': 'Leistung',
+    'Nodes': 'Knoten',
+    'Edges': 'Kanten',
+    'Draw calls': 'Draw-Aufrufe',
+    'Frame ms': 'Frame in ms',
+    'Worker tick ms': 'Worker-Tick in ms',
+    'Drag to pan · wheel to zoom · click a node to focus its 1-hop neighborhood (others dim). Physics runs in a Worker; positions are shared with the GPU via SharedArrayBuffer (zero-copy).': 'Ziehen zum Verschieben · Rad zum Zoomen · Knoten anklicken, um seine 1-Hop-Nachbarschaft zu fokussieren (andere werden gedimmt). Die Physik läuft in einem Worker; Positionen werden über SharedArrayBuffer ohne Kopie mit der GPU geteilt.',
+    'Aegis-Identity - Locally Self-Custodied Keys': 'Aegis-Identität — lokal selbst verwahrte Schlüssel',
+    'ECDSA P-256 - PBKDF2 → AES-GCM wrapped key · IndexedDB vault · nothing leaves the device': 'ECDSA P-256 — PBKDF2 → AES-GCM-verpackter Schlüssel · IndexedDB-Tresor · nichts verlässt das Gerät',
+    'vault: IndexedDB': 'Tresor: IndexedDB',
+    'network: checking…': 'Netzwerk: wird geprüft …',
+    '01 - Issue a digital seal': '01 — Digitales Siegel ausstellen',
+    'new identity': 'neue Identität',
+    'Display name': 'Anzeigename',
+    'Vault passphrase': 'Tresor-Passphrase',
+    'Used only to derive the wrapping key. It is never stored, never hashed to disk, never sent.': 'Dient nur zur Ableitung des Verpackungsschlüssels. Sie wird nie gespeichert, nie auf Platte gehasht, nie gesendet.',
+    'Confirm passphrase': 'Passphrase bestätigen',
+    'Generate ECDSA P-256 identity': 'ECDSA-P-256-Identität erzeugen',
+    '02 - Unlock the vault': '02 — Tresor entsperren',
+    'sealed': 'versiegelt',
+    'An identity already lives in this browser profile. Its name, public key and fingerprint are readable - the private key stays sealed until the passphrase is supplied.': 'In diesem Browserprofil liegt bereits eine Identität. Name, öffentlicher Schlüssel und Fingerabdruck sind lesbar — der private Schlüssel bleibt versiegelt, bis die Passphrase eingegeben wird.',
+    'Unlock private key': 'Privaten Schlüssel entsperren',
+    'Delete identity…': 'Identität löschen …',
+    'Digital business card': 'Digitale Visitenkarte',
+    'public material only': 'nur öffentliches Material',
+    'ECDSA P-256 - digital seal': 'ECDSA P-256 — digitales Siegel',
+    'SHA-256 fingerprint': 'SHA-256-Fingerabdruck',
+    'Public key · SPKI · Base64': 'Öffentlicher Schlüssel · SPKI · Base64',
+    'Copy public key': 'Öffentlichen Schlüssel kopieren',
+    'Download card (.json)': 'Karte herunterladen (.json)',
+    'Lock': 'Sperren',
+    'Acceptance checks': 'Abnahmeprüfungen',
+    'live evidence': 'Live-Nachweis',
+    'Sign a test challenge': 'Test-Challenge signieren',
+    'Reload page': 'Seite neu laden',
+    'Create an identity, then unlock it with your passphrase to enable Sign.': 'Identität erzeugen, dann mit der Passphrase entsperren, um „Signieren“ freizuschalten.',
+    'Reload is the acceptance test: a sealed identity must come back from IndexedDB with the same fingerprint, and the same passphrase must still unlock it.': 'Neuladen ist der Abnahmetest: Eine versiegelte Identität muss mit gleichem Fingerabdruck aus IndexedDB zurückkommen, und dieselbe Passphrase muss sie weiterhin entsperren.',
+    'Delete this identity?': 'Diese Identität löschen?',
+    'This erases the wrapped private key from IndexedDB on this device. There is no recovery path: anything already signed can no longer be re-proven from this browser.': 'Damit wird der verpackte private Schlüssel aus IndexedDB auf diesem Gerät gelöscht. Es gibt keinen Wiederherstellungsweg: Bereits Signiertes lässt sich aus diesem Browser nicht mehr nachweisen.',
+    'to confirm': 'zur Bestätigung',
+    'Delete permanently': 'Endgültig löschen',
+    'connected': 'verbunden',
+    'Disconnected': 'getrennt',
+    'Building & sending…': 'Wird aufgebaut & gesendet …',
+    'Nothing to send': 'Nichts zu senden',
+    'Export failed': 'Export fehlgeschlagen',
+    'Audit report saved': 'Audit-Bericht gespeichert',
+    'OPFS · unavailable (volatile)': 'OPFS · nicht verfügbar (flüchtig)',
+    'OPFS unavailable — using a volatile in-memory vault for this session.': 'OPFS nicht verfügbar — für diese Sitzung wird ein flüchtiger In-Memory-Tresor genutzt.',
+    'Confirm clear': 'Leeren bestätigen',
+    'Unlock': 'Entsperren',
+    'typing': 'Eingabe läuft',
+    'Trail cleared · a fresh genesis link will be written on the next event': 'Spur geleert · beim nächsten Ereignis wird ein frisches Genesis-Glied geschrieben',
+    'Create an identity first': 'Zuerst eine Identität erzeugen',
+    'Export the destructive redacted PDF and push it to the P2P transfer module': 'Das destruktiv geschwärzte PDF exportieren und an das P2P-Transfermodul übergeben',
+    '▶ Send to Aegis Peer': '▶ An Aegis-Peer senden',
+    'SELF-TEST: not ready': 'SELBSTTEST: nicht bereit',
+    'Scan complete': 'Scan abgeschlossen',
+    'Scanning…': 'Scannen …',
+    'Scan failed': 'Scan fehlgeschlagen',
+    '1 external request': '1 externe Anfrage',
+    '0 external requests': '0 externe Anfragen',
+    'REDAKTOR is loading...': 'REDAKTOR wird geladen …',
+    'connecting...': 'verbinde …',
+    'chain empty · append-only log ready': 'Kette leer · Nur-Anhängen-Protokoll steht bereit',
+    'No audited actions yet. Click a topology node to begin the closed loop.': 'Noch keine geprüften Aktionen. In der Topologie einen Knoten anklicken, um den geschlossenen Kreis zu starten.',
+    '• Connecting to signaling (local demo / initiator)…': '• Verbinde mit Signalisierung (lokale Demo / Initiator) …',
+    '• Connecting to signaling (local demo / receiver)…': '• Verbinde mit Signalisierung (lokale Demo / Empfänger) …',
+    '• Joined room — waiting for peer… (have the other side join the same room)': '• Raum beigetreten — warte auf Peer … (die andere Seite muss demselben Raum beitreten)',
+    '• Boss online — P2P channel open, waiting for delivery.': '• Leitung online — P2P-Kanal offen, warte auf Lieferung.',
+    'No sealed records yet. Seal a file to create one.': 'Noch keine versiegelten Einträge. Eine Datei versiegeln, um einen anzulegen.',
+    'network: 0 external request(s)': 'Netzwerk: 0 externe Anfragen',
+    'Web Crypto: ECDSA P-256 available': 'Web Crypto: ECDSA P-256 verfügbar',
+    'IndexedDB vault "aegis-identity" opened': 'IndexedDB-Tresor „aegis-identity“ geöffnet',
+    'no identity yet — issue one': 'noch keine Identität — eine ausstellen',
+    'awaiting input': 'wartet auf Eingabe',
+    'issue an identity, then reload': 'Identität ausstellen, dann neu laden',
+    'pick-debug: waiting for pointer events…': 'Auswahl-Debug: warte auf Zeigerereignisse …',
+    'Delete': 'Löschen',
+    'you': 'Sie',
+    'hub': 'Hub',
+    'link': 'Verknüpfung',
+    'note': 'Notiz',
+    'revision': 'Revision',
+    'nodes': 'Knoten',
+    'sent': 'gesendet',
+    'received': 'empfangen',
+    'Financial data': 'Finanzdaten',
+    'Identity & numbers': 'Identität & Nummern',
+    'VAT ID (DE)': 'USt-IdNr. (DE)',
+    'Tax ID (Steuer-ID)': 'Steuer-ID',
+    'Social security no.': 'Sozialversicherungsnr.',
+    'Health insurance no.': 'Krankenversicherungsnr.',
+    'Contact details': 'Kontaktdaten',
+    'Email address': 'E-Mail-Adresse',
+    'Page': 'Seite',
+    'No audit events yet. Open the workbench and run a document through the closed loop.': 'Noch keine Audit-Ereignisse. Werkbank öffnen und ein Dokument durch den geschlossenen Kreis schicken.',
+    'Operations from every peer land here as they are sequenced.': 'Operationen aller Peers erscheinen hier, sobald sie sequenziert sind.',
+    'queued': 'in Warteschlange',
+    'in flight': 'unterwegs',
+    'sequenced': 'sequenziert',
+    'dropped': 'verworfen',
+    'version vector · seq per site': 'Versionsvektor · Sequenz je Site',
+    'No stamps affixed yet. Use the stamp tool to sign.': 'Noch keine Stempel gesetzt. Stempel-Werkzeug verwenden, um zu signieren.',
+    'connected · hub': 'verbunden · Hub',
+    'Phone number': 'Telefonnummer',
+    'Addresses': 'Adressen',
+    'Street address': 'Straße und Hausnummer',
+    'Postcode + city': 'PLZ + Ort',
+    'Dates': 'Datumsangaben',
+    'Date': 'Datum',
+    'Amount': 'Betrag',
+    'Reference numbers': 'Referenznummern',
+    'Case / file number': 'Aktenzeichen',
+    'Labelled PII number': 'Beschriftete PII-Nummer',
+    'Long digit string': 'Lange Ziffernfolge',
+    'Person name': 'Personenname',
+    'Name pair (heuristic)': 'Namenspaar (Heuristik)',
+    'Person name (labelled)': 'Personenname (beschriftet)',
+    'Aegis Integration · Authenticated Blind Co-Signing (Detached Blind Co-Sign)': 'Aegis-Integration · authentifizierte blinde Mitzeichnung (abgetrennte blinde Mitzeichnung)',
+    'sync-canvas acts as the host and imports three independent modules via relative paths:': 'sync-canvas ist der Host und bindet drei unabhängige Module über relative Pfade ein:',
+    '(admission),': '(Zulassung),',
+    '(blind signing), and': '(blinde Signatur) und',
+    '(zero-knowledge relay). The demo below runs one full co-signing.': '(Zero-Knowledge-Relay). Die folgende Demo führt eine vollständige Mitzeichnung aus.',
+    'Operator logo': 'Betreiberlogo',
+    'leave empty for all rooms': 'leer lassen für alle Räume',
+    'compliance document file': 'Compliance-Dokument (Datei)',
+    'compliance document type': 'Compliance-Dokumenttyp',
+    'what the subject is asking for': 'was die betroffene Person beantragt',
+    'subject hash or email': 'Hash oder E-Mail der betroffenen Person',
+    'subject to verify': 'zu prüfende betroffene Person',
+    'override notification URL (else uses forward URL)': 'Benachrichtigungs-URL überschreiben (sonst gilt die Weiterleitungs-URL)',
+    'incident notification URL': 'Benachrichtigungs-URL für Vorfälle',
+    'operator username': 'Betreiber-Benutzername',
+    'operator username to reset MFA': 'Betreiber-Benutzername zum Zurücksetzen der MFA',
+    'Load a local file to redact': 'Lokale Datei zum Schwärzen laden',
+    'Fullscreen REDAKTOR': 'REDAKTOR im Vollbild',
+    'Redaction': 'Schwärzung',
+    'Redacted file preview': 'Vorschau der geschwärzten Datei',
+    'Anchor the chain head to a trusted timestamp (requires a configured TSA gateway)': 'Kettenkopf an einen vertrauenswürdigen Zeitstempel binden (erfordert ein konfiguriertes TSA-Gateway)',
+    'Message text': 'Nachrichtentext',
+    'Document text to hash and sign': 'Dokumenttext zum Hashen und Signieren',
+    'Show network audit': 'Netzwerk-Audit anzeigen',
+    'Help': 'Hilfe',
+    'Document or image file to redact': 'Zu schwärzende Datei (Dokument oder Bild)',
+    'Mode': 'Modus',
+    'Zoom out': 'Verkleinern',
+    'Zoom in': 'Vergrößern',
+    'Fit to view': 'An Ansicht anpassen',
+    'Terms to redact, one per line': 'Zu schwärzende Begriffe, ein Begriff pro Zeile',
+    'Preserve vector rectangles': 'Vektor-Rechtecke beibehalten',
+    'File to store in the encrypted vault': 'Datei für den verschlüsselten Tresor',
+    'Signaling mode': 'Signalisierungsmodus',
+    'Room id': 'Raum-ID',
+    'Shared room passphrase': 'Gemeinsame Raum-Passphrase',
+    'File to send': 'Zu sendende Datei',
+    'Copy room link': 'Raum-Link kopieren',
+    'Open a second participant in a new tab': 'Zweiten Teilnehmer in neuem Tab öffnen',
+    'Drop the transport and keep editing offline': 'Transport trennen und offline weiterarbeiten',
+    'Collaborative board': 'Kollaboratives Board',
+    'Tools': 'Werkzeuge',
+    'Fit to content': 'An Inhalt anpassen',
+    'Toggle payload detail': 'Nutzlast-Detail umschalten',
+    'Node count': 'Knotenzahl',
+    'Node radius': 'Knotenradius',
+    'Main-thread render time, smoothed': 'Renderzeit im Hauptthread, geglättet',
+    'Last physics Worker tick, smoothed; Worker clock, not frame time': 'Letzter Physik-Worker-Tick, geglättet; Worker-Uhr, nicht Frame-Zeit',
+    'at least 8 characters': 'mindestens 8 Zeichen',
+    'repeat the passphrase': 'Passphrase wiederholen',
+    'passphrase': 'Passphrase',
+    'identity avatar': 'Identitäts-Avatar',
+    'e.g. local document cleansing & integrity hashing': 'z. B. lokale Dokumentbereinigung & Integritäts-Hashing',
+    'e.g. 12 months, erasable on request': 'z. B. 12 Monate, auf Antrag löschbar',
+    'e.g. Art. 6(1)(f) legitimate interests': 'z. B. Art. 6 Abs. 1 lit. f berechtigte Interessen',
+    'e.g. shared-room-key': 'z. B. gemeinsamer-Raum-Schlüssel',
 };
 
 // Strings that must never be translated: the brand mark required by SDK.md,
@@ -473,25 +852,70 @@ export const PHRASE_KEEP_EN = new Set([
   // Code identifiers and repository paths stay verbatim: translating a command
   // or a file path would make it wrong.
   'npm run setup', 'adapters/tsa-rfc3161', 'docs/compliance/CONFIGURE-BEFORE-DEPLOY.md', 'dpia',
+  // Third-party tool names, protocol identifiers and keyboard keys keep their
+  // spelling in both languages; translating them would make them unsearchable.
+  'Tesseract · WebAssembly', 'pdf.js · Canvas', 'pdf-lib · Rebuilt output',
+  'v1', 'raw', 'OFFLINE', 'Engine', 'BroadcastChannel', 'FPS', 'PNG', 'JPEG',
+  'Del', 'Ctrl', 'IBAN', '[PASS]',
+  // Module names, file extensions and page-local fragments stay verbatim.
+  'Aegis-Canvas', '- ops', 'token-gate', 'detached-hash-signer', 'blind-relay',
+  '.aegis', 'Steuer-ID:', "CSP connect-src 'self'", 'Basis-URL',
+  // Sample data typed into the demo fields (company names, mailboxes, IDs,
+  // addresses, law and authority names) is fixture text, not interface copy.
+  'ab:cd:ef:…', '64 hex chars', 'Acme GmbH', 'Acme EU Rep Ltd', 'HRB 123456',
+  'Hauptstr. 1, 10117 Berlin, Germany', 'Jane Doe', 'dpo@acme.example',
+  'ops@acme.example', 'Laws of Germany', 'Berliner Beauftragte für Datenschutz',
+  'Engineer-A', 'Peer A', 'Peer B', 'e.g. Project Silvercrest&#10;Northwind Partners LLP&#10;Dr. Ellery',
 ]);
 
 const PHRASE_ORIG = new WeakMap();
 const PHRASE_SKIP_TAGS = new Set(['SCRIPT', 'STYLE', 'PRE', 'CODE', 'TEXTAREA', 'NOSCRIPT']);
 const PHRASE_SKIP_SEL = '[data-i18n],[data-i18n-placeholder],[data-no-i18n]';
 const PHRASE_ATTRS = ['placeholder', 'title', 'aria-label', 'alt'];
-const normalise = (s) => String(s).replace(/\s+/g, ' ').trim();
+const normalise = (s) => String(s).replace(/[\u00a0\u202f\u2009]/g, ' ').replace(/\s+/g, ' ').trim();
 
 // Some UI text is a label plus a value ("signed in: admin", "3/14 done",
 // "failed: timeout"). Exact matching cannot see those, so labels ending in
 // a colon and a short list of suffixes are translated separately.
+const PHRASE_DE_VALUES = new Set(Object.values(PHRASE_CATALOG).map((v) => String(v).replace(/\s+/g, ' ').trim()));
+
 const PHRASE_PREFIX_KEYS = Object.keys(PHRASE_CATALOG).filter((k) => k.endsWith(': '));
 const PHRASE_SUFFIXES = [[' done', ' erledigt']];
 
-function translateString(text, locale) {
+// Counter-bearing strings can never be exact-matched: the number changes every
+// run. These rules rebuild the German sentence around the captured numbers.
+export const PHRASE_TEMPLATES = [
+  [/^Scan complete — (\d+) redactions?$/i, (m) => `Scan abgeschlossen — ${m[1]} Schwärzungen`],
+  [/^(\d+) redactions?$/i, (m) => `${m[1]} Schwärzung${m[1] === '1' ? '' : 'en'}`],
+  [/^(\d+) findings?$/i, (m) => `${m[1]} ${m[1] === '1' ? 'Fund' : 'Funde'}`],
+  [/^(\d+) records?$/i, (m) => `${m[1]} ${m[1] === '1' ? 'Eintrag' : 'Einträge'}`],
+  [/^(\d+) finding(?:s)? across (\d+) scanned page\(s\)\.$/i, (m) => `${m[1]} Fund auf ${m[2]} gescannten Seiten.`],
+  [/^r(\d+) · (\d+) nodes · (\d+) tx · (\d+) in flight$/i, (m) => `r${m[1]} · ${m[2]} Knoten · ${m[3]} Tx · ${m[4]} unterwegs`],
+  [/^(\d+) pages?$/i, (m) => `${m[1]} ${m[1] === '1' ? 'Seite' : 'Seiten'}`],
+  [/^page (\d+) of (\d+)$/i, (m) => `Seite ${m[1]} von ${m[2]}`],
+  [/^Page (\d+)$/, (m) => `Seite ${m[1]}`],
+  [/^(\d+) \/ 2 sealed$/i, (m) => `${m[1]} / 2 versiegelt`],
+  [/^(\d+) external requests?$/i, (m) => `${m[1]} externe Anfrage${m[1] === '1' ? '' : 'n'}`],
+  [/^network: (\d+) external request\(s\)$/i, (m) => `Netzwerk: ${m[1]} externe Anfrage${m[1] === '1' ? '' : 'n'}`],
+  [/^(\d+) network requests?$/i, (m) => `${m[1]} Netzwerkanfrage${m[1] === '1' ? '' : 'n'}`],
+  [/^Exported (\d+) link\(s\) as JSON · no document bytes included$/i, (m) => `${m[1]} Glied${m[1] === '1' ? '' : 'er'} als JSON exportiert · keine Dokumentbytes enthalten`],
+];
+
+export function translateString(text, locale) {
   if (locale === 'en') return null;
   const key = normalise(text);
   if (!key || PHRASE_KEEP_EN.has(key)) return null;
+  // Log lines arrive with a bullet glued to the sentence ("› Both peers ready").
+  // Translate the sentence and re-attach the bullet so the marker survives.
+  const bullet = key.match(/^([›•·])\s+/);
+  if (bullet && PHRASE_CATALOG[key.slice(bullet[0].length)]) {
+    return bullet[1] + ' ' + PHRASE_CATALOG[key.slice(bullet[0].length)];
+  }
   if (PHRASE_CATALOG[key]) return PHRASE_CATALOG[key];
+  for (const [re, build] of PHRASE_TEMPLATES) {
+    const m = key.match(re);
+    if (m) return build(m);
+  }
   for (const prefix of PHRASE_PREFIX_KEYS) {
     if (key.startsWith(prefix)) return PHRASE_CATALOG[prefix] + key.slice(prefix.length);
   }
@@ -528,7 +952,9 @@ export function translatePhrases(locale, root) {
     node.nodeValue = lead + hit + tail;
   }
   for (const el of scope.querySelectorAll('*')) {
-    if (PHRASE_SKIP_TAGS.has(el.tagName)) continue;
+    // A <textarea>'s text content is user data and must never be rewritten —
+    // but its placeholder is interface copy and must be translated.
+    if (el.tagName !== 'TEXTAREA' && PHRASE_SKIP_TAGS.has(el.tagName)) continue;
     for (const attr of PHRASE_ATTRS) {
       if (!el.hasAttribute(attr)) continue;
       let store = PHRASE_ORIG.get(el);
@@ -551,12 +977,32 @@ export function observePhrases(getLocale, root) {
   if (phraseObserver || typeof MutationObserver === 'undefined' || typeof document === 'undefined') return;
   const scope = root || document.body;
   let applying = false;
+  let sweepTimer = 0;
   phraseObserver = new MutationObserver((records) => {
-    if (applying) return;
+    if (applying) {
+      // A render landed while we were translating. Dropping that batch would
+      // leave it English forever, so sweep again once the current pass ends.
+      if (sweepTimer) return;
+      sweepTimer = setTimeout(() => { sweepTimer = 0; translatePhrases(getLocale()); }, 60);
+      return;
+    }
     applying = true;
     try {
       const locale = getLocale();
       for (const rec of records) {
+        // A module that rewrites an existing text node (nodeValue = "...") fires
+        // characterData, not childList. Without this branch such labels stayed
+        // English for the whole session.
+        if (rec.type === 'characterData') {
+          const node = rec.target;
+          const parent = node && node.parentElement;
+          if (!parent) continue;
+          const fresh = normalise(node.nodeValue);
+          if (!fresh || PHRASE_DE_VALUES.has(fresh)) continue;
+          PHRASE_ORIG.delete(node);
+          translatePhrases(locale, parent);
+          continue;
+        }
         for (const n of rec.addedNodes || []) {
           if (n.nodeType === 1) translatePhrases(locale, n);
           else if (n.nodeType === 3 && n.parentElement) translatePhrases(locale, n.parentElement);
@@ -566,7 +1012,7 @@ export function observePhrases(getLocale, root) {
       setTimeout(() => { applying = false; }, 0);
     }
   });
-  phraseObserver.observe(scope, { childList: true, subtree: true });
+  phraseObserver.observe(scope, { childList: true, subtree: true, characterData: true });
 }
 
 export function detectLocale() {

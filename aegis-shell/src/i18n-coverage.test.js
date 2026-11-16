@@ -16,18 +16,31 @@
 // in PHRASE_KEEP_EN, so new UI text cannot silently arrive English-only.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { PHRASE_CATALOG, PHRASE_KEEP_EN } from './i18n.js';
+import { PHRASE_CATALOG, PHRASE_KEEP_EN, translateString } from './i18n.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..');
+const repo = join(root, '..');
 
 const normalise = (s) => s.replace(/\s+/g, ' ').trim();
 
 // Text nodes of a page, with scripts/styles removed so that code and CSS
 // literals never count as user-visible copy.
+// Attribute copy: placeholders, tooltips and accessible names are just as
+// visible as text nodes, and a German screen reader still reads them aloud.
+function attributeStrings(file) {
+  const html = readFileSync(file, 'utf8');
+  const out = [];
+  for (const m of html.matchAll(/(?:placeholder|title|aria-label|alt)="([^"]{2,120})"/g)) {
+    const text = normalise(m[1].replace(/&amp;/g, '&').replace(/&nbsp;/g, ' '));
+    if (/[A-Za-z]{2}/.test(text)) out.push(text);
+  }
+  return out;
+}
+
 function visibleStrings(file) {
   const html = readFileSync(file, 'utf8')
     .replace(/<script[\s\S]*?<\/script>/g, '')
@@ -35,6 +48,7 @@ function visibleStrings(file) {
   const out = [];
   for (const raw of html.matchAll(/>([^<>]+)</g)) {
     const text = normalise(raw[1]
+      .replace(/&nbsp;/g, ' ')
       .replace(/&amp;/g, '&')
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
@@ -47,18 +61,27 @@ function visibleStrings(file) {
   return out;
 }
 
+// Both shells and every module demo page: the operator can open any of them
+// from the README, and all of them must follow the language selector.
 const PAGES = ['console.html', 'index.html'];
+for (const name of readdirSync(join(repo, 'modules'), { withFileTypes: true })
+  .filter((d) => d.isDirectory() && existsSync(join(repo, 'modules', d.name, 'index.html')))
+  .map((d) => d.name)) {
+  PAGES.push(`../modules/${name}/index.html`);
+}
 
-test('every visible string in the shells has a German translation', () => {
+test('every visible string in every page has a German translation', () => {
   const missing = [];
   for (const page of PAGES) {
     const file = join(root, page);
-    for (const text of visibleStrings(file)) {
+    for (const text of visibleStrings(file).concat(attributeStrings(file))) {
       if (PHRASE_KEEP_EN.has(text)) continue;
-      if (PHRASE_CATALOG[text]) continue;
-      // Already driven by an explicit [data-i18n] key? Those are checked by
-      // i18n-keys.test.js; the phrase layer does not need to know them.
-      if (PHRASE_CATALOG[text]) continue;
+      // Code identifiers, file paths, CLI commands and JSON samples are shown
+      // in <code> style and must stay byte-identical in both languages.
+      if (/[\/{}]|\.js\b|--port|@example/.test(text)) continue;
+      // Counters ("14 redactions", "page 2 of 5") are handled by the template
+      // layer, so ask the translator rather than the flat catalogue.
+      if (translateString(text, 'de')) continue;
       missing.push(`${page}: ${JSON.stringify(text)}`);
     }
   }

@@ -6,16 +6,20 @@
 - German interface covered the console header only. The key catalogue reached 54
   of ~180 console strings and the workbench had no language selector at all, so
   switching to DE left tabs, panel headings, buttons and hints in English. A
-  phrase catalogue plus a DOM translator now covers every visible string on both
-  pages, including content rendered after boot, and switching back to EN restores
-  the original text.
+  phrase catalogue plus a DOM translator now covers every visible string on all
+  13 pages (612 entries, 13 counter templates), including content rendered after
+  boot and labels a module rewrites on an existing text node; switching back to
+  EN restores the original text.
 - Two compliance banner strings referenced missing keys (`compStatusOk`,
   `compStatusWarn`) and would have rendered as raw key names; they are now
   `compliance.statusOk` / `compliance.statusWarn` in both catalogues.
 
 ### Added
+- `src/i18n-dom.js`: self-starting translator loaded by all 13 module demo pages,
+  so the whole product follows the saved operator language, not only the shells.
 - `src/i18n-coverage.test.js`: fails the build when a visible string in
-  `console.html` or `index.html` has no German translation.
+  `console.html`, `index.html` or any `modules/*/index.html` has no German
+  translation.
 - Language selector on the workbench, sharing the console's saved choice.
 
 ## [1.0.0] - 2026-11-10
