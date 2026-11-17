@@ -1,0 +1,69 @@
+name: Docker image
+
+# Publishes ghcr.io/<owner>/aegis so that `docker run` works without a local
+# build. The image is built from the same tree CI gates just verified, so a
+# pulled image and a from-source build are byte-identical inputs.
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Derive tags and labels
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=ref,event=branch
+            type=sha,format=short
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke test the published image
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY}:latest"
+          docker pull "$IMAGE"
+          docker run -d --name aegis-smoke -p 8099:8099 \
+            -e AEGIS_ISSUER_SECRET="$(openssl rand -hex 32)" "$IMAGE"
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:8099/health >/dev/null; then
+              echo "health OK after ${i}s"
+              break
+            fi
+            sleep 1
+          done
+          curl -fsS http://localhost:8099/health
+          curl -fsS -o /dev/null -w "workbench=%{http_code}\n" http://localhost:8099/aegis-shell/index.html
+          docker rm -f aegis-smoke

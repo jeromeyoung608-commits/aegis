@@ -551,10 +551,32 @@ leaking a credential.
 
 ### Docker deployment
 
+Pull and run — no clone, no build:
+
 ```bash
+docker run -d --name aegis -p 8099:8099 \
+  -e AEGIS_ISSUER_SECRET="$(openssl rand -hex 32)" \
+  -v aegis-data:/app/data \
+  ghcr.io/jeromeyoung608-commits/aegis:latest
+```
+
+Open <http://localhost:8099/>. The image is published by
+`.github/workflows/docker-publish.yml` from the exact commit CI gated, so a pulled
+image and a from-source build carry the same code. Pin a digest if you need
+reproducibility:
+
+```bash
+docker pull ghcr.io/jeromeyoung608-commits/aegis:latest
+docker inspect --format '{{index .RepoDigests 0}}' ghcr.io/jeromeyoung608-commits/aegis:latest
+```
+
+Building it yourself instead (the same result, ~2 minutes):
+
+```bash
+git clone https://github.com/jeromeyoung608-commits/aegis.git && cd aegis
 docker build -t aegis .
 docker run -d -p 8099:8099 \
-  -e AEGIS_ISSUER_SECRET=<strong-secret> \
+  -e AEGIS_ISSUER_SECRET="$(openssl rand -hex 32)" \
   -v aegis-data:/app/data \
   aegis
 ```

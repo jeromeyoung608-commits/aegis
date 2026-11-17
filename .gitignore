@@ -29,3 +29,8 @@ config/local.json
 # (tests/artifacts/sample-pii.pdf) IS tracked and is byte-reproducible.
 modules/doc-redactor/tests/artifacts/sample-pii-redacted.pdf
 modules/doc-redactor/tests/artifacts/ui.png
+
+# Internal-only working notes and audit material kept out of the public repo
+_audit/
+AEGIS_P3-CLOSURE-REPORT.md
+video-tool/artifacts/
