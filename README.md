@@ -480,6 +480,40 @@ The console is **role-gated**: the Admin panel is hidden from the `operator` rol
 (`.win[hidden]`), visible to `admin`. Switching tabs offline shows a "server
 unreachable" banner instead of throwing.
 
+#### Console sign-in (admin)
+
+The console talks to an authenticated server. `/session` is **fail-closed**: with no
+issuer secret it answers `401` rather than minting a bearer token, so nobody who can
+merely reach the port can claim the `admin` role.
+
+There is no shipped password, and none belongs in this file. A secret is generated
+**per deployment** and stays on that deployment:
+
+```bash
+# A) first run generates one, mode 0600, git-ignored:
+node scripts/setup.mjs          # writes config/local.json with issuerSecret
+
+# B) inject it explicitly (systemd / container / CI):
+AEGIS_ISSUER_SECRET="$(openssl rand -hex 32)" node server.js
+#    open the shell once as http://host:8080/#issuer=<same secret>
+#    the fragment is moved into sessionStorage and stripped from the URL
+
+# Docker: the image listens on 8099
+docker run -d -p 8099:8099 \
+  -e AEGIS_ISSUER_SECRET="$(openssl rand -hex 32)" aegis
+```
+
+The value is a **bearer credential for the admin role** — treat it like an SSH key.
+Never commit it, never paste it into an issue, a screenshot or this README. Rotate by
+deleting `config/local.json` (or changing the environment value) and restarting; the
+previous tokens stop verifying.
+
+`node scripts/verify-secrets.mjs` — wired into `npm test` — walks every Markdown and
+workflow file and fails the build when a 64-hex secret, a PEM private key, a JWT, a
+GitHub/AWS token or a literal `AEGIS_ISSUER_SECRET=` shows up. Digests are allowed,
+because a line that already names a checksum or hash is reporting content, not
+leaking a credential.
+
 ### Remaining eight modules
 
 - **Aegis-Topology** (`modules/webgpu-topology`) — WebGPU digital twin of up to 1M+
