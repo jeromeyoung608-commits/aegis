@@ -19,6 +19,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
       - name: Set up Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -45,6 +48,9 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
+          # Both architectures: an Apple-silicon laptop and a plain linux/amd64
+          # server must both be able to docker run the published tag.
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
