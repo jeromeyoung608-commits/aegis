@@ -21,8 +21,12 @@ jobs:
         run: npm run verify:claims
       - name: Module test suite
         run: npm test
+      # dist/ is git-ignored, so a clean checkout has no archive to verify.
+      # Build it first, then verify — same pair ci-runtime.yml runs.
       - name: Delivery integrity (B-03)
-        run: npm run verify:delivery
+        run: |
+          npm run pack:delivery
+          npm run verify:delivery
 
   browser:
     runs-on: ubuntu-latest
