@@ -24,7 +24,7 @@ import assert from 'node:assert';
 
 const BASE = process.env.BASE || 'http://localhost:8099';
 const SECRET = process.env.AEGIS_ISSUER_SECRET || '';
-const EXE = process.env.CHROME_EXE || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+import { chromeLaunchOptions } from './chrome.mjs';
 
 const results = [];
 async function check(name, fn, { smoke = false } = {}) {
@@ -39,7 +39,7 @@ async function check(name, fn, { smoke = false } = {}) {
   }
 }
 
-const browser = await chromium.launch({ executablePath: EXE, args: ['--no-sandbox', '--use-gl=swiftshader', '--enable-unsafe-webgpu'] });
+const browser = await chromium.launch(chromeLaunchOptions(['--use-gl=swiftshader', '--enable-unsafe-webgpu']));
 
 async function open() {
   const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });

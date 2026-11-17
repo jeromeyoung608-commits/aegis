@@ -2,13 +2,10 @@
 // Watermark: AEGIS / ENGINE BY YANG JIE (JEROME YOUNG) - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 import { chromium } from 'playwright';
+import { chromeLaunchOptions, BASE_URL } from './chrome.mjs';
 
-const EXE = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-const BASE = 'http://localhost:8099';
-const b = await chromium.launch({
-  executablePath: EXE,
-  args: ['--no-sandbox', '--use-gl=swiftshader', '--enable-unsafe-webgpu'],
-});
+const BASE = BASE_URL;
+const b = await chromium.launch(chromeLaunchOptions(['--use-gl=swiftshader', '--enable-unsafe-webgpu']));
 
 async function probe(role) {
   const p = await b.newPage({ viewport: { width: 1440, height: 900 } });

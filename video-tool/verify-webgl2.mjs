@@ -12,12 +12,13 @@
 // (3) ran frames (load-time picking self-test PASSED), and (4) produced no fatal
 // console errors. A baseline screenshot is saved.
 import { chromium } from 'playwright';
+import { chromeLaunchOptions } from './chrome.mjs';
 import assert from 'node:assert';
 import { mkdirSync } from 'node:fs';
 
 const BASE = process.env.BASE || 'http://localhost:8099';
 
-const browser = await chromium.launch();
+const browser = await chromium.launch(chromeLaunchOptions(['--use-gl=swiftshader', '--enable-unsafe-webgpu']));
 const page = await browser.newPage({ viewport: { width: 1200, height: 800 } });
 
 const errors = [];

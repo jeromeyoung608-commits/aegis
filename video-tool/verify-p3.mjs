@@ -14,7 +14,7 @@ import assert from 'node:assert';
 
 const BASE = process.env.BASE || 'http://localhost:8099';
 const SECRET = process.env.AEGIS_ISSUER_SECRET || '';
-const EXE = process.env.CHROME_EXE || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+import { chromeLaunchOptions } from './chrome.mjs';
 
 function req(path, headers = {}) {
   return new Promise((resolve) => {
@@ -64,7 +64,7 @@ if (SECRET) {
 }
 
 // ── 1/2/3. Browser checks ──────────────────────────────────────────────────
-const browser = await chromium.launch({ executablePath: EXE, args: ['--no-sandbox', '--use-gl=swiftshader', '--enable-unsafe-webgpu'] });
+const browser = await chromium.launch(chromeLaunchOptions(['--use-gl=swiftshader', '--enable-unsafe-webgpu']));
 const PAGES = [
   '/aegis-shell/index.html',
   '/modules/audit-timeline/index.html',
@@ -147,7 +147,7 @@ for (const p of PAGES) {
 await browser.close();
 
 // ── 2. AEG-21: diagnostics are opt-in ──────────────────────────────────────
-const b2 = await chromium.launch({ executablePath: EXE, args: ['--no-sandbox'] });
+const b2 = await chromium.launch(chromeLaunchOptions());
 const TOPO = '/modules/webgpu-topology/index.html';
 const visibility = async (url) => {
   const page = await b2.newPage();
@@ -183,7 +183,7 @@ console.log('[P3/AEG-21] PASS — ?diag=1 restores all developer diagnostics');
 await b2.close();
 
 // ── 3. AEG-24: Sign gate is explained, never auto-unlocked ─────────────────
-const b3 = await chromium.launch({ executablePath: EXE, args: ['--no-sandbox'] });
+const b3 = await chromium.launch(chromeLaunchOptions());
 const page = await b3.newPage();
 await page.goto(BASE + '/modules/zero-knowledge-identity/index.html', { waitUntil: 'load' });
 await page.waitForTimeout(400);

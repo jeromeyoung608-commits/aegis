@@ -18,14 +18,15 @@ jobs:
 
       # Chrome for the Playwright runtime checks (WebGPU / OCR / WebRTC can only
       # be verified in a real browser, never in a headless DOM).
-      - name: Install Chrome
+      #
+      # The browser comes from Playwright itself. The gates used to hard-code the
+      # macOS Chrome bundle and died on the runner with "executable doesn't exist";
+      # they now resolve CHROME_EXE → CHROME_PATH → macOS bundle → Playwright's own
+      # Chromium (video-tool/chrome.mjs), so this step is all CI needs.
+      - name: Install Playwright + Chromium
         run: |
-          sudo apt-get update
-          sudo apt-get install -y chromium-browser
-          echo "CHROME_EXE=$(which chromium-browser)" >> "$GITHUB_ENV"
-
-      - name: Install Playwright
-        run: npm install --no-save playwright
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
 
       # Node syntax checks across the touched modules before booting the server.
       - name: Syntax check

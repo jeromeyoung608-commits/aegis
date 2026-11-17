@@ -9,7 +9,7 @@ import { chromium } from 'playwright';
 import http from 'node:http';
 
 const BASE = process.env.BASE || 'http://localhost:8080';
-const EXE = process.env.CHROME_EXE || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+import { chromeLaunchOptions } from './chrome.mjs';
 
 function get(path) {
   return new Promise((resolve) => {
@@ -58,10 +58,9 @@ if (token) {
 }
 
 // ── 2. The workbench actually renders in a real browser. ────────────────────
-const browser = await chromium.launch({
-  executablePath: EXE,
-  args: ['--no-sandbox', '--use-gl=swiftshader', '--enable-unsafe-webgpu'],
-});
+const browser = await chromium.launch(
+  chromeLaunchOptions(['--use-gl=swiftshader', '--enable-unsafe-webgpu']),
+);
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 const errors = [];
 page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });

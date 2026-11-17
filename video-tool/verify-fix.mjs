@@ -2,7 +2,7 @@
 // Watermark: AEGIS / ENGINE BY YANG JIE (JEROME YOUNG) - original implementation, Apache-2.0
 // SPDX-License-Identifier: Apache-2.0
 import { chromium } from 'playwright';
-import { existsSync } from 'node:fs';
+import { chromeLaunchOptions } from './chrome.mjs';
 
 // (2026-11-16) This script used to hardcode both a macOS Chrome path and
 // port 8080, so it could not run on Linux CI and could not be pointed at the
@@ -10,12 +10,9 @@ import { existsSync } from 'node:fs';
 // else; when no local Chrome is found we fall back to Playwright's bundled
 // Chromium instead of failing on a missing absolute path.
 const BASE = process.env.BASE || 'http://localhost:8080';
-const LOCAL_CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-const EXE = process.env.CHROME_PATH || (existsSync(LOCAL_CHROME) ? LOCAL_CHROME : undefined);
-const b = await chromium.launch({
-  ...(EXE ? { executablePath: EXE } : {}),
-  args: ['--no-sandbox', '--use-gl=swiftshader', '--enable-unsafe-webgpu'],
-});
+const b = await chromium.launch(
+  chromeLaunchOptions(['--use-gl=swiftshader', '--enable-unsafe-webgpu']),
+);
 
 // ── B: narrow REDAKTOR (simulates the 520px shell sidebar iframe) ──
 const p = await b.newPage({ viewport: { width: 506, height: 760 } }); // 520 - 14 padding

@@ -13,7 +13,7 @@ import http from 'node:http';
 import assert from 'node:assert';
 
 const BASE = process.env.BASE || 'http://localhost:8099';
-const EXE = process.env.CHROME_EXE || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+import { chromeLaunchOptions } from './chrome.mjs';
 
 function get(path) {
   return new Promise((resolve) => {
@@ -69,7 +69,7 @@ assert.strictEqual(archive.status, 404, `dist/ archive is 404 (got ${archive.sta
 console.log('[CSP] PASS — dist/ release archive is not downloadable');
 
 // ── Browser: inline module scripts execute, injected scripts are refused ─────
-const browser = await chromium.launch({ executablePath: EXE, args: ['--no-sandbox'] });
+const browser = await chromium.launch(chromeLaunchOptions());
 const page = await browser.newPage();
 const violations = [];
 const errors = [];

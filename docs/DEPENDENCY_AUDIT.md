@@ -7,7 +7,7 @@
 | `audit-timeline` | 4 | none | sync-canvas | - | zero third-party |
 | `blind-relay` | 3 | none | token-gate | - | zero third-party |
 | `detached-hash-signer` | 1 | none | - | - | zero third-party |
-| `doc-redactor` | 28 | vendored pdf-lib, pdfjs, tessdata, tesseract, tesseract-core (35593 KB, MANIFEST verified) | - | playwright-core, pdf-lib | third-party present |
+| `doc-redactor` | 28 | vendored pdf-lib, pdfjs, tessdata, tesseract, tesseract-core (35587 KB, MANIFEST verified) | - | playwright-core, pdf-lib | third-party present |
 | `e2e-signed-delivery` | 6 | vendored pdf-lib (515 KB, MANIFEST verified) | p2p-crypto-transfer | playwright | third-party present |
 | `encrypted-archive` | 5 | none | - | - | zero third-party |
 | `oidc` | 0 | none | - | - | zero third-party |

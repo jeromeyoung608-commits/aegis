@@ -68,9 +68,12 @@ function pkg(dir) {
 function vendor(dir) {
   const v = join(dir, 'vendor');
   if (!existsSync(v)) return null;
-  const children = readdirSync(v).filter((n) => statSync(join(v, n)).isDirectory());
+  const children = readdirSync(v).filter((n) => !n.startsWith('.') && statSync(join(v, n)).isDirectory());
   let bytes = 0;
-  const walkSize = (d) => { for (const e of readdirSync(d)) { const p = join(d, e); const s = statSync(p); s.isDirectory() ? walkSize(p) : (bytes += s.size); } };
+  // Hidden entries are not shipped: .DS_Store (macOS, ignored by git) used to be
+  // summed into the vendor total, so a laptop produced a different KB figure than
+  // a clean checkout and the --check gate went STALE on CI but green locally.
+  const walkSize = (d) => { for (const e of readdirSync(d)) { if (e.startsWith('.')) continue; const p = join(d, e); const s = statSync(p); s.isDirectory() ? walkSize(p) : (bytes += s.size); } };
   walkSize(v);
   return { children, kb: Math.round(bytes / 1024), manifest: existsSync(join(v, 'MANIFEST.json')) };
 }
